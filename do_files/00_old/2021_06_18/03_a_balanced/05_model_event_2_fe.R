@@ -1,0 +1,284 @@
+# TOP COMMANDS -----
+# https://www.understandingsociety.ac.uk/documentation/mainstage/dataset-documentation/index/
+# https://stackoverflow.com/questions/7505547/detach-all-packages-while-working-in-r
+detachAllPackages <- function() {
+        basic.packages <- c("package:stats","package:graphics","package:grDevices","package:utils","package:datasets","package:methods","package:base")
+        package.list <- search()[ifelse(unlist(gregexpr("package:",search()))==1,TRUE,FALSE)]
+        package.list <- setdiff(package.list,basic.packages)
+        if (length(package.list)>0)  for (package in package.list) detach(package, character.only=TRUE)
+        
+}
+detachAllPackages()
+rm(list=ls(all=TRUE))
+
+# FOLDERS
+setwd("/Users/jonathanlatner/Google Drive/SECCOPA/")
+# setwd("C:/Users/ba1ks6/Google Drive/SECCOPA/")
+
+data_files = "projects/mobility/data_files/"
+results = "projects/mobility/results/balanced/"
+
+# LIBRARY
+library(tidyverse)
+library(feisr)
+library(texreg)
+library(dummies)
+
+options(scipen = 999) # disable scientific notation
+
+# load data -----
+
+df_sample_0 <- readRDS(paste0(data_files, "df_sample_clean.rds")) 
+
+# clean data -----
+
+df_sample_1 <- df_sample_0 %>%
+        select(country,study_period,pid,year,period,ln_hourly_wage,unmp,temp,event_2a)
+
+df_dummy <- dummy(x = df_sample_1$period, sep = "_")
+df_sample_1 <- cbind(df_sample_1, df_dummy)
+
+# prepare for output ----
+
+df_output = data.frame() # output
+df_model_yhat <- data.frame()
+
+# fe model ----
+
+country <- c("NE-LSP","IT")
+for(c in country) {
+        print(c)
+        df_country <- df_sample_1
+        df_country <- df_country %>%
+                filter(country == c)
+        year <- unique(sort(df_country$study_period))
+        for(y in year) {
+                print(y)
+                df_period <- df_country %>%
+                        filter(study_period == y)
+                
+                # model
+                df_period <- data.frame(df_period)
+                model <- feis(ln_hourly_wage ~ unmp + temp + event_2a + period_2 + period_3 + period_4 | 1, 
+                              data = df_period, 
+                              id = "pid")
+                
+                # predict
+                yhat <- data.frame(predict(object = model,
+                                           se.fit = TRUE,
+                                           newdata = data.frame(unmp=0,
+                                                                temp=1,
+                                                                event_2a=1,
+                                                                period_2=0,period_3=0,period_4=0))) %>%
+                        select(fit,se.fit)
+                yhat$study_period = y
+                yhat$country = c
+                
+                # model output
+                output <- data.frame(model$coefficients)
+                colnames(output) <- "estimate"
+                output$std.error <- coef(summary(model))[, "Std. Error"]
+                output$country <- c
+                output$study_period <- y
+                output$model <- "event2_feif"
+                output$term <- row.names(output)
+                output$r2 <- summary(model)$r.squared[1]
+                rownames(df_output) <- c()
+                output$term <- gsub(pattern = "factor(period)", replacement = "period_", output$term, fixed = TRUE)
+                df_output <- rbind(df_output,output)
+                
+                df_model_yhat <- rbind(df_model_yhat,yhat)
+        }
+}
+
+
+
+country <- c("AU","CH","DE","JP","KO")
+for(c in country) {
+        print(c)
+        df_country <- df_sample_1
+        df_country <- df_country %>%
+                filter(country == c)
+        year <- unique(sort(df_country$study_period))
+        for(y in year) {
+                print(y)
+                df_period <- df_country %>%
+                        filter(study_period == y)
+                
+                # model
+                df_period <- data.frame(df_period)
+                model <- feis(ln_hourly_wage ~ unmp + temp + event_2a + period_2 + period_3 + period_4 + period_5 + period_6 + period_7 | 1, 
+                              data = df_period, 
+                              id = "pid")
+                
+                # predict
+                yhat <- data.frame(predict(object = model,
+                                           se.fit = TRUE,
+                                           newdata = data.frame(unmp=0,
+                                                                temp=1,
+                                                                event_2a=1,
+                                                                period_2=0,period_3=0,period_4=0,period_5=0,period_6=0,period_7=0))) %>%
+                        select(fit,se.fit)
+                yhat$study_period = y
+                yhat$country = c
+                
+                output <- data.frame(model$coefficients)
+                colnames(output) <- "estimate"
+                output$std.error <- coef(summary(model))[, "Std. Error"]
+                output$country <- c
+                output$study_period <- y
+                output$model <- "event2_feif"
+                output$term <- row.names(output)
+                output$r2 <- summary(model)$r.squared[1]
+                rownames(df_output) <- c()
+                output$term <- gsub(pattern = "factor(period)", replacement = "period_", output$term, fixed = TRUE)
+                df_output <- rbind(df_output,output)
+                
+                df_model_yhat <- rbind(df_model_yhat,yhat)
+        }
+}
+
+country <- c("NE-LISS")
+for(c in country) {
+        print(c)
+        df_country <- df_sample_1
+        df_country <- df_country %>%
+                filter(country == c)
+        year <- unique(sort(df_country$study_period))
+        for(y in year) {
+                print(y)
+                df_period <- df_country %>%
+                        filter(study_period == y)
+                
+                # model
+                df_period <- data.frame(df_period)
+                model <- feis(ln_hourly_wage ~ temp + event_2a + period_2 + period_3 + period_4 + period_5 + period_6 + period_7 | 1, 
+                              data = df_period, 
+                              id = "pid")
+                
+                # predict
+                yhat <- data.frame(predict(object = model,
+                                           se.fit = TRUE,
+                                           newdata = data.frame(temp=1,
+                                                                event_2a=1,
+                                                                period_2=0,period_3=0,period_4=0,period_5=0,period_6=0,period_7=0))) %>%
+                        select(fit,se.fit)
+                yhat$study_period = y
+                yhat$country = c
+                
+                output <- data.frame(model$coefficients)
+                colnames(output) <- "estimate"
+                output$std.error <- coef(summary(model))[, "Std. Error"]
+                output$country <- c
+                output$study_period <- y
+                output$model <- "event2_feif"
+                output$term <- row.names(output)
+                output$r2 <- summary(model)$r.squared[1]
+                rownames(df_output) <- c()
+                output$term <- gsub(pattern = "factor(period)", replacement = "period_", output$term, fixed = TRUE)
+                df_output <- rbind(df_output,output)
+                
+                df_model_yhat <- rbind(df_model_yhat,yhat)
+        }
+}
+
+country <- c("UK")
+for(c in country) {
+        print(c)
+        df_country <- df_sample_1
+        df_country <- df_country %>%
+                filter(country == c)
+        year <- c(seq(2003,2008,1))
+        for(y in year) {
+                print(y)
+                df_period <- df_country %>%
+                        filter(study_period == y)
+                
+                # model
+                df_period <- data.frame(df_period)
+                model <- feis(ln_hourly_wage ~ unmp + temp + event_2a + period_2 + period_3 + period_4 + period_5 + period_6 | 1, 
+                              data = df_period, 
+                              id = "pid")
+                
+                # predict
+                yhat <- data.frame(predict(object = model,
+                                           se.fit = TRUE,
+                                           newdata = data.frame(unmp=0,
+                                                                temp=1,
+                                                                event_2a=1,
+                                                                period_2=0,period_3=0,period_4=0,period_5=0,period_6=0))) %>%
+                        select(fit,se.fit)
+                yhat$study_period = y
+                yhat$country = c
+                
+                output <- data.frame(model$coefficients)
+                colnames(output) <- "estimate"
+                output$std.error <- coef(summary(model))[, "Std. Error"]
+                output$country <- c
+                output$study_period <- y
+                output$model <- "event2_feif"
+                output$term <- row.names(output)
+                output$r2 <- summary(model)$r.squared[1]
+                rownames(df_output) <- c()
+                output$term <- gsub(pattern = "factor(period)", replacement = "period_", output$term, fixed = TRUE)
+                df_output <- rbind(df_output,output)
+                
+                df_model_yhat <- rbind(df_model_yhat,yhat)
+        }
+}
+
+country <- c("UK")
+for(c in country) {
+        print(c)
+        df_country <- df_sample_1
+        df_country <- df_country %>%
+                filter(country == c)
+        year_1 <- c(2000,2001,2002)
+        year_2 <- c(seq(2009,2012,1))
+        year <- c(year_1,year_2)
+        for(y in year) {
+                print(y)
+                df_period <- df_country %>%
+                        filter(study_period == y)
+                
+                # model
+                df_period <- data.frame(df_period)
+                model <- feis(ln_hourly_wage ~ unmp + temp + event_2a + period_2 + period_3 + period_4 + period_5 + period_6 + period_7 | 1, 
+                              data = df_period, 
+                              id = "pid")
+                
+                # predict
+                yhat <- data.frame(predict(object = model,
+                                           se.fit = TRUE,
+                                           newdata = data.frame(unmp=0,
+                                                                temp=1,
+                                                                event_2a=1,
+                                                                period_2=0,period_3=0,period_4=0,period_5=0,period_6=0,period_7=0))) %>%
+                        select(fit,se.fit)
+                yhat$study_period = y
+                yhat$country = c
+                
+                output <- data.frame(model$coefficients)
+                colnames(output) <- "estimate"
+                output$std.error <- coef(summary(model))[, "Std. Error"]
+                output$country <- c
+                output$study_period <- y
+                output$model <- "event2_feif"
+                output$term <- row.names(output)
+                output$r2 <- summary(model)$r.squared[1]
+                rownames(df_output) <- c()
+                output$term <- gsub(pattern = "factor(period)", replacement = "period_", output$term, fixed = TRUE)
+                df_output <- rbind(df_output,output)
+                
+                df_model_yhat <- rbind(df_model_yhat,yhat)
+        }
+}
+
+df_model_yhat$model <- "event2_feif"
+df_model_yhat$post <- 0
+df_model_yhat$event <- 2
+
+# Save data sets ----
+
+write.csv(df_output, file = paste0(results, "output_event2_feif.csv"))
+write.csv(df_model_yhat, file = paste0(results, "yhat_event2_feif.csv"))

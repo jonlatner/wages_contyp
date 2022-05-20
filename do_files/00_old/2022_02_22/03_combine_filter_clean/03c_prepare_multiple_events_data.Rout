@@ -1,0 +1,586 @@
+
+R version 4.0.2 (2020-06-22) -- "Taking Off Again"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # TOP COMMANDS -----
+> # https://www.understandingsociety.ac.uk/documentation/mainstage/dataset-documentation/index/
+> # https://stackoverflow.com/questions/7505547/detach-all-packages-while-working-in-r
+> detachAllPackages <- function() {
++         basic.packages <- c("package:stats","package:graphics","package:grDevices","package:utils","package:datasets","package:methods","package:base")
++         package.list <- search()[ifelse(unlist(gregexpr("package:",search()))==1,TRUE,FALSE)]
++         package.list <- setdiff(package.list,basic.packages)
++         if (length(package.list)>0)  for (package in package.list) detach(package, character.only=TRUE)
++         
++ }
+> detachAllPackages()
+> rm(list=ls(all=TRUE))
+> 
+> # FOLDERS
+> setwd("/Users/jonathanlatner/OneDrive/SECCOPA/projects/wage_mobility/")
+> 
+> data_files = "data_files/"
+> 
+> # LIBRARY
+> library(tidyverse)
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+✔ tibble  3.1.6     ✔ dplyr   1.0.7
+✔ tidyr   1.1.4     ✔ stringr 1.4.0
+✔ readr   2.1.1     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+> library(zoo)
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+> library(Hmisc)
+Loading required package: lattice
+Loading required package: survival
+Loading required package: Formula
+
+Attaching package: ‘Hmisc’
+
+The following objects are masked from ‘package:dplyr’:
+
+    src, summarize
+
+The following objects are masked from ‘package:base’:
+
+    format.pval, units
+
+> library(beepr)
+> 
+> options(scipen = 999) # disable scientific notation
+> 
+> # load data -----
+> 
+> df_sample_0 <- readRDS(paste0(data_files, "03b_df_sample_cleaned.rds"))
+> 
+> df_original <- df_sample_0 %>%
++         # filter(country == "DE") %>%
++         select(country, pid, year, year_lag, wages, ln_wages, hourly_wage, ln_hourly_wage, emp_status, unmp, perm, temp, age, edu_cat, male, unemployment_rate)
+> 
+> # Transition indicator ----
+> 
+> df_sample_2 <- df_original %>%
++         arrange(country, pid, year) %>%
++         group_by(country, pid) %>%
++         mutate(event_t_p_yes = ifelse(perm == 1 & lag(temp,1) == 1 & row_number()>1 & year == lag(year,1,NA)+year_lag, yes = 1, no = NA),
++                event_p_t_yes = ifelse(temp == 1 & lag(perm,1) == 1 & row_number()>1 & year == lag(year,1,NA)+year_lag, yes = 1, no = NA),
++                event_u_p_yes = ifelse(perm == 1 & lag(unmp,1) == 1 & row_number()>1 & year == lag(year,1,NA)+year_lag, yes = 1, no = NA),
++                event_u_t_yes = ifelse(temp == 1 & lag(unmp,1) == 1 & row_number()>1 & year == lag(year,1,NA)+year_lag, yes = 1, no = NA),
++         ) %>%
++         ungroup() %>%
++         mutate(trans = rowSums(select(., contains("event_")), na.rm = TRUE)) %>%
++         group_by(country, pid) %>%
++         mutate(transseq = cumsum(ifelse(is.na(trans), 0, trans))) %>%
++         ungroup()
+> 
+> df_sample_2 %>% filter(pid==20096101) %>% 
++         select(country, pid, transseq, year, unmp,temp, perm, matches("event_"), trans, transseq) %>% print(n=15)
+# A tibble: 9 × 12
+  country      pid transseq  year  unmp  temp  perm event_t_p_yes event_p_t_yes
+  <chr>      <dbl>    <dbl> <dbl> <dbl> <dbl> <dbl>         <dbl>         <dbl>
+1 DE      20096101        0  2010     1     0     0            NA            NA
+2 DE      20096101        1  2011     0     1     0            NA            NA
+3 DE      20096101        2  2012     0     0     1             1            NA
+4 DE      20096101        2  2013     0     0     1            NA            NA
+5 DE      20096101        3  2014     0     1     0            NA             1
+6 DE      20096101        4  2015     0     0     1             1            NA
+7 DE      20096101        5  2016     0     1     0            NA             1
+8 DE      20096101        6  2017     0     0     1             1            NA
+9 DE      20096101        7  2018     0     1     0            NA             1
+# … with 3 more variables: event_u_p_yes <dbl>, event_u_t_yes <dbl>,
+#   trans <dbl>
+> 
+> # create new data set for each transition
+> df_transition <- df_sample_2 %>%
++         select(country,pid,year,trans,transseq,matches("event_")) %>%
++         filter(trans==1) %>%
++         group_by(country,pid,transseq) %>%
++         filter(row_number()==1) %>%
++         mutate(eventtime=0) %>%
++         ungroup()
+> 
+> df_transition %>% filter(pid==20096101)
+# A tibble: 7 × 10
+  country     pid  year trans transseq event_t_p_yes event_p_t_yes event_u_p_yes
+  <chr>     <dbl> <dbl> <dbl>    <dbl>         <dbl>         <dbl>         <dbl>
+1 DE       2.01e7  2011     1        1            NA            NA            NA
+2 DE       2.01e7  2012     1        2             1            NA            NA
+3 DE       2.01e7  2014     1        3            NA             1            NA
+4 DE       2.01e7  2015     1        4             1            NA            NA
+5 DE       2.01e7  2016     1        5            NA             1            NA
+6 DE       2.01e7  2017     1        6             1            NA            NA
+7 DE       2.01e7  2018     1        7            NA             1            NA
+# … with 2 more variables: event_u_t_yes <dbl>, eventtime <dbl>
+> 
+> # keep data set for individuals without any transitions
+> df_transition_non <- df_sample_2 %>%
++         group_by(country,pid) %>%
++         mutate(transseq=max(transseq)) %>%
++         ungroup() %>%
++         filter(transseq==0) %>%
++         mutate(pidseq=pid*100+transseq) %>% # new identifier
++         select(-trans,-matches("event_"))
+> 
+> # keep data set with information on employment status, wages, and other IVs for merging into df_transition
+> df_transition_data <- df_sample_2 %>%
++         select(-trans,-transseq,-matches("event_"))
+> 
+> df_transition_data %>% filter(pid==20096101)
+# A tibble: 9 × 16
+  country      pid  year year_lag wages ln_wages hourly_wage ln_hourly_wage
+  <chr>      <dbl> <dbl>    <dbl> <dbl>    <dbl>       <dbl>          <dbl>
+1 DE      20096101  2010        1    0      0           0              0   
+2 DE      20096101  2011        1  980.     6.89        8.48           2.14
+3 DE      20096101  2012        1 1453.     7.28        9.15           2.21
+4 DE      20096101  2013        1 1608.     7.38       12.4            2.52
+5 DE      20096101  2014        1 1477.     7.30        9.74           2.28
+6 DE      20096101  2015        1 1959.     7.58       11.3            2.43
+7 DE      20096101  2016        1 1949.     7.58       11.3            2.42
+8 DE      20096101  2017        1 1829.     7.51       10.1            2.31
+9 DE      20096101  2018        1 1798.     7.49        9.89           2.29
+# … with 8 more variables: emp_status <dbl>, unmp <dbl>, perm <dbl>,
+#   temp <dbl>, age <dbl>, edu_cat <dbl>, male <dbl>, unemployment_rate <dbl>
+> 
+> # generate sequence indicator: 2 years before transition and 3 years after transition 
+> df_sample_events <- data.frame()
+> event <- c(-2,-1,1,2,3,4)
+> for (e in event) {
++         df_test <- df_transition %>%
++                 mutate(eventtime=e)
++         df_sample_events <- rbind(df_sample_events,df_test)
++         rm(df_test)
++ }                
+> 
+> df_sample_events %>% filter(pid==20096101)
+# A tibble: 42 × 10
+   country    pid  year trans transseq event_t_p_yes event_p_t_yes event_u_p_yes
+   <chr>    <dbl> <dbl> <dbl>    <dbl>         <dbl>         <dbl>         <dbl>
+ 1 DE      2.01e7  2011     1        1            NA            NA            NA
+ 2 DE      2.01e7  2012     1        2             1            NA            NA
+ 3 DE      2.01e7  2014     1        3            NA             1            NA
+ 4 DE      2.01e7  2015     1        4             1            NA            NA
+ 5 DE      2.01e7  2016     1        5            NA             1            NA
+ 6 DE      2.01e7  2017     1        6             1            NA            NA
+ 7 DE      2.01e7  2018     1        7            NA             1            NA
+ 8 DE      2.01e7  2011     1        1            NA            NA            NA
+ 9 DE      2.01e7  2012     1        2             1            NA            NA
+10 DE      2.01e7  2014     1        3            NA             1            NA
+# … with 32 more rows, and 2 more variables: event_u_t_yes <dbl>,
+#   eventtime <dbl>
+> 
+> df_transition_events <- rbind(df_transition,df_sample_events) %>%
++         arrange(country,pid,transseq,eventtime) %>%
++         mutate(year = year+eventtime) %>%
++         arrange(country,pid,transseq,year) %>%
++         select(-trans)
+> 
+> df_transition_events %>% filter(pid==20096101) %>% print(n=20)
+# A tibble: 49 × 9
+   country      pid  year transseq event_t_p_yes event_p_t_yes event_u_p_yes
+   <chr>      <dbl> <dbl>    <dbl>         <dbl>         <dbl>         <dbl>
+ 1 DE      20096101  2009        1            NA            NA            NA
+ 2 DE      20096101  2010        1            NA            NA            NA
+ 3 DE      20096101  2011        1            NA            NA            NA
+ 4 DE      20096101  2012        1            NA            NA            NA
+ 5 DE      20096101  2013        1            NA            NA            NA
+ 6 DE      20096101  2014        1            NA            NA            NA
+ 7 DE      20096101  2015        1            NA            NA            NA
+ 8 DE      20096101  2010        2             1            NA            NA
+ 9 DE      20096101  2011        2             1            NA            NA
+10 DE      20096101  2012        2             1            NA            NA
+11 DE      20096101  2013        2             1            NA            NA
+12 DE      20096101  2014        2             1            NA            NA
+13 DE      20096101  2015        2             1            NA            NA
+14 DE      20096101  2016        2             1            NA            NA
+15 DE      20096101  2012        3            NA             1            NA
+16 DE      20096101  2013        3            NA             1            NA
+17 DE      20096101  2014        3            NA             1            NA
+18 DE      20096101  2015        3            NA             1            NA
+19 DE      20096101  2016        3            NA             1            NA
+20 DE      20096101  2017        3            NA             1            NA
+# … with 29 more rows, and 2 more variables: event_u_t_yes <dbl>,
+#   eventtime <dbl>
+> 
+> # merge new data with old data
+> df_multiple_events <- merge(df_transition_events,df_transition_data) %>%
++         arrange(country,pid,transseq,year) %>%
++         mutate(pidseq=pid*100+transseq) # new identifier
+> 
+> 
+> df_multiple_events %>% filter(pid==20096101) %>% 
++         select(country, pid, transseq, eventtime, year, unmp,temp, perm, matches("event_"), transseq)
+   country      pid transseq eventtime year unmp temp perm event_t_p_yes
+1       DE 20096101        1        -1 2010    1    0    0            NA
+2       DE 20096101        1         0 2011    0    1    0            NA
+3       DE 20096101        1         1 2012    0    0    1            NA
+4       DE 20096101        1         2 2013    0    0    1            NA
+5       DE 20096101        1         3 2014    0    1    0            NA
+6       DE 20096101        1         4 2015    0    0    1            NA
+7       DE 20096101        2        -2 2010    1    0    0             1
+8       DE 20096101        2        -1 2011    0    1    0             1
+9       DE 20096101        2         0 2012    0    0    1             1
+10      DE 20096101        2         1 2013    0    0    1             1
+11      DE 20096101        2         2 2014    0    1    0             1
+12      DE 20096101        2         3 2015    0    0    1             1
+13      DE 20096101        2         4 2016    0    1    0             1
+14      DE 20096101        3        -2 2012    0    0    1            NA
+15      DE 20096101        3        -1 2013    0    0    1            NA
+16      DE 20096101        3         0 2014    0    1    0            NA
+17      DE 20096101        3         1 2015    0    0    1            NA
+18      DE 20096101        3         2 2016    0    1    0            NA
+19      DE 20096101        3         3 2017    0    0    1            NA
+20      DE 20096101        3         4 2018    0    1    0            NA
+21      DE 20096101        4        -2 2013    0    0    1             1
+22      DE 20096101        4        -1 2014    0    1    0             1
+23      DE 20096101        4         0 2015    0    0    1             1
+24      DE 20096101        4         1 2016    0    1    0             1
+25      DE 20096101        4         2 2017    0    0    1             1
+26      DE 20096101        4         3 2018    0    1    0             1
+27      DE 20096101        5        -2 2014    0    1    0            NA
+28      DE 20096101        5        -1 2015    0    0    1            NA
+29      DE 20096101        5         0 2016    0    1    0            NA
+30      DE 20096101        5         1 2017    0    0    1            NA
+31      DE 20096101        5         2 2018    0    1    0            NA
+32      DE 20096101        6        -2 2015    0    0    1             1
+33      DE 20096101        6        -1 2016    0    1    0             1
+34      DE 20096101        6         0 2017    0    0    1             1
+35      DE 20096101        6         1 2018    0    1    0             1
+36      DE 20096101        7        -2 2016    0    1    0            NA
+37      DE 20096101        7        -1 2017    0    0    1            NA
+38      DE 20096101        7         0 2018    0    1    0            NA
+   event_p_t_yes event_u_p_yes event_u_t_yes
+1             NA            NA             1
+2             NA            NA             1
+3             NA            NA             1
+4             NA            NA             1
+5             NA            NA             1
+6             NA            NA             1
+7             NA            NA            NA
+8             NA            NA            NA
+9             NA            NA            NA
+10            NA            NA            NA
+11            NA            NA            NA
+12            NA            NA            NA
+13            NA            NA            NA
+14             1            NA            NA
+15             1            NA            NA
+16             1            NA            NA
+17             1            NA            NA
+18             1            NA            NA
+19             1            NA            NA
+20             1            NA            NA
+21            NA            NA            NA
+22            NA            NA            NA
+23            NA            NA            NA
+24            NA            NA            NA
+25            NA            NA            NA
+26            NA            NA            NA
+27             1            NA            NA
+28             1            NA            NA
+29             1            NA            NA
+30             1            NA            NA
+31             1            NA            NA
+32            NA            NA            NA
+33            NA            NA            NA
+34            NA            NA            NA
+35            NA            NA            NA
+36             1            NA            NA
+37             1            NA            NA
+38             1            NA            NA
+> 
+> df_multiple_events <-df_multiple_events %>%
++         select(-eventtime)
+> 
+> df_multiple_events <- bind_rows(df_multiple_events,df_transition_non)
+> 
+> df_multiple_events %>% filter(pid==20096101) %>% 
++         select(country, pid, transseq, year, unmp,temp, perm, matches("event_"), transseq)
+   country      pid transseq year unmp temp perm event_t_p_yes event_p_t_yes
+1       DE 20096101        1 2010    1    0    0            NA            NA
+2       DE 20096101        1 2011    0    1    0            NA            NA
+3       DE 20096101        1 2012    0    0    1            NA            NA
+4       DE 20096101        1 2013    0    0    1            NA            NA
+5       DE 20096101        1 2014    0    1    0            NA            NA
+6       DE 20096101        1 2015    0    0    1            NA            NA
+7       DE 20096101        2 2010    1    0    0             1            NA
+8       DE 20096101        2 2011    0    1    0             1            NA
+9       DE 20096101        2 2012    0    0    1             1            NA
+10      DE 20096101        2 2013    0    0    1             1            NA
+11      DE 20096101        2 2014    0    1    0             1            NA
+12      DE 20096101        2 2015    0    0    1             1            NA
+13      DE 20096101        2 2016    0    1    0             1            NA
+14      DE 20096101        3 2012    0    0    1            NA             1
+15      DE 20096101        3 2013    0    0    1            NA             1
+16      DE 20096101        3 2014    0    1    0            NA             1
+17      DE 20096101        3 2015    0    0    1            NA             1
+18      DE 20096101        3 2016    0    1    0            NA             1
+19      DE 20096101        3 2017    0    0    1            NA             1
+20      DE 20096101        3 2018    0    1    0            NA             1
+21      DE 20096101        4 2013    0    0    1             1            NA
+22      DE 20096101        4 2014    0    1    0             1            NA
+23      DE 20096101        4 2015    0    0    1             1            NA
+24      DE 20096101        4 2016    0    1    0             1            NA
+25      DE 20096101        4 2017    0    0    1             1            NA
+26      DE 20096101        4 2018    0    1    0             1            NA
+27      DE 20096101        5 2014    0    1    0            NA             1
+28      DE 20096101        5 2015    0    0    1            NA             1
+29      DE 20096101        5 2016    0    1    0            NA             1
+30      DE 20096101        5 2017    0    0    1            NA             1
+31      DE 20096101        5 2018    0    1    0            NA             1
+32      DE 20096101        6 2015    0    0    1             1            NA
+33      DE 20096101        6 2016    0    1    0             1            NA
+34      DE 20096101        6 2017    0    0    1             1            NA
+35      DE 20096101        6 2018    0    1    0             1            NA
+36      DE 20096101        7 2016    0    1    0            NA             1
+37      DE 20096101        7 2017    0    0    1            NA             1
+38      DE 20096101        7 2018    0    1    0            NA             1
+   event_u_p_yes event_u_t_yes
+1             NA             1
+2             NA             1
+3             NA             1
+4             NA             1
+5             NA             1
+6             NA             1
+7             NA            NA
+8             NA            NA
+9             NA            NA
+10            NA            NA
+11            NA            NA
+12            NA            NA
+13            NA            NA
+14            NA            NA
+15            NA            NA
+16            NA            NA
+17            NA            NA
+18            NA            NA
+19            NA            NA
+20            NA            NA
+21            NA            NA
+22            NA            NA
+23            NA            NA
+24            NA            NA
+25            NA            NA
+26            NA            NA
+27            NA            NA
+28            NA            NA
+29            NA            NA
+30            NA            NA
+31            NA            NA
+32            NA            NA
+33            NA            NA
+34            NA            NA
+35            NA            NA
+36            NA            NA
+37            NA            NA
+38            NA            NA
+> 
+> rm(list=ls(pattern="df_sample"))
+> rm(list=ls(pattern="df_transition"))
+> 
+> # Event 1 - temp into perm ----
+> 
+> # event_drop_01 means keep if observable after treatment (but still could be unemployed)
+> # event_drop_02 means keep if employed after treatment
+> # both are important because event_drop_02 will not identify individuals who are not observable after treatment
+> 
+> df_sample_t_p <- suppressWarnings(df_multiple_events %>%
++                                           arrange(country, pidseq, year) %>%
++                                           group_by(country, pidseq) %>%
++                                           mutate(event_t_p = ifelse(perm == 1 & lag(temp,1) == 1 & row_number()>1 & year == lag(year,1,NA)+year_lag, yes = 1, no = 0), # identify treatment
++                                                  event_t_p_yes = max(event_t_p),
++                                                  event_t_p_step = na_if(event_t_p, 0), # recode 0 to missing
++                                                  event_t_p_step = na.locf(event_t_p_step, na.rm = FALSE), # last observation carry forward
++                                                  event_t_p_step = ifelse(is.na(event_t_p_step),0,event_t_p_step), # recode missing to 0
++                                                  event_t_p_year = ifelse(event_t_p == 1, yes = year, no = NA),
++                                                  event_t_p_year = min(event_t_p_year, na.rm=TRUE),
++                                                  event_t_p_time = ifelse(event_t_p_yes == 1, yes = year - event_t_p_year, no = NA),
++                                                  event_t_p_drop_01 = ifelse(event_t_p_yes==1 & year > event_t_p_year, yes = 0, no = 1), # keep if observable after treatment
++                                                  event_t_p_drop_01 = last(event_t_p_drop_01),
++                                                  event_t_p_drop_02 = ifelse(event_t_p_yes==1 & event_t_p_time > 0 & unmp == 1, yes = 1, no = 0),  # keep if experience treatment and employed after treatment event
++                                                  event_t_p_time = ifelse(event_t_p_time < -3, yes = -3,
++                                                                          ifelse(event_t_p_time > 4, yes = 4, no = event_t_p_time)),
++                                                  event_t_p_time_pos = ifelse(event_t_p_yes == 1, yes = event_t_p_time + 3, no = 0), # bring all to positive values
++                                           ) %>%
++                                           ungroup())
+> 
+> table(df_sample_t_p$event_t_p, useNA = "ifany")
+
+     0      1 
+660382  28833 
+> 
+> df_sample_t_p %>% 
++         filter(pid==20096101) %>%
++         select(country, pid, pidseq, transseq, year, unmp,temp, perm, matches("event_t_p")) %>% print(n=40)
+# A tibble: 38 × 16
+   country      pid     pidseq transseq  year  unmp  temp  perm event_t_p_yes
+   <chr>      <dbl>      <dbl>    <dbl> <dbl> <dbl> <dbl> <dbl>         <dbl>
+ 1 DE      20096101 2009610101        1  2010     1     0     0             1
+ 2 DE      20096101 2009610101        1  2011     0     1     0             1
+ 3 DE      20096101 2009610101        1  2012     0     0     1             1
+ 4 DE      20096101 2009610101        1  2013     0     0     1             1
+ 5 DE      20096101 2009610101        1  2014     0     1     0             1
+ 6 DE      20096101 2009610101        1  2015     0     0     1             1
+ 7 DE      20096101 2009610102        2  2010     1     0     0             1
+ 8 DE      20096101 2009610102        2  2011     0     1     0             1
+ 9 DE      20096101 2009610102        2  2012     0     0     1             1
+10 DE      20096101 2009610102        2  2013     0     0     1             1
+11 DE      20096101 2009610102        2  2014     0     1     0             1
+12 DE      20096101 2009610102        2  2015     0     0     1             1
+13 DE      20096101 2009610102        2  2016     0     1     0             1
+14 DE      20096101 2009610103        3  2012     0     0     1             1
+15 DE      20096101 2009610103        3  2013     0     0     1             1
+16 DE      20096101 2009610103        3  2014     0     1     0             1
+17 DE      20096101 2009610103        3  2015     0     0     1             1
+18 DE      20096101 2009610103        3  2016     0     1     0             1
+19 DE      20096101 2009610103        3  2017     0     0     1             1
+20 DE      20096101 2009610103        3  2018     0     1     0             1
+21 DE      20096101 2009610104        4  2013     0     0     1             1
+22 DE      20096101 2009610104        4  2014     0     1     0             1
+23 DE      20096101 2009610104        4  2015     0     0     1             1
+24 DE      20096101 2009610104        4  2016     0     1     0             1
+25 DE      20096101 2009610104        4  2017     0     0     1             1
+26 DE      20096101 2009610104        4  2018     0     1     0             1
+27 DE      20096101 2009610105        5  2014     0     1     0             1
+28 DE      20096101 2009610105        5  2015     0     0     1             1
+29 DE      20096101 2009610105        5  2016     0     1     0             1
+30 DE      20096101 2009610105        5  2017     0     0     1             1
+31 DE      20096101 2009610105        5  2018     0     1     0             1
+32 DE      20096101 2009610106        6  2015     0     0     1             1
+33 DE      20096101 2009610106        6  2016     0     1     0             1
+34 DE      20096101 2009610106        6  2017     0     0     1             1
+35 DE      20096101 2009610106        6  2018     0     1     0             1
+36 DE      20096101 2009610107        7  2016     0     1     0             1
+37 DE      20096101 2009610107        7  2017     0     0     1             1
+38 DE      20096101 2009610107        7  2018     0     1     0             1
+# … with 7 more variables: event_t_p <dbl>, event_t_p_step <dbl>,
+#   event_t_p_year <dbl>, event_t_p_time <dbl>, event_t_p_drop_01 <dbl>,
+#   event_t_p_drop_02 <dbl>, event_t_p_time_pos <dbl>
+> 
+> 
+> # Event 2 - unmp into perm ----
+> 
+> df_sample_u_p <- suppressWarnings(df_sample_t_p %>%
++                                           arrange(country, pidseq, year) %>%
++                                           group_by(country, pidseq) %>%
++                                           mutate(event_u_p = ifelse(perm == 1 & lag(unmp,1) == 1 & row_number()>1 & year == lag(year,1,NA)+year_lag, yes = 1, no = 0), # identify treatment
++                                                  event_u_p_yes = max(event_u_p),
++                                                  event_u_p_step = na_if(event_u_p, 0), # recode 0 to missing
++                                                  event_u_p_step = na.locf(event_u_p_step, na.rm = FALSE), # last observation carry forward
++                                                  event_u_p_step = ifelse(is.na(event_u_p_step),0,event_u_p_step), # recode missing to 0
++                                                  event_u_p_year = ifelse(event_u_p == 1, yes = year, no = NA),
++                                                  event_u_p_year = min(event_u_p_year, na.rm=TRUE),
++                                                  event_u_p_time = ifelse(event_u_p_yes == 1, yes = year - event_u_p_year, no = NA),
++                                                  event_u_p_drop_01 = ifelse(event_u_p_yes==1 & year > event_u_p_year, yes = 0, no = 1), # keep if observable after treatment
++                                                  event_u_p_drop_01 = last(event_u_p_drop_01),
++                                                  event_u_p_drop_02 = ifelse(event_u_p_yes==1 & year > event_u_p_year & event_u_p_time > 0 & unmp == 1, yes = 1, no = 0), # keep employed observations after treatment event
++                                                  event_u_p_time = ifelse(event_u_p_time < -3, yes = -3,
++                                                                          ifelse(event_u_p_time > 4, yes = 4, no = event_u_p_time)),
++                                                  event_u_p_time_pos = ifelse(event_u_p_yes == 1, yes = event_u_p_time + 3, no = 0),
++                                           ) %>%
++                                           ungroup())
+> 
+> df_sample_u_p %>% filter(event_u_p_yes==1) %>% select(pid,year,unmp,perm,matches("event_u_p"))
+# A tibble: 30,483 × 12
+      pid  year  unmp  perm event_u_p_yes event_u_p event_u_p_step
+    <dbl> <dbl> <dbl> <dbl>         <dbl>     <dbl>          <dbl>
+ 1 100030  2004     0     1             1         0              0
+ 2 100030  2005     1     0             1         0              0
+ 3 100030  2006     0     1             1         1              1
+ 4 100030  2007     0     1             1         0              1
+ 5 100030  2008     0     1             1         0              1
+ 6 100030  2009     0     1             1         0              1
+ 7 100030  2010     0     1             1         0              1
+ 8 100039  2001     1     0             1         0              0
+ 9 100039  2002     0     1             1         1              1
+10 100039  2003     0     1             1         0              1
+# … with 30,473 more rows, and 5 more variables: event_u_p_year <dbl>,
+#   event_u_p_time <dbl>, event_u_p_drop_01 <dbl>, event_u_p_drop_02 <dbl>,
+#   event_u_p_time_pos <dbl>
+> 
+> # Event 3 - unmp into temp ----
+> 
+> df_sample_u_t <- suppressWarnings(df_sample_u_p %>%
++                                           arrange(country, pidseq, year) %>%
++                                           group_by(country, pidseq) %>%
++                                           mutate(event_u_t = ifelse(temp == 1 & lag(unmp,1) == 1 & row_number()>1 & year == lag(year,1,NA)+year_lag, yes = 1, no = 0),
++                                                  event_u_t_yes = max(event_u_t),
++                                                  event_u_t_step = na_if(event_u_t, 0), # recode 0 to missing
++                                                  event_u_t_step = na.locf(event_u_t_step, na.rm = FALSE), # last observation carry forward
++                                                  event_u_t_step = ifelse(is.na(event_u_t_step),0,event_u_t_step), # recode missing to 0
++                                                  event_u_t_year = ifelse(event_u_t == 1, yes = year, no = NA),
++                                                  event_u_t_year = min(event_u_t_year, na.rm=TRUE),
++                                                  event_u_t_time = ifelse(event_u_t_yes == 1, yes = year - event_u_t_year, no = NA),
++                                                  event_u_t_drop_01 = ifelse(event_u_t_yes==1 & year > event_u_t_year, yes = 0, no = 1), # keep if observable after treatment
++                                                  event_u_t_drop_01 = last(event_u_t_drop_01),
++                                                  event_u_t_drop_02 = ifelse(event_u_t_yes==1 & year > event_u_t_year & event_u_t_time > 0 & unmp == 1, yes = 1, no = 0),
++                                                  event_u_t_time = ifelse(event_u_t_time < -3, yes = -3,
++                                                                          ifelse(event_u_t_time > 4, yes = 4, no = event_u_t_time)),
++                                                  event_u_t_time_pos = ifelse(event_u_t_yes == 1, yes = event_u_t_time + 3, no = 0),
++                                           ) %>%
++                                           ungroup())
+> 
+> # Event 4 - perm into temp ----
+> 
+> df_sample_p_t <- suppressWarnings(df_sample_u_t %>%
++                                           arrange(country, pidseq, year) %>%
++                                           group_by(country, pidseq) %>%
++                                           mutate(event_p_t = ifelse(temp == 1 & lag(perm,1) == 1 & row_number()>1 & year == lag(year,1,NA)+year_lag, yes = 1, no = 0),
++                                                  event_p_t_yes = max(event_p_t),
++                                                  event_p_t_step = na_if(event_u_p, 0), # recode 0 to missing
++                                                  event_p_t_step = na.locf(event_u_p_step, na.rm = FALSE), # last observation carry forward
++                                                  event_p_t_step = ifelse(is.na(event_u_p_step),0,event_u_p_step), # recode missing to 0
++                                                  event_p_t_year = ifelse(event_p_t == 1, yes = year, no = NA),
++                                                  event_p_t_year = min(event_p_t_year, na.rm=TRUE),
++                                                  event_p_t_time = ifelse(event_p_t_yes == 1, yes = year - event_p_t_year, no = NA),
++                                                  event_p_t_drop_01 = ifelse(event_p_t_yes==1 & year > event_p_t_year, yes = 0, no = 1), # keep if observable after treatment
++                                                  event_p_t_drop_01 = last(event_p_t_drop_01),
++                                                  event_p_t_drop_02 = ifelse(event_p_t_yes==1 & event_p_t_time > 0 & unmp == 1, yes = 1, no = 0), # keep if observable and employed in at least 1 period after the event (>2 periods of observation are necessary for trend)
++                                                  event_p_t_time = ifelse(event_p_t_time < -3, yes = -3,
++                                                                          ifelse(event_p_t_time > 4, yes = 4, no = event_p_t_time)),
++                                                  event_p_t_time_pos = ifelse(event_p_t_yes == 1, yes = event_p_t_time + 3, no = 0),
++                                           ) %>%
++                                           ungroup())
+> 
+> # Save data ----
+> 
+> df_events_all <- df_sample_p_t %>%
++         select(country,pid,year,pidseq,transseq,everything())
+> 
+> rm(list=ls(pattern="df_sample"))
+> 
+> saveRDS(df_events_all, file = paste0(data_files, "03c_df_sample_cleaned_prepared_multiple_events_data.rds"))
+> 
+> beep()
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+576.374  15.169 999.181 

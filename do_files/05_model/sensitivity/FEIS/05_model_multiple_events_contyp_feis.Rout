@@ -1,0 +1,199 @@
+
+R version 4.1.3 (2022-03-10) -- "One Push-Up"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # TOP COMMANDS -----
+> # https://www.understandingsociety.ac.uk/documentation/mainstage/dataset-documentation/index/
+> # https://stackoverflow.com/questions/7505547/detach-all-packages-while-working-in-r
+> detachAllPackages <- function() {
++         basic.packages <- c("package:stats","package:graphics","package:grDevices","package:utils","package:datasets","package:methods","package:base")
++         package.list <- search()[ifelse(unlist(gregexpr("package:",search()))==1,TRUE,FALSE)]
++         package.list <- setdiff(package.list,basic.packages)
++         if (length(package.list)>0)  for (package in package.list) detach(package,character.only=TRUE)
++         
++ }
+> detachAllPackages()
+> rm(list=ls(all=TRUE))
+> 
+> # FOLDERS
+> setwd("/Users/jonathanlatner/OneDrive/SECCOPA/projects/wage_mobility/")
+> 
+> data_files = "data_files/"
+> results = "results/"
+> 
+> # LIBRARY
+> library(tidyverse)
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+✔ tibble  3.1.6     ✔ dplyr   1.0.8
+✔ tidyr   1.2.0     ✔ stringr 1.4.0
+✔ readr   2.1.2     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+> library(texreg)
+Version:  1.38.5
+Date:     2022-03-03
+Author:   Philip Leifeld (University of Essex)
+
+Consider submitting praise using the praise or praise_interactive functions.
+Please cite the JSS article in your publications -- see citation("texreg").
+
+Attaching package: ‘texreg’
+
+The following object is masked from ‘package:tidyr’:
+
+    extract
+
+> library(beepr)
+> library(feisr)
+> library(broom)
+> library(broomExtra)
+
+Attaching package: ‘broomExtra’
+
+The following objects are masked from ‘package:broom’:
+
+    augment, glance, tidy
+
+> 
+> options(scipen = 999) # disable scientific notation
+> 
+> # load data -----
+> 
+> df_original <- readRDS(paste0(data_files,"03c_df_sample_cleaned_prepared_multiple_events_data.rds"))
+> 
+> # clean data -----
+> 
+> # Create new temp variable that equals the addition of the 2 step function variables
+> # This ensures that models only evaluate events that fit the criteria of an event
+> 
+> df_original <- df_original %>%
++         select(country,pidseq,year,age,ln_hourly_wage,unmp,temp,perm,event_t_p_yes_final,event_p_t_yes_final,event_t_p_time_pos,event_p_t_time_pos,unemployment_rate) %>%
++         filter(unmp == 0)  %>%
++         group_by(country, pidseq) %>%
++         mutate(number = row_number(),
++                max = max(number),
++                unique = ifelse(row_number()==1, yes = 1, no = 0),
++                ) %>%
++         ungroup() %>%
++         filter(max>2) 
+> 
+> # Prepare for models ----
+> 
+> df_yhat <- data.frame()
+> 
+> # Countries
+> country_bi <- c("NE-LSP","IT")
+> country_ann <- c("AU","CH","DE","JP","KO","NE-LISS","UK")
+> 
+> # Annual countries ----
+> for(c in country_ann) {
++         print(paste0("country = ", c))
++         
++         df_country <- df_original %>%
++                 filter(country == c)
++ 
++         # Dummy IF
++         df_country$event_t_p_time_pos <- relevel(factor(df_country$event_t_p_time_pos), ref = "2")
++         df_country$event_p_t_time_pos <- relevel(factor(df_country$event_p_t_time_pos), ref = "2")
++         
++         model <- feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos + event_p_t_time_pos + as.factor(year) | year,
++                       data = data.frame(df_country), 
++                       robust = TRUE,
++                       id = "pidseq")
++         
++         # save(model, file=paste0(results,"model_first_contyp_t_p_country_",c,".Rdata"))
++         
++         df_output <- tidy_parameters(model)
++         df_output$model <- "FEIS + IF"
++         df_output$country <- c
++         df_yhat <- rbind(df_yhat,df_output)
++ }
+[1] "country = AU"
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Dropped the following variables because of no variance within slope(s): age
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Variable(s) dropped because of collinearity: as.factor(year)2017, as.factor(year)2018
+[1] "country = CH"
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Variable(s) dropped because of collinearity: as.factor(year)2017, as.factor(year)2018
+[1] "country = DE"
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Dropped the following variables because of no variance within slope(s): age
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Variable(s) dropped because of collinearity: as.factor(year)2017, as.factor(year)2018
+[1] "country = JP"
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Variable(s) dropped because of collinearity: as.factor(year)2017, as.factor(year)2018
+[1] "country = KO"
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Dropped the following variables because of no variance within slope(s): age
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Variable(s) dropped because of collinearity: as.factor(year)2017, as.factor(year)2018
+[1] "country = NE-LISS"
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Variable(s) dropped because of collinearity: as.factor(year)2017, as.factor(year)2018
+[1] "country = UK"
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Variable(s) dropped because of collinearity: as.factor(year)2017, as.factor(year)2018
+> 
+> # Biannual countries ----
+> for(c in country_bi) {
++         print(paste0("country = ", c))
++         
++         df_country <- df_original %>%
++                 filter(country == c)
++         
++ 
++         # Dummy IF
++         df_country$event_t_p_time_pos <- relevel(factor(df_country$event_t_p_time_pos), ref = "1")
++         df_country$event_p_t_time_pos <- relevel(factor(df_country$event_p_t_time_pos), ref = "1")
++         
++         # Temp to perm
++         model <- feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos + event_p_t_time_pos + as.factor(year) | year,
++                       data = data.frame(df_country), 
++                       robust = TRUE,
++                       id = "pidseq")
++         
++         # save(model, file=paste0(results,"model_first_contyp_t_p_country_",c,".Rdata"))
++         
++         df_output <- tidy_parameters(model)
++         df_output$model <- "FEIS + IF"
++         df_output$country <- c
++         df_yhat <- rbind(df_yhat,df_output)
++ }
+[1] "country = NE-LSP"
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Dropped the following variables because of no variance within slope(s): age
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Variable(s) dropped because of collinearity: as.factor(year)2012, as.factor(year)2014
+[1] "country = IT"
+Warning in feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos +  :
+  Variable(s) dropped because of collinearity: as.factor(year)2014, as.factor(year)2016
+> 
+> # Save output ----
+> 
+> saveRDS(df_yhat, file = paste0(results, "df_yhat_multiple_events_contyp_feis.rds"))
+> 
+> beep()
+> 
+> 
+> proc.time()
+   user  system elapsed 
+268.870   9.048 337.328 

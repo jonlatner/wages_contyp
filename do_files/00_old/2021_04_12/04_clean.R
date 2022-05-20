@@ -1,0 +1,125 @@
+# TOP COMMANDS -----
+# https://www.understandingsociety.ac.uk/documentation/mainstage/dataset-documentation/index/
+# https://stackoverflow.com/questions/7505547/detach-all-packages-while-working-in-r
+detachAllPackages <- function() {
+        basic.packages <- c("package:stats","package:graphics","package:grDevices","package:utils","package:datasets","package:methods","package:base")
+        package.list <- search()[ifelse(unlist(gregexpr("package:",search()))==1,TRUE,FALSE)]
+        package.list <- setdiff(package.list,basic.packages)
+        if (length(package.list)>0)  for (package in package.list) detach(package, character.only=TRUE)
+        
+}
+detachAllPackages()
+rm(list=ls(all=TRUE))
+
+# FOLDERS
+setwd("/Users/jonathanlatner/Google Drive/SECCOPA/")
+# setwd("C:/Users/ba1ks6/Google Drive/SECCOPA/")
+
+data_files = "projects/mobility/data_files/"
+results = "projects/mobility/results/"
+
+# LIBRARY
+library(tidyverse)
+library(zoo)
+library(Hmisc)
+
+options(scipen = 999) # disable scientific notation
+
+# load data -----
+
+df_sample_0 <- readRDS(paste0(data_files, "df_sample.rds")) 
+with(df_sample_0,table(study_period,country))
+
+# clean ----
+
+df_sample_0 <- df_sample_0 %>%
+        arrange(country, study_period, pid, year) %>%
+        group_by(country, study_period, pid) %>%
+        mutate(edu_cat = last(edu_cat),
+               age_cat = first(age_cat),
+               male = first(male)) %>%
+        ungroup()
+        
+# if unemployed and missing wages, then wages = 0
+df_sample_0 <- df_sample_0 %>%
+        mutate(ln_hourly_wage = ifelse(unmp==1 & is.na(ln_hourly_wage), yes = 0, no = ln_hourly_wage))
+
+# employment status (0=unemployed; 1=temp contract; 2=perm contract)
+df_sample_0 <- df_sample_0 %>%
+        mutate(emp_status = ifelse(temp==1, yes = 1, 
+                                   ifelse(temp==0, yes = 2, no = 0)),
+               emp_status = ifelse(unmp==1, yes = 0, no = emp_status))
+
+df_sample_0 <- df_sample_0 %>%
+        mutate(temp = ifelse(unmp==1, yes = 0, no = temp))
+
+# with(df_sample_0,table(emp_status, temp, useNA = "ifany"))
+# with(df_sample_0,table(emp_status, unmp, useNA = "ifany"))
+# with(df_sample_0,table(temp, unmp, useNA = "ifany"))
+
+# Spells ----
+
+# Temporary employment spell
+df_sample_1 <- df_sample_0 %>%
+        arrange(country, study_period, pid, year) %>%
+        group_by(country, study_period, pid) %>%
+        mutate(period=row_number()) %>%
+        mutate(start_temp = ifelse(emp_status==1 & lag(emp_status,1)!=1, yes = year, no = 0),
+               start_temp = ifelse(emp_status==1 & row_number()==1, yes = year, no = start_temp),
+               end_temp = ifelse(emp_status!=1 & lag(emp_status,1)==1, yes = year, no = NA)) %>%
+        ungroup() %>%
+        group_by(country, study_period, pid) %>%
+        mutate(spell_temp = cumsum(ifelse(start_temp>0, yes = 1, no = 0))) %>%
+        ungroup() %>%
+        mutate(start_temp = ifelse(start_temp == 0, yes = NA, no = start_temp),
+               end_temp = ifelse(end_temp == 0, yes = NA, no = end_temp))
+
+# Post temporary employment spell
+df_sample_2 <- df_sample_1 %>%
+        arrange(country, study_period, pid, year) %>%
+        group_by(country, study_period, pid) %>%
+        mutate(end_temp = na.locf(end_temp,na.rm = FALSE),
+               post_temp = year - end_temp + 1,
+               post_temp = ifelse(is.na(post_temp), yes = 0, no = post_temp),
+               post_temp = ifelse(emp_status==1, yes = 0, no = post_temp)
+        ) %>%
+        mutate(end_temp = na.locf(end_temp,na.rm = FALSE)) %>%
+        ungroup() %>%
+        arrange(pid,year)
+
+# Unemployment spell
+df_sample_3 <- df_sample_2 %>%
+        arrange(country, study_period, pid, year) %>%
+        group_by(country, study_period, pid) %>%
+        mutate(period=row_number()) %>%
+        mutate(start_unmp = ifelse(emp_status==0 & lag(emp_status,1)!=0, yes = year, no = 0),
+               start_unmp = ifelse(emp_status==0 & row_number()==0, yes = year, no = start_unmp),
+               end_unmp = ifelse(emp_status!=0 & lag(emp_status,1)==0, yes = year, no = NA)) %>%
+        ungroup() %>%
+        group_by(country, study_period, pid) %>%
+        mutate(spell_unmp = cumsum(ifelse(start_unmp>0, yes = 1, no = 0))) %>%
+        ungroup() %>%
+        mutate(start_unmp = ifelse(start_unmp == 0, yes = NA, no = start_unmp),
+               end_unmp = ifelse(end_unmp == 0, yes = NA, no = end_unmp))
+
+# Post unemployment spell
+df_sample_4 <- df_sample_3 %>%
+        arrange(country, study_period, pid, year) %>%
+        group_by(country, study_period, pid) %>%
+        mutate(end_unmp = na.locf(end_unmp,na.rm = FALSE),
+               post_unmp = year - end_unmp + 1,
+               post_unmp = ifelse(is.na(post_unmp), yes = 0, no = post_unmp),
+               post_unmp = ifelse(emp_status==0, yes = 0, no = post_unmp)
+        ) %>%
+        mutate(end_unmp = na.locf(end_unmp,na.rm = FALSE)) %>%
+        ungroup() %>%
+        arrange(pid,year)
+
+t <- with(subset(df_sample_4, post_temp>0), prop.table(table(post_temp)))
+t <- data.frame(t)
+t$cumsum <- cumsum(t$Freq)
+t
+
+# Save data sets ----
+
+saveRDS(df_sample_4, file = paste0(data_files, "df_sample_clean.rds"))

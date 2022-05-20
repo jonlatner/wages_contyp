@@ -1,0 +1,467 @@
+# TOP COMMANDS -----
+# https://www.understandingsociety.ac.uk/documentation/mainstage/dataset-documentation/index/
+# https://stackoverflow.com/questions/7505547/detach-all-packages-while-working-in-r
+detachAllPackages <- function() {
+        basic.packages <- c("package:stats","package:graphics","package:grDevices","package:utils","package:datasets","package:methods","package:base")
+        package.list <- search()[ifelse(unlist(gregexpr("package:",search()))==1,TRUE,FALSE)]
+        package.list <- setdiff(package.list,basic.packages)
+        if (length(package.list)>0)  for (package in package.list) detach(package, character.only=TRUE)
+        
+}
+detachAllPackages()
+rm(list=ls(all=TRUE))
+
+# FOLDERS
+setwd("/Users/jonathanlatner/Google Drive/SECCOPA/")
+# setwd("C:/Users/ba1ks6/Google Drive/SECCOPA/")
+
+data_files = "projects/booth_etal_2002/data_files/update/"
+
+# LIBRARY
+library(tidyverse)
+library(plm)
+library(stargazer)
+library(broom)
+
+options(scipen = 999) # disable scientific notation
+
+# load data -----
+
+df_uk <- readRDS(paste0(data_files, "bhps.rds")) 
+
+# clean data -----
+
+df_uk <- df_uk %>%
+        mutate(wages = ifelse(wages<1, yes = 1, no = wages),
+               ln_wages = log(wages)) %>%
+        mutate(ftc = ifelse(is.na(ftc) & unmp == 1, yes = 0, no = ftc),
+               tmp = ifelse(is.na(tmp) & unmp == 1, yes = 0, no = tmp),
+               contyp = ifelse(is.na(contyp) & unmp == 1, yes = 0, no = contyp),
+               prestige = ifelse(is.na(prestige) & unmp == 1, yes = 0, no = prestige))
+
+df_m <- df_uk %>%
+        filter(male == 1) 
+
+df_f <- df_uk %>%
+        filter(male == 0)
+
+df_unique <- df_uk %>%
+        group_by(pid) %>%
+        filter(row_number()==1) %>%
+        ungroup()
+
+# independent variables -----
+
+iv <-   "unmp + ftc + as.factor(post_ftc) + tmp + age + age_2 + factor(year)"
+iv_2 <- "unmp + ftc + as.factor(post_ftc_first) + tmp + age + age_2 + factor(year)"
+
+# plm model (male - post_ftc) -----
+df_male_post_ftc <- data.frame()
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                       data = df_m,
+                       index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "Any"
+df_results$age = "All"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc <- rbind(df_male_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_m,age_cat == 1),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "Any"
+df_results$age = "25-34"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc <- rbind(df_male_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_m,age_cat == 2),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "Any"
+df_results$age = "35-44"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc <- rbind(df_male_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_m,age_cat == 3),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "Any"
+df_results$age = "45-54"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc <- rbind(df_male_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_m,edu_cat == 1),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "Any"
+df_results$age = "All"
+df_results$edu = "< Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc <- rbind(df_male_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_m,edu_cat == 2),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "Any"
+df_results$age = "All"
+df_results$edu = "Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc <- rbind(df_male_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_m,edu_cat == 3),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "Any"
+df_results$age = "All"
+df_results$edu = "> Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc <- rbind(df_male_post_ftc,df_results)
+
+# plm model (male - post_ftc_first) -----
+df_male_post_ftc_first <- data.frame()
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = df_m,
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc_first <- rbind(df_male_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_m,age_cat == 1),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "First"
+df_results$age = "25-34"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc_first <- rbind(df_male_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_m,age_cat == 2),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "First"
+df_results$age = "35-44"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc_first <- rbind(df_male_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_m,age_cat == 3),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "First"
+df_results$age = "45-54"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc_first <- rbind(df_male_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_m,edu_cat == 1),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "< Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc_first <- rbind(df_male_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_m,edu_cat == 2),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc_first <- rbind(df_male_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_m,edu_cat == 3),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Male"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "> Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_male_post_ftc_first <- rbind(df_male_post_ftc_first,df_results)
+
+# plm model (female - post_ftc) -----
+
+df_female_post_ftc <- data.frame()
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = df_f,
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc <- rbind(df_female_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_f,age_cat == 1),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "25-34"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc <- rbind(df_female_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_f,age_cat == 2),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "35-44"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc <- rbind(df_female_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_f,age_cat == 3),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "45-54"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc <- rbind(df_female_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_f,edu_cat == 1),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "< Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc <- rbind(df_female_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_f,edu_cat == 2),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc <- rbind(df_female_post_ftc,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv)),
+                 data = subset(df_f,edu_cat == 3),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "> Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc <- rbind(df_female_post_ftc,df_results)
+
+# plm model (female - post_ftc_first) -----
+df_female_post_ftc_first <- data.frame()
+
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = df_f,
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc_first <- rbind(df_female_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_f,age_cat == 1),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "25-34"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc_first <- rbind(df_female_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_f,age_cat == 2),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "35-44"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc_first <- rbind(df_female_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_f,age_cat == 3),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "45-54"
+df_results$edu = "All"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc_first <- rbind(df_female_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_f,edu_cat == 1),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "< Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc_first <- rbind(df_female_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_f,edu_cat == 2),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc_first <- rbind(df_female_post_ftc_first,df_results)
+
+plm_model <- plm(as.formula(paste0("ln_wages ~ ",iv_2)),
+                 data = subset(df_f,edu_cat == 3),
+                 index = c("pid","year"))
+
+df_results <- tidy(plm_model)
+df_results$gender = "Female"
+df_results$post = "First"
+df_results$age = "All"
+df_results$edu = "> Secondary"
+df_results <- df_results %>%
+        filter(row_number()>=2 & row_number()<=7) %>%
+        mutate(term = row_number()-1)
+df_female_post_ftc_first <- rbind(df_female_post_ftc_first,df_results)
+
+# create table -----
+
+rm(df_results)
+df_results <- rbind(df_male_post_ftc,df_male_post_ftc_first,df_female_post_ftc,df_female_post_ftc_first)
