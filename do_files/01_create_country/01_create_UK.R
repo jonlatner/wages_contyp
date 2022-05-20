@@ -11,9 +11,8 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
-setwd("/Users/jonathanlatner/OneDrive/SECCOPA/")
-# setwd("C:/Users/ba1ks6/OneDrive/SECCOPA/")
+# Adapt this pathway!
+setwd("~/GitHub/wages_contyp/")
 
 raw_data = "data/UK_DA/raw_data/data/R/"
 data_files = "projects/wages_contyp/data_files/UK/"
