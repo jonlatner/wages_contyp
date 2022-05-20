@@ -1,0 +1,251 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+\usepackage{rotating}
+
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+
+\usepackage{natbib}
+\usepackage[pdfstartpage=1,pdfpagemode=UseNone,pdfstartview=FitH,pdffitwindow=true,bookmarks=false,colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
+
+% define lightgray
+\usepackage[table]{xcolor}
+\definecolor{lightgray}{gray}{0.9}
+
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section{Tables}
+
+\begin{table}[!h]
+    \caption{Sample filter steps}
+    \centering
+    \resizebox{\textwidth}{!}{\input{../tables/descriptives_table_steps.tex}}
+    \label{table_sample_filter_steps}
+\end{table}
+
+\begin{table}[!h]
+    \caption{Methodological simulation exercise}
+    \begin{center}
+    \resizebox{\textwidth}{!}{\input{../support_files/simulation/tables/table_compare_models_simulation_paper.tex}}
+    \label{table_simulation}
+    \end{center}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section{Graphs}
+
+\begin{sidewaysfigure}[h!]
+    \caption{Methodological simulation exercise}
+    \resizebox{\textwidth}{!}{\includegraphics{../support_files/simulation/graphs/graph_compare_models_simulation_paper.pdf}}
+    \label{graph_simulation}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[h!]
+    \caption{Effect of event on wages at point in time}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_multiple_events_contyp_paper.pdf}}
+    \label{graph_contyp}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+    \caption{Effect of event on wages over time}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_multiple_events_contyp_post_paper.pdf}}
+    \label{graph_contyp_post}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+    \caption{Effect of event on wages at point in time}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_multiple_events_unmp_better_paper.pdf}}
+    \label{graph_unmp}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+    \caption{Graphical effect of event on wages over time}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_multiple_events_unmp_post_better_paper.pdf}}
+    \label{graph_unmp_post}
+\end{sidewaysfigure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\appendix
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand*\thetable{\Alph{section}.\arabic{table}}
+\renewcommand*\thefigure{\Alph{section}.\arabic{figure}}
+\renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
+\renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
+
+\section{Appendix: Results sensitivity}\label{sec:sensitivity}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Australia: All temporary (incl. casual) vs. FTC only (as in the paper)}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_AU_paper.pdf}}
+    \label{graph_sensitivity_AU}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+    \caption{United Kingdom: All temporary (as in the paper) vs. FTC only}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_UK_paper.pdf}}
+    \label{graph_sensitivity_UK}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+    \caption{Netherlands: LSP (as in the paper) vs. LISS}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_NE_paper.pdf}}
+    \label{graph_sensitivity_NE}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+    \caption{Methods: FE + IF (as in the paper) vs. FEIS + IF}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_compare_model_feis_paper.pdf}}
+    \label{graph_compare_model_feis}
+\end{sidewaysfigure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand*\thetable{\Alph{section}.\arabic{table}}
+\renewcommand*\thefigure{\Alph{section}.\arabic{figure}}
+\renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
+\renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
+
+\section{Appendix: Results heterogeneity}\label{sec:heterogeneity}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Figures \ref{graph_contyp_post} and \ref{graph_unmp_post}, by age category}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_post_event_age_cat.pdf}}
+    \label{graph_post_event_age_cat}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Figures \ref{graph_contyp_post} and \ref{graph_unmp_post}, by education category}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_post_event_edu_cat.pdf}}
+    \label{graph_post_event_edu_cat}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Figures \ref{graph_contyp_post} and \ref{graph_unmp_post}, by gender}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_post_event_gender.pdf}}
+    \label{graph_post_event_gender}
+\end{sidewaysfigure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section{Appendix: Multiple events}\label{sec:multiple}
+\setcounter{figure}{0}    
+\setcounter{table}{0}    
+\renewcommand*\thetable{\Alph{section}.\arabic{table}}
+\renewcommand*\thefigure{\Alph{section}.\arabic{figure}}
+\renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
+\renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
+
+As shown in figure \ref{graph_compare_transformed}, let us imagine employment status for one individual in 6 periods of time looks like this (wages): T (50) $\rightarrow$ P (90) $\rightarrow$T (110) $\rightarrow$ P (130) $\rightarrow$ T (140) $\rightarrow$ T (150).  In this case, we may observe four distinct events T $\rightarrow$ P ($\times 2$), and P $\rightarrow$ T ($\times 2$).  In order to model each of the four distinct events, we must transform the data from person, year data into person, event, year data.
+
+The steps are as follows.  First, for each individual, filter one row per individual, transition at the year which the transition occurs ($t_0$).  The result is four rows, one for each event.  Second, create two variables, one to identify each individual, transition ($transeq$) and a second variable for time ($eventtime$), which is 0.  Third, we create a new data frame by selecting only four variables: $pid$, $year$, $transseq$ and $eventtime$.  For each individual, transition ($transseq$), we append rows for $eventtime$ four years before and six years after the transition.  Finally, we merge the new data frame with the original data frame and create a new identifier for each individual, transition sequence ($pidseq$).   
+
+The result is a new data frame with 24 rows: six observations per transition.  The transformed data do not alter the findings obtained by applying FE and FEIS models to untransformed data, as shown in table \ref{table_compare_transformed}.  
+
+\begin{table}[!h]
+    \caption{Simulation: Single individual with multiple events}
+    \centering
+    \resizebox{\textwidth}{!}{\input{../support_files/simulation/tables/table_compare_transformed_data_paper.tex}}
+    \label{table_compare_transformed}
+\end{table}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Simulation: Single individual with multiple events}
+    \resizebox{\textwidth}{!}{\includegraphics{../support_files/simulation/graphs/graph_compare_transformed_data_paper.pdf}}
+    \label{graph_compare_transformed}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Compare single vs. multiple events}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_single_multiple_events_paper.pdf}}
+    \label{graph_sensitivity_single_multiple_events}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!h]
+    \caption{How many individuals experience multiple events?}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_country_events_multiple_presentation_num_paper.pdf}}
+    \label{graph_country_events_multiple_presentation_num_paper}
+\end{sidewaysfigure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section{Appendix: Sample selection}\label{sec:sample_selection}
+\setcounter{figure}{0}    
+\setcounter{table}{0}    
+\renewcommand*\thetable{\Alph{section}.\arabic{table}}
+\renewcommand*\thefigure{\Alph{section}.\arabic{figure}}
+\renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
+\renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
+
+In this appendix, we provide more detail about the sample selection criteria.  Table \ref{table_sample_filter_steps} in the paper details the sample selection criteria, which reduces the sample size by over 50\% in a given country.  Table \ref{table_sample_filter_steps_country} splits table \ref{table_sample_filter_steps} for country.  Table \ref{table_sample_unmp_steps_contyp} specifies why the number of transitions from unemployment to temporary or permanent employment are so small.  The answer is that only about half of individuals who experience unemployment, exit unemployment, and only about a quarter of those who exit are observable as employed within 5 years after the transition (i.e. 3 periods of observation).  More generally, despite sample selection criteria, sample A and B provide similar estimates in a given country, year of average income (LN), unemployment rate, and temporary employment rate as the World Bank  or OECD.  Therefore, the sample are representative of the broader population in a given country.
+
+\begin{sidewaystable}[!h]
+    \caption{Sample filter steps from table \ref{table_sample_filter_steps}, by country}
+    \centering
+    \resizebox{\textwidth}{!}{\input{../tables/descriptives_table_steps_country.tex}}
+    \label{table_sample_filter_steps_country}
+\end{sidewaystable}
+
+\begin{sidewaystable}[!h]
+    \caption{Why are the number of unemployment exits so small?}
+    \centering
+    \resizebox{\textwidth}{!}{\input{../tables/descriptives_unmp_steps_contyp.tex}}
+    \label{table_sample_unmp_steps_contyp}
+\end{sidewaystable}
+
+
+
+\begin{sidewaysfigure}[!h]
+    \caption{Compare annual average income (LN) from sample to OECD}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_income_better_paper.pdf}}
+    \label{graph_descriptives_income_better_paper.pdf}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Compare unemployment rate from sample to World Bank}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_unmp_paper.pdf}}
+    \label{graph_descriptives_unmp_paper}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Compare temporary employment rate from sample to OECD}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_temp_paper.pdf}}
+    \label{graph_descriptives_temp_paper}
+\end{sidewaysfigure}
+
+\end{document}
+

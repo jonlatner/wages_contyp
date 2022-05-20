@@ -1,0 +1,340 @@
+
+R version 4.0.2 (2020-06-22) -- "Taking Off Again"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # TOP COMMANDS -----
+> # https://www.understandingsociety.ac.uk/documentation/mainstage/dataset-documentation/index/
+> # https://stackoverflow.com/questions/7505547/detach-all-packages-while-working-in-r
+> detachAllPackages <- function() {
++         basic.packages <- c("package:stats","package:graphics","package:grDevices","package:utils","package:datasets","package:methods","package:base")
++         package.list <- search()[ifelse(unlist(gregexpr("package:",search()))==1,TRUE,FALSE)]
++         package.list <- setdiff(package.list,basic.packages)
++         if (length(package.list)>0)  for (package in package.list) detach(package, character.only=TRUE)
++         
++ }
+> detachAllPackages()
+> rm(list=ls(all=TRUE))
+> 
+> # FOLDERS
+> setwd("/Users/jonathanlatner/OneDrive/SECCOPA/projects/wage_mobility/")
+> 
+> data_files = "data_files/"
+> results = "results/"
+> tables = "tables/"
+> 
+> # LIBRARY
+> library(tidyverse)
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+✔ tibble  3.1.6     ✔ dplyr   1.0.7
+✔ tidyr   1.1.4     ✔ stringr 1.4.0
+✔ readr   2.1.1     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+> library(xtable)
+> library(texreg)
+Version:  1.37.5
+Date:     2020-06-17
+Author:   Philip Leifeld (University of Essex)
+
+Consider submitting praise using the praise or praise_interactive functions.
+Please cite the JSS article in your publications -- see citation("texreg").
+
+Attaching package: ‘texreg’
+
+The following object is masked from ‘package:tidyr’:
+
+    extract
+
+> library(car)
+Loading required package: carData
+
+Attaching package: ‘car’
+
+The following object is masked from ‘package:dplyr’:
+
+    recode
+
+The following object is masked from ‘package:purrr’:
+
+    some
+
+> 
+> options(scipen = 999) # disable scientific notation
+> 
+> # load data -----
+> 
+> df_filter_01 <- readRDS(file = paste0(data_files,"3a_df_filter_steps.rds"))
+> df_filter_01 <- df_filter_01 %>%
++   filter(country!="NE-LISS")
+> table(df_filter_01$country)
+
+    AU     CH     DE     IT     JP     KO NE-LSP     UK 
+     8      8      8      8      8      8      8      8 
+> df_filter_01$country <- recode(df_filter_01$country, "'NE-LSP'='NE'")
+> 
+> df_event_data_01 <- readRDS(paste0(data_files,"03d_df_sample_cleaned_prepared_first_event_data.rds"))
+> df_event_data_01 <- df_event_data_01 %>%
++   filter(country!="NE-LISS")
+> table(df_event_data_01$country)
+
+    AU     CH     DE     IT     JP     KO NE-LSP     UK 
+ 89528  38074 154966  15812  28693  56352  11332 178580 
+> df_event_data_01$country <- recode(df_event_data_01$country, "'NE-LSP'='NE'")
+> 
+> # clean data -----
+> 
+> # FE/FEIS - keep if employed
+> df_employed <- df_event_data_01 %>%
++   filter(unmp == 0) %>%
++   select(country,pid,year,temp) %>%
++   group_by(country, pid) %>%
++   mutate(number = row_number(),
++          max = max(number)) %>%
++   filter(max>2) %>%
++   slice(1) %>%
++   ungroup() %>%
++   summarise(total = n(),
++             obs_diff = mean(temp),
++             obs_num = sum(temp)) %>%
++   mutate(step = "A") %>%
++   filter(row_number()==1)
+> 
+> # if treated, then must be employed after treatment
+> # if not treated, then must be employed
+> # must be observable at least 3 times
+> 
+> # Temp to perm
+> df_event_t_p <- df_event_data_01 %>%
++   filter((event_t_p_yes == 0 & unmp == 0) | (event_t_p_yes == 1 & event_t_p_drop_01 == 0 & event_t_p_drop_02 == 0)) %>%
++   select(country,pid,year,event_t_p_yes) %>%
++   group_by(country, pid) %>%
++   mutate(number = row_number(),
++          max = max(number)) %>%
++   filter(max>2) %>%
++   slice(1) %>%
++   ungroup() %>%
++   summarise(total = n(),
++             obs_diff = mean(event_t_p_yes),
++             obs_num = sum(event_t_p_yes)) %>%
++   mutate(step = "B") %>%
++   filter(row_number()==1)
+> 
+> 
+> # Perm to temp
+> df_event_p_t <- df_event_data_01 %>%
++   filter((event_p_t_yes == 0) | (event_p_t_yes == 1 & event_p_t_drop_01 == 0 & event_p_t_drop_02 == 0)) %>%
++   select(country,pid,year,event_p_t_yes) %>%
++   group_by(country, pid) %>%
++   mutate(number = row_number(),
++          max = max(number)) %>%
++   filter(max>2) %>%
++   slice(1) %>%
++   ungroup() %>%
++   summarise(total = n(),
++             obs_diff = mean(event_p_t_yes),
++             obs_num = sum(event_p_t_yes)) %>%
++   mutate(step = "C") %>%
++   filter(row_number()==1)
+>   
+> # Unmp to perm
+> df_event_u_p <- df_event_data_01 %>%
++   filter((event_u_p_yes == 0 & unmp == 0) | (event_u_p_yes == 1 & event_u_p_drop_01 == 0 & event_u_p_drop_02 == 0)) %>%
++   select(country,pid,year,event_u_p_yes) %>%
++   group_by(country, pid) %>%
++   mutate(number = row_number(),
++          max = max(number)) %>%
++   filter(max>2) %>%
++   slice(1) %>%
++   ungroup() %>%
++   summarise(total = n(),
++             obs_diff = mean(event_u_p_yes),
++             obs_num = sum(event_u_p_yes)) %>%
++   mutate(step = "D") %>%
++   filter(row_number()==1)
+>   
+> # Unmp to temp
+> df_event_u_t <- df_event_data_01 %>%
++   filter((event_u_t_yes == 0 & unmp == 0) | (event_u_t_yes == 1 & event_u_t_drop_01 == 0 & event_u_t_drop_02 == 0)) %>%
++   select(country,pid,year,event_u_t_yes) %>%
++   group_by(country, pid) %>%
++   mutate(number = row_number(),
++          max = max(number)) %>%
++   filter(max>2) %>%
++   slice(1) %>%
++   ungroup() %>%
++   summarise(total = n(),
++             obs_diff = mean(event_u_t_yes),
++             obs_num = sum(event_u_t_yes)) %>%
++   mutate(step = "E") %>%
++   filter(row_number()==1)
+> 
+> df_event_data_02 <- rbind(df_employed,df_event_t_p,df_event_p_t,df_event_u_p,df_event_u_t)
+> 
+> df_event_data_02
+# A tibble: 5 × 4
+  total obs_diff obs_num step 
+  <int>    <dbl>   <dbl> <chr>
+1 75739   0.127     9643 A    
+2 73972   0.150    11125 B    
+3 79882   0.105     8418 C    
+4 75885   0.0551    4184 D    
+5 75914   0.0270    2049 E    
+> 
+> df_event_data_02 <- df_event_data_02 %>%
++   mutate(obs_diff = paste0(round(obs_diff*100,0),"\\%"))
+> 
+> # Summarize data ----
+> 
+> df_filter_02 <- df_filter_01 %>%
++   group_by(step) %>%
++   mutate(total = sum(count)) %>%
++   filter(row_number()==1) %>%
++   ungroup() %>%
++   arrange(step) %>%
++   select(step,total) %>%
++   mutate(obs_num = NA) 
+>   
+> # Clean data ----
+> 
+> df_filter_02 <- df_filter_02 %>%
++   mutate(obs_diff = paste0(round((total/lag(total,1)-1)*100,0),"\\%"),
++          obs_diff = ifelse(row_number()==1, yes = "", no = obs_diff),
++          step = as.character(step),
++   )
+>   
+> 
+> df_filter_03 <- rbind(df_filter_02,df_event_data_02) 
+> 
+> df_filter_04 <- df_filter_03 %>%
++   mutate(notes = ifelse(step == "0", yes = "Raw data",
++                         ifelse(step == "1", yes = "Panel years between 2000 and 2018",
++                                ifelse(step == "2", yes = "Labour force participant",
++                                       ifelse(step == "3", yes = "Prime age (25 - 54)",
++                                              ifelse(step == "4", yes = "Unemployed or employed with contract type",
++                                                     ifelse(step == "5", yes = "Unemployed or employed with monthly hours $>= 1$",
++                                                            ifelse(step == "6", yes = "Non missing education or gender",
++                                                                   ifelse(step == "7", yes = "Drop observations with hourly wages in the top/bottom 0.005 percentile",
++                                                                          ifelse(step == "A", yes = "Employed and observable at least 3 times (for FE/FEIS models)",
++                                                                                 ifelse(step == "B", yes = "Temp $\\rightarrow$ perm",
++                                                                                        ifelse(step == "C", yes = "Perm $\\rightarrow$ temp",
++                                                                                               ifelse(step == "D", yes = "Unmp $\\rightarrow$ perm",
++                                                                                                      ifelse(step == "E", yes = "Unmp $\\rightarrow$ temp",
++                                                                                                             no = NA)))))))))))))) %>%
++   select(step,notes,total,obs_diff,obs_num)
+> 
+> df_filter_04
+# A tibble: 13 × 5
+   step  notes                                            total obs_diff obs_num
+   <chr> <chr>                                            <int> <chr>      <dbl>
+ 1 0     "Raw data"                                      415771 ""            NA
+ 2 1     "Panel years between 2000 and 2018"             367032 "-12\\%"      NA
+ 3 2     "Labour force participant"                      247742 "-33\\%"      NA
+ 4 3     "Prime age (25 - 54)"                           181607 "-27\\%"      NA
+ 5 4     "Unemployed or employed with contract type"     166116 "-9\\%"       NA
+ 6 5     "Unemployed or employed with monthly hours $>=… 161850 "-3\\%"       NA
+ 7 6     "Non missing education or gender"               159959 "-1\\%"       NA
+ 8 7     "Drop observations with hourly wages in the to… 157351 "-2\\%"       NA
+ 9 A     "Employed and observable at least 3 times (for…  75739 "13\\%"     9643
+10 B     "Temp $\\rightarrow$ perm"                       73972 "15\\%"    11125
+11 C     "Perm $\\rightarrow$ temp"                       79882 "11\\%"     8418
+12 D     "Unmp $\\rightarrow$ perm"                       75885 "6\\%"      4184
+13 E     "Unmp $\\rightarrow$ temp"                       75914 "3\\%"      2049
+> 
+> # Table -----------------------------------------
+> 
+> df_table <- df_filter_04
+> 
+> 
+> # VARIABLE LABLES
+> 
+> panel_a_columns <- c("\\multicolumn{5}{l}{{\\bf Panel A:} Sample selection criteria} \\\\ \n
++                      Step     &  Description     & Uniqe n  & $\\Delta$  & \\\\ \n
++                      \\cmidrule(lr){1-1} \\cmidrule(lr){2-2} \\cmidrule(lr){3-3} \\cmidrule(lr){4-4} \\\\[-1.8ex] \n")
+> panel_b_columns <- c("\\hline \\\\[-1.8ex]  \n 
++                      \\multicolumn{5}{l}{{\\bf Panel B:} Steps to create data sets by event type} \\\\ \n
++                      1 & \\multicolumn{4}{l}{if treated, then must be employed after treatment} \\\\ \n
++                      2 & \\multicolumn{4}{l}{if not treated, then must be employed} \\\\ \n
++                      3 & \\multicolumn{4}{l}{must be observable at least 3 times} \\\\ \n")
+> panel_c_columns <- c("\\hline \\\\[-1.8ex]  \n 
++                      \\multicolumn{4}{l}{{\\bf Panel C:} Data sets by event type} \\\\ \n
++                      Data set  & Event type  & Uniqe n  & \\multicolumn{2}{l}{Treated (\\%/\\#)} \\\\ \n
++                      \\cmidrule(lr){1-1} \\cmidrule(lr){2-2} \\cmidrule(lr){3-3} \\cmidrule(lr){4-5} \\\\[-1.8ex] \n")
+> 
+> hline_top <- ("\\hline\\hline \\\\[-1.8ex] \n")
+> hline_bot <- c("\\hline \n")
+> 
+> t <- xtable(df_table, digits = 0)
+> 
+> align(t) <- c("l", #first
++               "l", #step
++               "l", # description
++               "l", #unique obs
++               "l", #diff. unique
++               "l" # number treated
++ ) 
+> 
+> print(t, 
++       sanitize.colnames.function = identity, 
++       file = paste0(tables,"descriptives_table_steps.tex"),
++       include.rownames = FALSE, 
++       include.colnames = FALSE,
++       sanitize.text.function = identity,
++       floating="FALSE",
++       format.args = list(big.mark = ",", decimal.mark = "."),
++       hline.after = NULL,
++       add.to.row = list(
++         pos = list(0,0,8,8,13),
++         command = c(hline_top,
++                     panel_a_columns,
++                     panel_b_columns,
++                     panel_c_columns,
++                     hline_bot)),
++       comment = FALSE
++ )
+> 
+> t
+% latex table generated in R 4.0.2 by xtable 1.8-4 package
+% Tue Feb 22 18:35:15 2022
+\begin{table}[ht]
+\centering
+\begin{tabular}{llllll}
+  \hline
+ & step & notes & total & obs\_diff & obs\_num \\ 
+  \hline
+1 & 0 & Raw data & 415771 &  &  \\ 
+  2 & 1 & Panel years between 2000 and 2018 & 367032 & -12$\backslash$\% &  \\ 
+  3 & 2 & Labour force participant & 247742 & -33$\backslash$\% &  \\ 
+  4 & 3 & Prime age (25 - 54) & 181607 & -27$\backslash$\% &  \\ 
+  5 & 4 & Unemployed or employed with contract type & 166116 & -9$\backslash$\% &  \\ 
+  6 & 5 & Unemployed or employed with monthly hours \$$>$= 1\$ & 161850 & -3$\backslash$\% &  \\ 
+  7 & 6 & Non missing education or gender & 159959 & -1$\backslash$\% &  \\ 
+  8 & 7 & Drop observations with hourly wages in the top/bottom 0.005 percentile & 157351 & -2$\backslash$\% &  \\ 
+  9 & A & Employed and observable at least 3 times (for FE/FEIS models) & 75739 & 13$\backslash$\% & 9643 \\ 
+  10 & B & Temp \$$\backslash$rightarrow\$ perm & 73972 & 15$\backslash$\% & 11125 \\ 
+  11 & C & Perm \$$\backslash$rightarrow\$ temp & 79882 & 11$\backslash$\% & 8418 \\ 
+  12 & D & Unmp \$$\backslash$rightarrow\$ perm & 75885 & 6$\backslash$\% & 4184 \\ 
+  13 & E & Unmp \$$\backslash$rightarrow\$ temp & 75914 & 3$\backslash$\% & 2049 \\ 
+   \hline
+\end{tabular}
+\end{table}
+> 
+> proc.time()
+   user  system elapsed 
+ 34.761   2.496  44.844 
