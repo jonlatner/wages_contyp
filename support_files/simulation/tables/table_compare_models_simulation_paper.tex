@@ -1,0 +1,16 @@
+
+\begin{tabular}{l c c c c c c c c c}
+\toprule
+ & \multicolumn{3}{c}{Simulation 1} & \multicolumn{3}{c}{Simulation 2} & \multicolumn{3}{c}{Simulation 3} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+ & FE & FEIS & FE+IF & FE & FEIS & FE+IF & FE & FEIS & FE+IF \\
+\midrule
+Temp                     & $-30.00^{***}$ & $-30.00^{***}$ &          & $-45.00$  & $-30.00^{***}$ &          & $-20.00$  & $-5.00$   &          \\
+                         & $(0.00)$       & $(0.00)$       &          & $(78.66)$ & $(0.00)$       &          & $(52.44)$ & $(27.64)$ &          \\
+Event: T $\rightarrow$ P &                &                & $30.00$  &           &                & $60.00$  &           &           & $10.00$  \\
+                         &                &                & $(0.00)$ &           &                & $(0.00)$ &           &           & $(0.00)$ \\
+Event: P $\rightarrow$ T &                &                & $-30.00$ &           &                & $-10.00$ &           &           & $-10.00$ \\
+                         &                &                & $(0.00)$ &           &                & $(0.00)$ &           &           & $(0.00)$ \\
+\bottomrule
+\multicolumn{10}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$. Note: In FE + IF, pre and post event coefficients are not shown.}}
+\end{tabular}
