@@ -11,8 +11,8 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# Adapt this pathway!
-setwd("~/GitHub/wages_contyp/")
+# FOLDERS
+setwd("/Users/jonathanlatner/OneDrive/SECCOPA/projects/wages_contyp/")
 
 data_files = "data_files/"
 results = "results/"
@@ -51,11 +51,16 @@ df_graph$event <- factor(df_graph$event,
                          levels = c("FE", "FEIS", "t_p","p_t"),
                          labels = c("FE", "FEIS", "T to P", "P to T"))
 
+df_graph %>% 
+        filter(country_name == "Germany") %>% 
+        mutate(ymin = estimate-1.96*std.error,
+               ymax = estimate+1.96*std.error)
+
 df_graph %>% mutate(ymin = estimate-1.96*std.error,
                     ymax = estimate+1.96*std.error) %>% print(n=40)
 
 
-ggplot(data=df_graph, aes(x=event, y=estimate)) +
+p <- ggplot(data=df_graph, aes(x=event, y=estimate)) +
         facet_wrap(~country_name,drop=TRUE, scales = "fixed", nrow = 2) +
         geom_point(size=1) +
         theme_bw() +
@@ -82,8 +87,7 @@ ggplot(data=df_graph, aes(x=event, y=estimate)) +
               axis.line.x = element_line(color="black", size=.5)
         )
 
-ggsave(paste0(graphs,"graph_multiple_events_contyp.pdf"), height = 4, width = 8, plot = last_plot())
-ggsave(paste0(graphs,"graph_multiple_events_contyp_paper.pdf"), height = 6, width = 9, plot = last_plot())
+ggsave(plot = last_plot(), paste0(graphs,"graph_multiple_events_contyp_paper.pdf"), height = 6, width = 9)
 
 # Graph post event ----
 
@@ -92,7 +96,7 @@ ggsave(paste0(graphs,"graph_multiple_events_contyp_paper.pdf"), height = 6, widt
 df_yhat <- df_original %>%
         filter(str_detect(term, '_time')) %>%
         mutate(event = ifelse(str_detect(term, 'event_p_t_time'), yes = "p_t",
-                               ifelse(str_detect(term, 'event_t_p_time'), yes = "t_p", no = 0)))
+                              ifelse(str_detect(term, 'event_t_p_time'), yes = "t_p", no = 0)))
 
 table(df_yhat$term)
 
@@ -114,7 +118,7 @@ df_graph$event <- factor(df_graph$event,
 
 df_graph$country_name <- recode(df_graph$country, "'AU'='Australia'; 'CH'='Switzerland'; 'DE'='Germany'; 'IT'='Italy'; 'JP'='Japan'; 'KO'='Korea'; 'NE'='Netherlands'; 'UK'='United Kingdom'")
 
-ggplot(data = df_graph, aes(x = post, y = estimate, color = event, group = event)) +
+p <- ggplot(data = df_graph, aes(x = post, y = estimate, color = event, group = event)) +
         facet_wrap(. ~ country_name, nrow = 2) +
         geom_line(size = 1) +
         geom_hline(yintercept = 0) +
@@ -137,30 +141,4 @@ ggplot(data = df_graph, aes(x = post, y = estimate, color = event, group = event
               axis.line.x = element_line(color="black", size=.5)
         )
 
-ggsave(paste0(graphs,"graph_multiple_events_contyp_post.pdf"), height = 4, width = 8, plot = last_plot())
-ggsave(paste0(graphs,"graph_multiple_events_contyp_post_paper.pdf"), height = 6, width = 9, plot = last_plot())
-
-ggplot(data = df_graph, aes(x = post, y = estimate, color = event, group = event)) +
-        facet_wrap(. ~ country_name, nrow = 2, scales = "free_y") +
-        geom_line(size = 1) +
-        geom_hline(yintercept = 0) +
-        geom_vline(xintercept = 0) +
-        # scale_y_continuous(limits = c(-.35,.35), breaks = seq(-.3,.3,.2)) +
-        geom_errorbar(aes(ymin = estimate-1.96*std.error,
-                          ymax = estimate+1.96*std.error
-        ),
-        width=.2) +
-        xlab("Years before/after event") +
-        ylab("Estimate") +
-        scale_color_grey(start = 0, end = 0.7) +
-        theme_bw() +
-        guides(color=guide_legend(nrow=1,byrow=TRUE)) +
-        theme(panel.grid.minor = element_blank(), 
-              legend.position = "bottom",
-              legend.title = element_blank(),
-              legend.key.width=unit(2, "cm"),
-              axis.line.y = element_line(color="black", size=.5),
-              axis.line.x = element_line(color="black", size=.5)
-        )
-
-ggsave(paste0(graphs,"graph_multiple_events_contyp_post_free_scale.pdf"), height = 4, width = 8, plot = last_plot())
+ggsave(plot = p, paste0(graphs,"graph_multiple_events_contyp_post_paper.pdf"), height = 6, width = 9)

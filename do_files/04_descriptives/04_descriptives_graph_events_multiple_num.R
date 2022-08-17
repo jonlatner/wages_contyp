@@ -124,8 +124,6 @@ df_event_p_t_02 <- df_event_p_t_01 %>%
         # slice(1) %>%
         ungroup()
 
-View(df_event_p_t_01 %>% filter(country == "AU" & pid == 100917))
-
 df_event_p_t_02 <- with(df_event_p_t_02,table(country,count))
 df_event_p_t_02 <- data.frame(df_event_p_t_02,1)
 df_event_p_t_02 <- df_event_p_t_02 %>%
@@ -204,7 +202,6 @@ ggplot(df_graph, aes(x=count, y=Freq)) +
               axis.line.x = element_line(color="black", size=.5)
         )
 
-ggsave(paste0(graphs,"graph_country_events_multiple_presentation_num.pdf"), height = 6, width = 9, plot = last_plot())
-ggsave(paste0(graphs,"graph_country_events_multiple_presentation_num_paper.pdf"), height = 6, width = 9, plot = last_plot())
+ggsave(paste0(graphs,"graph_descriptives_multiple_events_num.pdf"), height = 6, width = 9, plot = last_plot())
 
 beep()

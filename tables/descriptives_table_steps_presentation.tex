@@ -1,21 +1,28 @@
-\begin{tabular}{llll}
-   \hline\hline \\[-1.8ex] 
- \multicolumn{2}{l}{Sample selection criteria} & \multicolumn{2}{l}{Observations} \\  \cmidrule(lr){3-4} 
+\begin{tabular}{l>{\raggedright\arraybackslash}p{4in}ll}
+   \toprule 
  
-                     Step     &  Description     & Uniqe n  & $\Delta$ \\ 
+\multicolumn{4}{l}{{\bf Panel A:} Sample selection criteria} \\ 
 
-                     \cmidrule(lr){1-1} \cmidrule(lr){2-2} \cmidrule(lr){3-3} \cmidrule(lr){4-4} \\[-1.8ex] 
+&  & 
+\multicolumn{2}{l}{Total (all countries)}
+\\  
+ 
+ 
+\multicolumn{1}{l}{Step} & 
+\multicolumn{1}{l}{Description} 
+& n & $\Delta$
+\\ 
+\cmidrule(lr){1-2}
+\cmidrule(lr){3-4}
+\\[-1.8ex]  
+ 
 0 & Raw data & 415,771 &  \\ 
   1 & Panel years between 2000 and 2018 & 367,032 & -12\% \\ 
-  2 & Labour force participant & 210,900 & -43\% \\ 
-  3 & Prime age (25 - 54) & 181,607 & -14\% \\ 
-  4 & Unemployed or employed with contract type & 166,116 & -9\% \\ 
-  5 & Unemployed or employed with monthly hours $>= 1$ & 158,005 & -5\% \\ 
-  6 & Non missing education or gender & 156,164 & -1\% \\ 
-  7 & Drop observations with hourly wages in the top/bottom 0.005 percentile & 155,365 & -1\% \\ 
-  8 & Data set A: Must be observable at least 3 times & 79,786 & -49\% \\ 
-   &  \multicolumn{3}{l}{\hspace{5mm}Used to examine $U \rightarrow T$ and $U \rightarrow P$} \\ 
-9 & Data set B: + always employed & 74,010 & -7\% \\ 
-   &  \multicolumn{3}{l}{\hspace{5mm}Used to examine $P \rightarrow T$ and $T \rightarrow P$} \\ 
- \hline 
+  2 & Prime age (25 - 54) & 210,900 & -43\% \\ 
+  3 & Unemployed or employed with contract type, monthly hours (40 -- 320), and wages $>$ 0 & 158,005 & -25\% \\ 
+  4 & Non missing education or gender & 156,164 & -1\% \\ 
+  5 & Hourly wages within the top/bottom 0.005 percentile & 155,365 & -1\% \\ 
+  6 & Data set A: At least 3 observations & 79,612 & -49\% \\ 
+  7 & Data set B: + always employed & 73,651 & -7\% \\ 
+   \bottomrule 
 \end{tabular}

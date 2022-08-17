@@ -188,6 +188,5 @@ p3 <- ggarrange(
 
 p4 <- grid.arrange(arrangeGrob(p3, left = y.grob))
 
-ggsave(plot=p4,paste0(graphs,"graph_descriptives_income_better.pdf"), height = 4, width = 8)
 ggsave(plot=p4,paste0(graphs,"graph_descriptives_income_better_paper.pdf"), height = 6, width = 9)
 

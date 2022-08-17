@@ -97,5 +97,4 @@ ggplot(data = df_graph, aes(x = year, y = value, color = source)) +
               axis.line.x = element_line(color="black", size=.5)
         )
 
-ggsave(plot=last_plot(),paste0(graphs,"graph_descriptives_temp.pdf"), height = 4, width = 8)
 ggsave(plot=last_plot(),paste0(graphs,"graph_descriptives_temp_paper.pdf"), height = 6, width = 9)

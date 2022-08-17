@@ -81,5 +81,4 @@ ggplot(data = df_graph, aes(x = year, y = unmp, color = source)) +
               axis.line.x = element_line(color="black", size=.5)
         )
 
-ggsave(plot=last_plot(),paste0(graphs,"graph_descriptives_unmp.pdf"), height = 4, width = 8)
 ggsave(plot=last_plot(),paste0(graphs,"graph_descriptives_unmp_paper.pdf"), height = 6, width = 9)

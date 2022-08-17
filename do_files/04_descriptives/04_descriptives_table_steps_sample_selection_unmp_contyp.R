@@ -115,9 +115,13 @@ df_step_05_u_t <- df_step_04 %>%
         filter(event_u_t_yes_final == 1)
 
 df_step_05_u_t <- df_step_05_u_t %>%
+        group_by(country, pid, pidseq) %>%
+        slice(1) %>%
         group_by(country, pid) %>%
         slice(1) %>%
-        ungroup()
+        ungroup() %>%
+        select(country, pid) %>%
+        mutate(u_t = 1)
 
 t_05_u_t <- with(df_step_05_u_t,table(country,useNA = "ifany"))
 t_05_u_t <- data.frame(t_05_u_t)
@@ -126,21 +130,34 @@ t_05_u_t$step <- 5
 t_05_u_t
 
 # Step 6: identify event, i.e. transition from U to P ----
-df_step_05_u_p <- df_step_04 %>%
+df_step_06_u_p <- df_step_04 %>%
         filter(event_u_p_yes_final == 1)
 
-df_step_05_u_p <- df_step_05_u_p %>%
+df_step_06_u_p <- df_step_06_u_p %>%
         group_by(country, pid, pidseq) %>%
         slice(1) %>%
         group_by(country, pid) %>%
         slice(1) %>%
-        ungroup()
+        ungroup() %>%
+        select(country, pid) %>%
+        mutate(u_p = 1)
 
-t_05_u_p <- with(df_step_05_u_p,table(country,useNA = "ifany"))
-t_05_u_p <- data.frame(t_05_u_p)
-t_05_u_p$step <- 5
-# t_05_u_p$total <- sum(t_05_u_p$Freq)
-t_05_u_p
+t_06_u_p <- with(df_step_06_u_p,table(country,useNA = "ifany"))
+t_06_u_p <- data.frame(t_06_u_p)
+t_06_u_p$step <- 6
+# t_06_u_p$total <- sum(t_06_u_p$Freq)
+t_06_u_p
+
+# Step 7: identify the number of observations who transition from U to P and U to T ----
+
+df_step_07 <- merge(df_step_05_u_t,df_step_05_u_p,all = TRUE) %>%
+        filter(u_t == 1 & u_p == 1)
+df_step_07
+t_07 <- with(df_step_07,table(country,useNA = "ifany"))
+t_07 <- data.frame(t_07)
+t_07$step <- 7
+# t_07$total <- sum(t_07$Freq)
+t_07
 
 # summarise selection criteria ----
 
@@ -149,9 +166,10 @@ df_table$event <- "NA"
 df_table
 
 t_05_u_t$event <- "u_t"
-t_05_u_p$event <- "u_p"
+t_06_u_p$event <- "u_p"
+t_07$event <- "both"
 
-df_table <- rbind(df_table,t_05_u_t,t_05_u_p) %>%
+df_table <- rbind(df_table,t_05_u_t,t_06_u_p,t_07) %>%
         mutate(step = ifelse(step>3, yes = step - 1, no = step)) %>%
         arrange(country, step, event)
 
@@ -182,17 +200,16 @@ df_table_wide <- df_append %>%
         mutate(row = row_number(),
                obs_diff = paste0(round((Freq/lag(Freq,1)-1)*100,0),"\\%"),
                obs_diff = ifelse(row_number()==1, yes = "", no = obs_diff),
-               obs_diff = ifelse(event == "u_p", yes = paste0(round((Freq/lag(Freq,1))*100,0),"\\%"),
-                                 ifelse(event == "u_t", yes = paste0(round((Freq/lag(Freq,2))*100,0),"\\%"),
-                                        no = obs_diff
-                                 ))
+               obs_diff = ifelse(event == "u_t", yes = paste0(round((Freq/lag(Freq,1))*100,0),"\\%"),
+                                 ifelse(event == "u_p", yes = paste0(round((Freq/lag(Freq,2))*100,0),"\\%"),
+                                        ifelse(event == "both", yes = NA,
+                                               no = obs_diff
+                                 )))
         ) %>%
         pivot_wider(names_from = c("country_name"),
                     values_from = c("Freq", "obs_diff"),
         ) %>%
         ungroup()
-
-df_table_wide
 
 df_table_wide <- df_table_wide %>%
         select(step, event, 
@@ -206,22 +223,23 @@ df_table_wide <- df_table_wide %>%
                matches("Switzerland"),
                matches("United Kingdom"),
         )
-df_table_wide
 
 
 df_table_wide <- df_table_wide %>%
         mutate(event = ifelse(step == 1, yes = "Total unemployment events (From data set A)",
                               ifelse(step == 2, yes = "Must exit unemployment",
                                      ifelse(step == 3, yes = "Employed at least 1 period after exit (within 5 years)",
-                                            ifelse(step == 4 & event == "u_p", yes = "Unmp $\\rightarrow$ perm",
-                                                   ifelse(step == 4 & event == "u_t", yes = "Unmp $\\rightarrow$ temp",
-                                                          no = NA))))))
+                                            ifelse(step == 4 & event == "u_t", yes = "Unmp $\\rightarrow$ temp",
+                                                   ifelse(step == 5 & event == "u_p", yes = "Unmp $\\rightarrow$ perm",
+                                                          ifelse(step == 6, yes = "U $\\rightarrow$ P \\& U $\\rightarrow$ T",
+                                                                 no = NA)))))))
+
+df_table_wide
 
 # Table -----------------------------------------
 
-df_output <- df_table_wide
-df_output
-
+df_output <- df_table_wide %>%
+        mutate(step = ifelse(step>3, yes = NA, no = step))
 
 # VARIABLE LABLES
 
@@ -281,7 +299,7 @@ columns_header_bot_1 <- c("
 
 columns_header_bot_2 <- c("
 \\hline \\\\[-1.8ex]  \n 
-\\multicolumn{20}{l}{{\\bf Panel B:} Exit to employment, by contract type} \\\\ \n
+\\multicolumn{20}{l}{{\\bf Panel B:} Frequency, by event type} \\\\ \n
 & 
 &  \\# & \\%
 &  \\# & \\%
@@ -331,7 +349,7 @@ print(t,
       format.args = list(big.mark = ",", decimal.mark = "."),
       hline.after = NULL,
       add.to.row = list(
-              pos = list(0,0,0,3,5),
+              pos = list(0,0,0,3,6),
               command = c(hline_top,
                           columns_header_top,
                           columns_header_bot_1,

@@ -32,7 +32,7 @@ options(scipen = 999) # disable scientific notation
 df_original <- readRDS(paste0(data_files,"df_UK_sensitivity.rds"))
 
 df_original <- df_original %>%
-        select(country,pidseq,year,age,ln_hourly_wage,unmp,temp,perm,event_t_p_yes_final,event_p_t_yes_final,event_t_p_time_pos,event_p_t_time_pos,unemployment_rate) %>%
+        select(country,pid,pidseq,year,age,ln_hourly_wage,unmp,temp,perm,event_t_p_yes_final,event_p_t_yes_final,event_t_p_time_pos,event_p_t_time_pos,unemployment_rate) %>%
         filter(unmp == 0)  %>%
         group_by(country, pidseq) %>%
         mutate(number = row_number(),
@@ -61,10 +61,10 @@ for(c in country_ann) {
         df_country$event_p_t_time_pos <- relevel(factor(df_country$event_p_t_time_pos), ref = "2")
         
         # Temp to perm
-        model <- feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos + event_p_t_time_pos + as.factor(year) | 1,
+        model <- feis(ln_hourly_wage ~ age + unemployment_rate + event_t_p_time_pos + event_p_t_time_pos | 1,
                       data = data.frame(df_country), 
                       robust = TRUE,
-                      id = "pidseq")
+                      id = "pid")
         
         df_output <- tidy_parameters(model)
         df_output$event <- "FE + IF"

@@ -37,7 +37,7 @@ df_table
 
 # VARIABLE LABLES
 
-columns_header_top <- c("[-1.8ex]
+columns_header_top <- c("
 \\multicolumn{14}{l}{{\\bf Panel A:} Sample selection criteria} \\\\ \n
 &  & 
 \\multicolumn{2}{l}{Total (all countries)} &
@@ -118,8 +118,8 @@ columns_header_bot_2 <- c("
 \\\\[-1.8ex]  \n 
 ")
 
-hline_top <- ("\\\\[-1.8ex]\\hline\\hline \\\\ \n")
-hline_bot <- c("\\hline \\\\[-1.8ex] \\multicolumn{20}{p{12in}}{Note: n - is unique observations.  $\\Delta$ - is difference in n from previous step.  \\# - is unique n who experienced at least 1 event.  \\% - is percent who experienced an event.} \n")
+hline_top <- ("\\toprule \n")
+hline_bot <- c("\\bottomrule \\\\[-1.8ex] \\multicolumn{20}{p{12in}}{Note: n - is unique observations.  $\\Delta$ - is difference in n from previous step.  \\# - is unique n who experienced at least 1 event.  \\% - is percent who experienced an event.} \n")
 
 t <- xtable(df_table, digits = 0)
 
@@ -160,7 +160,7 @@ df_table
 
 # VARIABLE LABLES
 
-columns_header_top <- c("[-1.8ex]
+columns_header_top <- c("
 \\multicolumn{4}{l}{{\\bf Panel A:} Sample selection criteria} \\\\ \n
 &  & 
 \\multicolumn{2}{l}{Total (all countries)}
@@ -193,7 +193,7 @@ columns_header_bot_2 <- c("
 \\\\[-1.8ex]  \n 
 ")
 
-hline_top <- ("\\\\[-1.8ex]\\toprule \\\\ \n")
+hline_top <- ("\\toprule \n")
 hline_bot <- c("\\bottomrule \\\\[-1.8ex] \\multicolumn{4}{p{6in}}{Note: n - is unique observations.  $\\Delta$ - is difference in n from previous step.  \\# - is unique n who experienced at least 1 event.  \\% - is percent who experienced an event.} \n")
 
 t <- xtable(df_table, digits = 0)
@@ -218,6 +218,33 @@ print(t,
                           columns_header_top,
                           columns_header_bot_1,
                           columns_header_bot_2,
+                          hline_bot)),
+      comment = FALSE
+)
+
+t
+
+# Table, total across all countries (presentation) -----------------------------------------
+
+t <- t %>%
+        filter(row_number()<9)
+
+hline_bot <- c("\\bottomrule \n")
+
+print(t, 
+      sanitize.colnames.function = identity, 
+      file = paste0(tables,"descriptives_table_steps_presentation.tex"),
+      include.rownames = FALSE, 
+      include.colnames = FALSE,
+      sanitize.text.function = identity,
+      floating="FALSE",
+      format.args = list(big.mark = ",", decimal.mark = "."),
+      hline.after = NULL,
+      add.to.row = list(
+              pos = list(0,0,0,8),
+              command = c(hline_top,
+                          columns_header_top,
+                          columns_header_bot_1,
                           hline_bot)),
       comment = FALSE
 )

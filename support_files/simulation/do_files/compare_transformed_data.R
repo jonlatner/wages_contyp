@@ -11,9 +11,8 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
-setwd("/Users/jonathanlatner/OneDrive/SECCOPA/projects/wage_mobility/support_files/simulation/")
-# setwd("C:/Users/ba1ks6/Google Drive/SECCOPA/")
+# Adapt this pathway!
+setwd("~/GitHub/wages_contyp/support_files/simulation/")
 
 data_files = "data_files/"
 tables = "tables/"
@@ -23,6 +22,7 @@ graphs = "graphs/"
 library(tidyverse)
 library(texreg)
 library(feisr)
+library(xtable)
 
 options(scipen = 9999) # disable scientific notation
 
@@ -32,7 +32,7 @@ id_1 <- data.frame(
         unmp = c(0,0,0,0,0,0),
         temp = c(1,0,1,0,1,1),
         perm = c(0,1,0,1,0,0),
-        ln_hourly_wage = c(50,90,110,130,140,150),
+        wage = c(50,90,110,130,140,150),
         year = c(1,2,3,4,5,6)
 )
 id_1$pid = 1
@@ -40,6 +40,7 @@ id_1$year_lag = 1
 id_1$country = "DE"
 
 df_original <- id_1
+rm(id_1)
 
 
 # Graph data ----
@@ -55,39 +56,39 @@ df_graph$ID <- factor(df_graph$ID,
 
 counterfactual_fe <- df_graph %>%
         group_by(ID,temp) %>%
-        mutate(ln_hourly_wage = ifelse(temp==1, yes = mean(ln_hourly_wage), no = NA)) %>%
+        mutate(wage = ifelse(temp==1, yes = mean(wage), no = NA)) %>%
         group_by(ID) %>%
-        mutate(ln_hourly_wage = ifelse(first(!is.na(ln_hourly_wage)), yes = first(ln_hourly_wage), no = last(ln_hourly_wage))) %>%
+        mutate(wage = ifelse(first(!is.na(wage)), yes = first(wage), no = last(wage))) %>%
         ungroup() %>%
         mutate(counterfactual = "FE")
 
 counterfactual_feis <- df_graph %>%
         group_by(ID,temp) %>%
-        mutate(ln_hourly_wage = ifelse(temp==1, yes = mean(ln_hourly_wage), no = NA)) %>%
+        mutate(wage = ifelse(temp==1, yes = mean(wage), no = NA)) %>%
         group_by(ID) %>%
-        mutate(ln_hourly_wage = ifelse(first(!is.na(ln_hourly_wage)), yes = first(ln_hourly_wage), no = last(ln_hourly_wage))) %>%
+        mutate(wage = ifelse(first(!is.na(wage)), yes = first(wage), no = last(wage))) %>%
         ungroup() %>%
-        mutate(ln_hourly_wage = ifelse(pid==1, yes = 50.49-12.39 + (year)*19.8, no = ln_hourly_wage),
+        mutate(wage = ifelse(pid==1, yes = 50.49-12.39 + (year)*19.8, no = wage),
                counterfactual = "FEIS",
         )
 
 counterfactual_t_p_1 <- df_graph %>%
-        mutate(ln_hourly_wage = ifelse(pid==1 & year > 1, yes = 50, no = ln_hourly_wage),
+        mutate(wage = ifelse(pid==1 & year > 1, yes = 50, no = wage),
                counterfactual = "T - P (1)",
         )
 
 counterfactual_t_p_2 <- df_graph %>%
-        mutate(ln_hourly_wage = ifelse(pid==1 & year > 3, yes = 110, no = ln_hourly_wage),
+        mutate(wage = ifelse(pid==1 & year > 3, yes = 110, no = wage),
                counterfactual = "T - P (2)",
         )
 
 counterfactual_p_t_1 <- df_graph %>%
-        mutate(ln_hourly_wage = ifelse(pid==1 & year > 2, yes = 90, no = ln_hourly_wage),
+        mutate(wage = ifelse(pid==1 & year > 2, yes = 90, no = wage),
                counterfactual = "P - T (1)",
         )
 
 counterfactual_p_t_2 <- df_graph %>%
-        mutate(ln_hourly_wage = ifelse(pid==1 & year > 4, yes = 130, no = ln_hourly_wage),
+        mutate(wage = ifelse(pid==1 & year > 4, yes = 130, no = wage),
                counterfactual = "P - T (2)",
         )
 
@@ -98,22 +99,22 @@ df_counterfactual$counterfactual <- factor(df_counterfactual$counterfactual,
                                            levels = c("FE", "FEIS", "T - P (1)", "T - P (2)", "P - T (1)", "P - T (2)"))
 
 ggplot() +
-        geom_line(data = df_graph, aes(x = year, y = ln_hourly_wage)) +
-        geom_point(data = df_graph, aes(x = year, y = ln_hourly_wage, shape = emp_status), size = 2.5) +
+        geom_line(data = df_graph, aes(x = year, y = wage)) +
+        geom_point(data = df_graph, aes(x = year, y = wage, shape = emp_status), size = 2.5) +
         scale_size_manual(values = c(.5,.75,1)) +
         scale_shape_manual(values = c(0,15)) +
         scale_color_manual(values = c("black", "gray60")) +
         scale_y_continuous(breaks =seq(0,200,50), limits = c(0,200)) +
         scale_x_continuous(breaks =seq(1,6,1), limits = c(.5,6.5)) +
-        geom_line(data = df_counterfactual, aes(x = year, y = ln_hourly_wage, linetype = counterfactual)) +
+        geom_line(data = df_counterfactual, aes(x = year, y = wage, linetype = counterfactual)) +
         theme_bw() +
         xlab("Time") +
         ylab("Income") +
         labs(shape="Contract type", linetype = "Counterfactual") +
         geom_text(data = df_graph,
                   aes(x = year,
-                      y = ln_hourly_wage,
-                      label = ln_hourly_wage),
+                      y = wage,
+                      label = wage),
                   show.legend = FALSE,
                   size = 4,
                   vjust = -1) +
@@ -128,11 +129,11 @@ ggplot() +
 ggsave(paste0(graphs,"graph_compare_transformed_data_paper.pdf"), height = 6, width = 9, plot = last_plot())
 
 # this calculates the FEIS counterfactual by hand
-lm(ln_hourly_wage ~ temp + pid, data = df_original)
-lm(ln_hourly_wage ~ temp + pid*year, data = df_original)
+lm(wage ~ temp + pid, data = df_original)
+lm(wage ~ temp + pid*year, data = df_original)
 
-feis <- counterfactual_feis$ln_hourly_wage
-original <- df_original$ln_hourly_wage
+feis <- counterfactual_feis$wage
+original <- df_original$wage
 
 compare <- cbind(feis,original)
 df_compare <- data.frame(compare)
@@ -145,6 +146,9 @@ df_compare <- df_compare %>%
         ungroup()
 
 df_compare
+
+rm(list=ls(pattern="counterfactual"))
+rm(compare,df_graph)
 
 # Transition indicator ----
 
@@ -206,8 +210,7 @@ df_transition_events <- rbind(df_transition,df_sample_events) %>%
 # merge new data with old data
 df_multiple_events <- merge(df_transition_events,df_transition_data) %>%
         arrange(country,pid,transseq,year) %>%
-        mutate(pidseq=pid*100+transseq) %>% # new identifier
-        select(-eventtime)
+        mutate(pidseq=pid*100+transseq)  # new identifier
 
 df_multiple_events <- bind_rows(df_multiple_events,df_transition_non)
 
@@ -285,33 +288,31 @@ df_events_all <- suppressWarnings(df_events_all %>%
 
 # Model simulation 1 ----
 
-df_events_all %>% select(country,pid,pidseq,year,matches("event_t_p"))
-
 df_simulation <- df_events_all 
 
 
 # FE
-model_fe_original <- feis(ln_hourly_wage ~ temp | 1,
+model_fe_original <- feis(wage ~ temp | 1,
                           data = data.frame(df_original), 
                           robust = TRUE,
                           id = "pid")
 
 
 # FEIS
-model_feis_original <- feis(ln_hourly_wage ~ temp | year,
+model_feis_original <- feis(wage ~ temp | year,
                             data = data.frame(df_original), 
                             robust = TRUE,
                             id = "pid")
 
 # FE
-model_fe_transformed <- feis(ln_hourly_wage ~ temp | 1,
+model_fe_transformed <- feis(wage ~ temp | 1,
                    data = data.frame(df_simulation), 
                    robust = TRUE,
                    id = "pidseq")
 
 
 # FEIS
-model_feis_transformed <- feis(ln_hourly_wage ~ temp | year,
+model_feis_transformed <- feis(wage ~ temp | year,
                      data = data.frame(df_simulation), 
                      robust = TRUE,
                      id = "pidseq")
@@ -321,19 +322,19 @@ model_feis_transformed <- feis(ln_hourly_wage ~ temp | year,
 df_simulation$event_t_p_time_pos <- relevel(factor(df_simulation$event_t_p_time_pos), ref = "2")
 df_simulation$event_p_t_time_pos <- relevel(factor(df_simulation$event_p_t_time_pos), ref = "2")
 
-model_fe_if <- feis(ln_hourly_wage ~ event_t_p_time_pos + event_p_t_time_pos | 1,
+model_fe_if <- feis(wage ~ event_t_p_time_pos + event_p_t_time_pos | 1,
                       data = data.frame(df_simulation), 
                       robust = TRUE,
                       id = "pidseq")
 
 df_first_event$event_t_p_time_pos <- relevel(factor(df_first_event$event_t_p_time_pos), ref = "2")
 df_first_event$event_p_t_time_pos <- relevel(factor(df_first_event$event_p_t_time_pos), ref = "2")
-model_fe_if_t_p <- feis(ln_hourly_wage ~ event_t_p_time_pos | 1,
+model_fe_if_t_p <- feis(wage ~ event_t_p_time_pos | 1,
                     data = data.frame(df_first_event), 
                     robust = TRUE,
                     id = "pid")
 
-model_fe_if_p_t <- feis(ln_hourly_wage ~ event_p_t_time_pos | 1,
+model_fe_if_p_t <- feis(wage ~ event_p_t_time_pos | 1,
                         data = data.frame(df_first_event), 
                         robust = TRUE,
                         id = "pid")
@@ -392,6 +393,33 @@ texreg(
         custom.note = paste("%stars. Note: In FE + IF, pre and post event coefficients are not shown."),
         include.rsquared = FALSE, include.adjrs = FALSE,include.nobs = TRUE,include.rmse=FALSE,include.groups=FALSE,
         omit.coef = c("year|Intercept"),
-        file = paste0(tables,"table_compare_transformed_data_paper.tex"),
+        file = paste0(tables,"table_compare_transformed_data_output.tex"),
 )
 
+# Data table ----
+
+df_original %>% select(pid,year,temp,perm,wage)
+
+df_events_all %>% select(pid,year,transseq,temp,perm,wage,eventyear,eventtime,event_p_t_yes,event_p_t_yes,event_t_p_yes)
+
+t <- xtable(df_original %>% select(pid,year,temp,perm,wage), digits = c(0))
+print(t,
+      file = paste0(tables,"table_compare_transformed_data_original.tex"),
+      include.rownames = FALSE,
+      include.colnames = TRUE,
+      floating="FALSE",
+      comment = FALSE
+)
+
+t
+
+t <- xtable(df_events_all %>% select(pid,year,transseq,temp,perm,wage,eventyear,eventtime,event_p_t_yes,event_p_t_yes,event_t_p_yes), digits = c(0))
+print(t,
+      file = paste0(tables,"table_compare_transformed_data_transformed.tex"),
+      include.rownames = FALSE,
+      include.colnames = TRUE,
+      floating="FALSE",
+      comment = FALSE
+)
+
+t
