@@ -1,45 +1,42 @@
-\documentclass[12pt]{article}
-
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{dcolumn}
-\usepackage{booktabs}
-\usepackage{rotating}
-
-\usepackage{setspace}
-\usepackage{parskip}
-\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
-
-\usepackage{natbib}
-\usepackage[pdfstartpage=1,pdfpagemode=UseNone,pdfstartview=FitH,pdffitwindow=true,bookmarks=false,colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
-
-% define lightgray
-\usepackage[table]{xcolor}
-\definecolor{lightgray}{gray}{0.9}
-
-\begin{document}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Tables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \clearpage
 \section{Tables}
 
 \begin{table}[!h]
-    \caption{Sample filter steps}
-    \centering
-    \resizebox{\textwidth}{!}{\input{../tables/descriptives_table_steps.tex}}
-    \label{table_sample_filter_steps}
+\caption{Countries and data}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llll}
+\toprule
+Countries       & Datasets & Years & Survey period \\ \midrule
+1) Australia       & Household, Income and Labour Dynamics in Australia  \citep{hilda_household_2022}   & 2001 -   & Annual \\
+2) Germany         & Socioeconomic Panel \citep{soep_2020}   & 1984 - & Annual \\
+3) Italy           & Survey on Household Income and Wealth \citep{shiw_historical_2019}   & 1977 (2000)$^*$ - & Biannual \\
+4) Japan  \citeyearpar{jhpskhps_keio_2019}           & a) Keio Household Panel Survey (KHSP) & 2004 -  & Annual  \\
+                    & b) Japan Household Panel Survey (JHPS) & 2009 -  & Annual \\
+5) Korea           & Korean Labour \& Income Panel Study \citep{klips_korean_2020}   & 1998 - & Annual  \\
+6) Netherlands      & a) Labour Supply Panel \citep{lsp_arbeidsaanbodpanel_2016} & 1984 - 2014 & Biannnual  \\
+                        & b) Longitudinal Internet studies for the Social Sciences \citep{liss_longitudinal_2020} & 2008 - & Annual \\
+7) Switzerland     & Swiss Household Panel \citep{shp_swiss_2020}  &  1999 - & Annual    \\
+8) United Kingdom  \citeyearpar{bhpsukhls_university_2022}  & a) British Household Panel Study (BHPS) & 1991 - 2008 & Annual \\
+  & b) United Kingdom Household Longitudinal Study (UKHLS) & 2009 -  & Annual \\
+\toprule
+\end{tabular}}
+\\ 
+\scriptsize{Note: In Japan and the United Kingdom, the two data sets are harmonized prior to release by the agency responsible for making the data available to researchers.  In the Netherlands, the LSP represents the main source of data, but we use the LISS as a sensitivity check.  $^*$ In Italy, the variable for temporary employment is only available after the year 2000.  For more details on each data set, please see Appendix \ref{sec:data}}
+\label{table_country_data}
 \end{table}
 
 \begin{table}[!h]
-    \caption{Methodological simulation exercise}
-    \begin{center}
-    \resizebox{\textwidth}{!}{\input{../support_files/simulation/tables/table_compare_models_simulation_paper.tex}}
-    \label{table_simulation}
-    \end{center}
+    \caption{Sample filter steps}
+    \centering
+    \input{../tables/descriptives_table_steps_paper.tex}
+    % \resizebox{\textwidth}{!}{\input{../tables/descriptives_table_steps_presentation.tex}}
+    \label{table_sample_filter_steps_country}
 \end{table}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Graphs
@@ -48,204 +45,29 @@
 \section{Graphs}
 
 \begin{sidewaysfigure}[h!]
-    \caption{Methodological simulation exercise}
-    \resizebox{\textwidth}{!}{\includegraphics{../support_files/simulation/graphs/graph_compare_models_simulation_paper.pdf}}
-    \label{graph_simulation}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}[h!]
-    \caption{Effect of event on wages at point in time}
+    \caption{Estimated wage effect of transitions between contract types FE, FEIS, and AFE models}
     \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_multiple_events_contyp_paper.pdf}}
     \label{graph_contyp}
+    \footnotesize{Note: Authors calculations using sample B in country-specific panel data, where all individuals are employed in either a temporary or permanent contract.  Within each country cell, the graph displays four parameter estimates from three models: FE, FEIS, and AFE (T $\rightarrow$ P and P $\rightarrow$ T).  The interpretation is that the negative coefficients identified in the FE model and partially explained by the FEIS model do not indicate that the wage effects of temporary employment are negative.  Instead, the negative effects are better understood as the result of two transitions, neither of which are negative (except in Italy), even if one is more positive than the other.  Raw coefficients and standard errors are shown in Appendix \ref{sec:coefficients}.}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}
-    \caption{Effect of event on wages over time}
+    \caption{Estimated wage effect over time of transitions between contract types from the AFE model}
     \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_multiple_events_contyp_post_paper.pdf}}
     \label{graph_contyp_post}
+    \footnotesize{Note: Authors calculations using sample B in country-specific panel data, where all individuals are employed in either a temporary or permanent contract.  Within each country cell, the graph displays estimates from the asymmetric fixed effects (AFE) model \ref{eq:model_afe_temp} on the the year of a given transition (0) as well as up to four years afterward for transitions from temporary to permanent (Temp to Perm) and permanent to temporary (Perm to Temp).  The main interpretation is that transitions from permanent into temporary contracts remain less positive over time than transition from temporary into permanent contracts, but not negative (except Italy).}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}
-    \caption{Effect of event on wages at point in time}
+    \caption{Estimated effect of transitions out of unemployment by contract type on wages at point in time from the AFE model \ref{eq:model_afe_unmp}}
     \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_multiple_events_unmp_better_paper.pdf}}
     \label{graph_unmp}
+    \footnotesize{Note: Authors calculations using sample A in country-specific panel data, where all individuals are employed in either a temporary or permanent contract.  Within each country cell, the graph displays two parameter estimates from the asymmetric fixed effects (AFE) model \ref{eq:model_afe_unmp}: transitions from unemployment to permanent (U to P) and unemployment to temporary (U to T).  The main interpretation is that, with the exception of Italy and Germany (to a lesser degree), there is little difference in the wage effects of transitions out of unemployment into permanent or temporary contracts.}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}
-    \caption{Graphical effect of event on wages over time}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_multiple_events_unmp_post_better_paper.pdf}}
+    \caption{Estimated effect of transitions out of unemployment by contract type on wages over time from the AFE model \ref{eq:model_afe_unmp}}
+    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_multiple_events_unmp_post_free_scale.pdf}}
     \label{graph_unmp_post}
+    \footnotesize{Note: Authors calculations using sample A in country-specific panel data, where all individuals are employed in either a temporary or permanent contract.  The graph displays parameter estimates in the periods including and after transitions from temporary to permanent (Unmp to Perm) and permanent to temporary (Unmp to Temp) from the asymmetric fixed effects (AFE) model \ref{eq:model_afe_unmp}.  With the exception of Italy and Germany, differences in wage effects over time following transitions out of unemployment between remain insignificant.}
 \end{sidewaysfigure}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-%APPENDIX
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\clearpage
-\appendix
-\setcounter{table}{0}
-\setcounter{figure}{0}
-\renewcommand*\thetable{\Alph{section}.\arabic{table}}
-\renewcommand*\thefigure{\Alph{section}.\arabic{figure}}
-\renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
-\renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
-
-\section{Appendix: Results sensitivity}\label{sec:sensitivity}
-
-\begin{sidewaysfigure}[!h]
-    \caption{Australia: All temporary (incl. casual) vs. FTC only (as in the paper)}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_AU_paper.pdf}}
-    \label{graph_sensitivity_AU}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}
-    \caption{United Kingdom: All temporary (as in the paper) vs. FTC only}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_UK_paper.pdf}}
-    \label{graph_sensitivity_UK}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}
-    \caption{Netherlands: LSP (as in the paper) vs. LISS}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_NE_paper.pdf}}
-    \label{graph_sensitivity_NE}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}
-    \caption{Methods: FE + IF (as in the paper) vs. FEIS + IF}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_compare_model_feis_paper.pdf}}
-    \label{graph_compare_model_feis}
-\end{sidewaysfigure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\setcounter{table}{0}
-\setcounter{figure}{0}
-\renewcommand*\thetable{\Alph{section}.\arabic{table}}
-\renewcommand*\thefigure{\Alph{section}.\arabic{figure}}
-\renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
-\renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
-
-\section{Appendix: Results heterogeneity}\label{sec:heterogeneity}
-
-\begin{sidewaysfigure}[!h]
-    \caption{Figures \ref{graph_contyp_post} and \ref{graph_unmp_post}, by age category}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_post_event_age_cat.pdf}}
-    \label{graph_post_event_age_cat}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}[!h]
-    \caption{Figures \ref{graph_contyp_post} and \ref{graph_unmp_post}, by education category}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_post_event_edu_cat.pdf}}
-    \label{graph_post_event_edu_cat}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}[!h]
-    \caption{Figures \ref{graph_contyp_post} and \ref{graph_unmp_post}, by gender}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_post_event_gender.pdf}}
-    \label{graph_post_event_gender}
-\end{sidewaysfigure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\section{Appendix: Multiple events}\label{sec:multiple}
-\setcounter{figure}{0}    
-\setcounter{table}{0}    
-\renewcommand*\thetable{\Alph{section}.\arabic{table}}
-\renewcommand*\thefigure{\Alph{section}.\arabic{figure}}
-\renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
-\renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
-
-As shown in figure \ref{graph_compare_transformed}, let us imagine employment status for one individual in 6 periods of time looks like this (wages): T (50) $\rightarrow$ P (90) $\rightarrow$T (110) $\rightarrow$ P (130) $\rightarrow$ T (140) $\rightarrow$ T (150).  In this case, we may observe four distinct events T $\rightarrow$ P ($\times 2$), and P $\rightarrow$ T ($\times 2$).  In order to model each of the four distinct events, we must transform the data from person, year data into person, event, year data.
-
-The steps are as follows.  First, for each individual, filter one row per individual, transition at the year which the transition occurs ($t_0$).  The result is four rows, one for each event.  Second, create two variables, one to identify each individual, transition ($transeq$) and a second variable for time ($eventtime$), which is 0.  Third, we create a new data frame by selecting only four variables: $pid$, $year$, $transseq$ and $eventtime$.  For each individual, transition ($transseq$), we append rows for $eventtime$ four years before and six years after the transition.  Finally, we merge the new data frame with the original data frame and create a new identifier for each individual, transition sequence ($pidseq$).   
-
-The result is a new data frame with 24 rows: six observations per transition.  The transformed data do not alter the findings obtained by applying FE and FEIS models to untransformed data, as shown in table \ref{table_compare_transformed}.  
-
-\begin{table}[!h]
-    \caption{Simulation: Single individual with multiple events}
-    \centering
-    \resizebox{\textwidth}{!}{\input{../support_files/simulation/tables/table_compare_transformed_data_paper.tex}}
-    \label{table_compare_transformed}
-\end{table}
-
-\begin{sidewaysfigure}[!h]
-    \caption{Simulation: Single individual with multiple events}
-    \resizebox{\textwidth}{!}{\includegraphics{../support_files/simulation/graphs/graph_compare_transformed_data_paper.pdf}}
-    \label{graph_compare_transformed}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}[!h]
-    \caption{Compare single vs. multiple events}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_single_multiple_events_paper.pdf}}
-    \label{graph_sensitivity_single_multiple_events}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}[!h]
-    \caption{How many individuals experience multiple events?}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_country_events_multiple_presentation_num_paper.pdf}}
-    \label{graph_country_events_multiple_presentation_num_paper}
-\end{sidewaysfigure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\section{Appendix: Sample selection}\label{sec:sample_selection}
-\setcounter{figure}{0}    
-\setcounter{table}{0}    
-\renewcommand*\thetable{\Alph{section}.\arabic{table}}
-\renewcommand*\thefigure{\Alph{section}.\arabic{figure}}
-\renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
-\renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
-
-In this appendix, we provide more detail about the sample selection criteria.  Table \ref{table_sample_filter_steps} in the paper details the sample selection criteria, which reduces the sample size by over 50\% in a given country.  Table \ref{table_sample_filter_steps_country} splits table \ref{table_sample_filter_steps} for country.  Table \ref{table_sample_unmp_steps_contyp} specifies why the number of transitions from unemployment to temporary or permanent employment are so small.  The answer is that only about half of individuals who experience unemployment, exit unemployment, and only about a quarter of those who exit are observable as employed within 5 years after the transition (i.e. 3 periods of observation).  More generally, despite sample selection criteria, sample A and B provide similar estimates in a given country, year of average income (LN), unemployment rate, and temporary employment rate as the World Bank  or OECD.  Therefore, the sample are representative of the broader population in a given country.
-
-\begin{sidewaystable}[!h]
-    \caption{Sample filter steps from table \ref{table_sample_filter_steps}, by country}
-    \centering
-    \resizebox{\textwidth}{!}{\input{../tables/descriptives_table_steps_country.tex}}
-    \label{table_sample_filter_steps_country}
-\end{sidewaystable}
-
-\begin{sidewaystable}[!h]
-    \caption{Why are the number of unemployment exits so small?}
-    \centering
-    \resizebox{\textwidth}{!}{\input{../tables/descriptives_unmp_steps_contyp.tex}}
-    \label{table_sample_unmp_steps_contyp}
-\end{sidewaystable}
-
-
-
-\begin{sidewaysfigure}[!h]
-    \caption{Compare annual average income (LN) from sample to OECD}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_income_better_paper.pdf}}
-    \label{graph_descriptives_income_better_paper.pdf}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}[!h]
-    \caption{Compare unemployment rate from sample to World Bank}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_unmp_paper.pdf}}
-    \label{graph_descriptives_unmp_paper}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}[!h]
-    \caption{Compare temporary employment rate from sample to OECD}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_temp_paper.pdf}}
-    \label{graph_descriptives_temp_paper}
-\end{sidewaysfigure}
-
-\end{document}
-

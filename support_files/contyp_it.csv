@@ -1,0 +1,5 @@
+"emp_status","contyp","Freq","total","pct","country"
+"NA Missing","00 Missing",9035,48338,0.186912987711531,"Italy (contratt)"
+"01 Permanent","01 Permanent",34307,48338,0.709731474202491,"Italy (contratt)"
+"02 Temporary","02 Fixed-term",4542,48338,0.0939633414704787,"Italy (contratt)"
+"02 Temporary","03 Temporary",454,48338,0.00939219661549919,"Italy (contratt)"

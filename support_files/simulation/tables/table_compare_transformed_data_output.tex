@@ -1,0 +1,18 @@
+
+\begin{tabular}{l c c c c c c c}
+\toprule
+ & \multicolumn{2}{c}{FE} & \multicolumn{2}{c}{FEIS} & \multicolumn{3}{c}{FE + IF} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-8}
+ & Original & Transformed & Original & Transformed & First & First & Multiple \\
+\midrule
+Temp                     & $2.50$ & $2.50^{***}$ & $-12.39$ & $-12.39^{***}$ &         &         &             \\
+                         & $$     & $(0.00)$     & $()$     & $(0.00)$       &         &         &             \\
+Event: T $\rightarrow$ P &        &              &          &                & $40.00$ &         & $30.00^{*}$ \\
+                         &        &              &          &                & $()$    &         & $(12.38)$   \\
+Event: P $\rightarrow$ T &        &              &          &                &         & $20.00$ & $15.00^{*}$ \\
+                         &        &              &          &                &         & $()$    & $(6.19)$    \\
+\midrule
+Num. obs.                & $6$    & $24$         & $6$      & $24$           & $6$     & $6$     & $24$        \\
+\bottomrule
+\multicolumn{8}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$. Note: In FE + IF, pre and post event coefficients are not shown.}}
+\end{tabular}

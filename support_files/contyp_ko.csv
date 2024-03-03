@@ -1,0 +1,5 @@
+"emp_status","contyp","Freq","total","pct","country"
+"NA Missing","00 Missing",11,74020,0.000148608484193461,"Korea (0501)"
+"02 Temporary","01 Permanent",5032,74020,0.0679816265874088,"Korea (0501)"
+"01 Permanent","02 Temporary",68574,74020,0.926425290462037,"Korea (0501)"
+"NA Missing","03 Dont know",403,74020,0.00544447446636044,"Korea (0501)"

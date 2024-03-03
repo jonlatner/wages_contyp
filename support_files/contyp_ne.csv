@@ -1,0 +1,5 @@
+"emp_status","contyp","Freq","total","pct","country"
+"01 Permanent","01 Permanent employment",17034,19514,0.872911755662601,"Netherlands (eb002)"
+"02 Temporary","02 Temporary contract with prospect of permanent employment",1246,19514,0.0638515937275802,"Netherlands (eb002)"
+"02 Temporary","03 Temporary contract",882,19514,0.0451983191554781,"Netherlands (eb002)"
+"NA Missing","04 Other",349,19514,0.0178845956749001,"Netherlands (eb002)"

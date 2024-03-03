@@ -1,0 +1,5 @@
+"lfp","emp","Freq","total","pct","country"
+"02 Unemployed","0 Unemployed",1271,96691,0.0131449669565937,"Switzerland (wstat)"
+"01 Active occupied","1 Employed",63775,96691,0.6595753482744,"Switzerland (wstat)"
+"03 Not in labour force","Not in labour force",6646,96691,0.0687344220248007,"Switzerland (wstat)"
+"NA Missing","Not in labour force",24999,96691,0.258545262744206,"Switzerland (wstat)"

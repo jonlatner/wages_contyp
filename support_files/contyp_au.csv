@@ -1,0 +1,5 @@
+"emp_status","contyp","Freq","total","pct","country"
+"NA Missing","00 Missing",18152,112936,0.160728200042502,"Australia (jbmcnt)"
+"02 Temporary","01 Employed on a FTC",9483,112936,0.0839679110292555,"Australia (jbmcnt)"
+"02 Temporary","02 Employed on a casual basis",14220,112936,0.125912020967628,"Australia (jbmcnt)"
+"01 Permanent","03 Employed on a permanent or ongoing basis",70833,112936,0.627195933980307,"Australia (jbmcnt)"

@@ -1,0 +1,5 @@
+"emp_status","contyp","Freq","total","pct","country"
+"NA Missing","00 Missing",6111,189866,0.0321858573941622,"Germany (plb0037_h)"
+"01 Permanent","01 Permanent",150618,189866,0.79328579103157,"Germany (plb0037_h)"
+"02 Temporary","02 Temporary",17081,189866,0.0899634479053648,"Germany (plb0037_h)"
+"NA Missing","03 No work contract/self-employed",16056,189866,0.0845649036689033,"Germany (plb0037_h)"

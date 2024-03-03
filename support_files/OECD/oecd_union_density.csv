@@ -1,0 +1,136 @@
+STRUCTURE,STRUCTURE_ID,STRUCTURE_NAME,ACTION,REF_AREA,Reference area,MEASURE,Measure,UNIT_MEASURE,Unit of measure,TIME_PERIOD,Time period,OBS_VALUE,Observation value,OBS_STATUS,Observation status,UNIT_MULT,Unit multiplier,DECIMALS,Decimals
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2000,,34.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2001,,34.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2002,,33.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2003,,33.599998,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2004,,34,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2005,,33.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2006,,33.599998,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2007,,34,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2008,,33.900002,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2009,,34.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2010,,35.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2011,,35.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2012,,35.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2013,,35.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2014,,35.400002,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2015,,34.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2016,,33.599998,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2017,,33.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2018,,32.599998,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,ITA,Italy,TUD,Trade union density,PT_SAL,Percentage of employees,2019,,32.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2000,,24.9,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2001,,24.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2002,,23.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2003,,23.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2004,,22.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2005,,22.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2006,,20.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2007,,18.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2008,,18.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2009,,19.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2010,,18.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2011,,18.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2012,,18.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2013,,17,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2014,,15.1,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2016,,14.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,AUS,Australia,TUD,Trade union density,PT_SAL,Percentage of employees,2018,,13.7,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2000,,21.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2001,,20.9,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2002,,20.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2003,,19.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2004,,19.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2005,,18.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2006,,18.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2007,,18.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2008,,18.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2009,,18.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2010,,18.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2011,,19,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2012,,18,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2013,,17.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2014,,17.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2015,,17.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2016,,17.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2017,,17.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2018,,17,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,JPN,Japan,TUD,Trade union density,PT_SAL,Percentage of employees,2019,,16.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2000,,24.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2001,,23.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2002,,23.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2003,,23,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2004,,22.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2005,,21.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2006,,20.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2007,,19.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2008,,19,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2009,,18.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2010,,18.9,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2011,,18.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2012,,18.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2013,,18,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2014,,17.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2015,,17.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2016,,17,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2017,,16.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2018,,16.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,DEU,Germany,TUD,Trade union density,PT_SAL,Percentage of employees,2019,,16.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2000,,11.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2001,,11.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2002,,11.3,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2003,,10.7,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2004,,10.3,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2005,,9.8999996,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2006,,10,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2007,,10.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2008,,10.2,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2009,,9.8999996,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2010,,9.6000004,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2011,,9.8000002,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2012,,9.8999996,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2013,,10.1,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2014,,10.1,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2015,,10,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2016,,10,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2017,,10.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,KOR,Korea,TUD,Trade union density,PT_SAL,Percentage of employees,2018,,11.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2000,,20.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2001,,20.200001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2002,,20.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2003,,20.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2004,,19.9,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2005,,19.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2006,,19.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2007,,18.9,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2008,,17.9,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2009,,17.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2010,,17.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2011,,17,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2012,,16.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2013,,16.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2014,,16.1,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2015,,15.7,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2016,,15.3,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2017,,14.9,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,CHE,Switzerland,TUD,Trade union density,PT_SAL,Percentage of employees,2018,,14.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2000,,29.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2001,,29.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2002,,28.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2003,,29.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2004,,28.799999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2005,,28.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2006,,28.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2007,,28,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2008,,27.5,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2009,,27.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2010,,26.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2011,,26,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2012,,26.1,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2013,,25.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2014,,25,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2015,,24.700001,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2016,,23.6,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2017,,23.299999,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2018,,23.4,,A,Normal value,0,Units,1,One
+DATAFLOW,OECD.ELS.SAE:DSD_TUD_CBC@DF_TUD(1.0),Trade union density,I,GBR,United Kingdom,TUD,Trade union density,PT_SAL,Percentage of employees,2019,,23.5,,A,Normal value,0,Units,1,One
