@@ -139,7 +139,7 @@ t = data.frame(with(df_descriptives, table(lfp,emp,useNA = "ifany"))) %>%
   filter(pct>.01)
 t
 
-write.csv(t, file = paste0(support_files, "emp_status_ko.csv"), row.names = FALSE)
+write.csv(t, file = paste0(support_files, "descriptives/emp_status_ko.csv"), row.names = FALSE)
 
 
 # Contract type, conditional on employed
@@ -175,7 +175,7 @@ t = data.frame(with(df_descriptives, table(emp_status,contyp,useNA = "ifany"))) 
          country = "Korea (0501)") 
 t
 
-write.csv(t, file = paste0(support_files, "contyp_ko.csv"), row.names = FALSE)
+write.csv(t, file = paste0(support_files, "descriptives/contyp_ko.csv"), row.names = FALSE)
 
 # Education
 df_descriptives <- df_ko %>%
@@ -216,7 +216,7 @@ t = data.frame(with(df_descriptives, table(edu,edu_cat,useNA = "ifany"))) %>%
   filter(pct>.01) 
 t
 
-write.csv(t, file = paste0(support_files, "edu_ko.csv"), row.names = FALSE)
+write.csv(t, file = paste0(support_files, "descriptives/edu_ko.csv"), row.names = FALSE)
 
 # Sample creation ----
 

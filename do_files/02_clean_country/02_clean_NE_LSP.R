@@ -122,7 +122,7 @@ t = data.frame(with(df_nescriptives, table(lfp,emp,useNA = "ifany"))) %>%
   filter(pct>.01)
 t
 
-write.csv(t, file = paste0(support_files, "emp_status_ne.csv"), row.names = FALSE)
+write.csv(t, file = paste0(support_files, "descriptives/emp_status_ne.csv"), row.names = FALSE)
 
 
 # Contract type, conditional on employed
@@ -157,7 +157,7 @@ t = data.frame(with(df_nescriptives, table(emp_status,contyp))) %>%
   filter(pct>.01)
 t
 
-write.csv(t, file = paste0(support_files, "contyp_ne.csv"), row.names = FALSE)
+write.csv(t, file = paste0(support_files, "descriptives/contyp_ne.csv"), row.names = FALSE)
 
 # Education
 df_nescriptives <- df_ne %>%
@@ -193,7 +193,7 @@ t = data.frame(with(df_nescriptives, table(edu,edu_cat))) %>%
   filter(pct>.01) 
 t
 
-write.csv(t, file = paste0(support_files, "edu_ne.csv"), row.names = FALSE)
+write.csv(t, file = paste0(support_files, "descriptives/edu_ne.csv"), row.names = FALSE)
 
 # save ----
 

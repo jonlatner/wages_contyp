@@ -152,7 +152,7 @@ t = data.frame(with(df_descriptives, table(lfp,emp))) %>%
   filter(pct>.01) 
 t
 
-write.csv(t, file = paste0(support_files, "emp_status_au.csv"), row.names = FALSE)
+write.csv(t, file = paste0(support_files, "descriptives/emp_status_au.csv"), row.names = FALSE)
 
 # Contract type, conditional on employed
 df_descriptives <- df_au %>%
@@ -187,7 +187,7 @@ t = data.frame(with(df_descriptives, table(emp_status,contyp))) %>%
   filter(pct>.01)
 t
 
-write.csv(t, file = paste0(support_files, "contyp_au.csv"), row.names = FALSE)
+write.csv(t, file = paste0(support_files, "descriptives/contyp_au.csv"), row.names = FALSE)
 
 # Education
 df_descriptives <- df_au %>%
@@ -223,7 +223,7 @@ t = data.frame(with(df_descriptives, table(edu,edu_cat))) %>%
   filter(pct>.01) 
 t
 
-write.csv(t, file = paste0(support_files, "edu_au.csv"), row.names = FALSE)
+write.csv(t, file = paste0(support_files, "descriptives/edu_au.csv"), row.names = FALSE)
 
 # save ----
 
