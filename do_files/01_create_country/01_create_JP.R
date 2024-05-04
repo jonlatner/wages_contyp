@@ -10,10 +10,10 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
-raw_data = "data_files/JP_JHPS_KHPS/raw_data/"
+raw_data = "data_files/JP/raw_data/"
 data_files = "data_files/JP/"
 
 # LIBRARY

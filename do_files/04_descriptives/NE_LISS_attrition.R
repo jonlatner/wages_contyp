@@ -11,7 +11,7 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
 data_files = "data_files/"
@@ -33,13 +33,13 @@ options(scipen = 999) # disable scientific notation
 df_filter_01 <- readRDS(file = paste0(data_files,"3a_df_filter_steps.rds"))
 
 df_filter_01 <- df_filter_01 %>%
-        filter(country=="NE-LISS")
+        filter(country=="NE-LISS" | country == "NE-LSP")
 
-df_event_data_01 <- readRDS(paste0(data_files,"03d_df_sample_cleaned_prepared_first_event_data.rds"))
+df_event_data_01 <- readRDS(paste0(data_files,"03c_df_sample_cleaned_prepared_multiple_events_data.rds"))
 df_event_data_01 <- df_event_data_01 %>%
-        filter(country=="NE-LISS")
+        filter(country=="NE-LISS" | country == "NE-LSP")
 
-step_8 <- df_event_data_01 %>%
+step_9 <- df_event_data_01 %>%
         select(country,pid) %>%
         group_by(country,pid) %>%
         slice(1) %>%
@@ -47,9 +47,9 @@ step_8 <- df_event_data_01 %>%
         group_by(country) %>%
         summarise(count = sum(n())) %>%
         ungroup()
-step_8$step <- 8
+step_9$step <- 9
 
-step_9 <- df_event_data_01 %>%
+step_10 <- df_event_data_01 %>%
         filter(unmp==0) %>%
         select(country,pid) %>%
         group_by(country,pid) %>%
@@ -60,9 +60,10 @@ step_9 <- df_event_data_01 %>%
         group_by(country) %>%
         summarise(count = sum(n())) %>%
         ungroup()
-step_9$step <- 9
+step_10$step <- 10
 
-df_filter_02 <- rbind(df_filter_01,step_8,step_9)
+df_filter_02 <- rbind(df_filter_01,step_9,step_10)
+df_filter_02
 
 # clean data -----
 
@@ -214,8 +215,6 @@ df_event_data_02 <- rbind(df_event_u_p,df_event_u_t,df_event_t_p,df_event_p_t)
 df_event_data_02 <- df_event_data_02 %>%
         mutate(obs_diff = paste0(round(obs_diff*100,0),"\\%"))
 
-df_event_data_02$country_name <- recode(df_event_data_02$country, "'AU'='Australia'; 'CH'='Switzerland'; 'DE'='Germany'; 'IT'='Italy'; 'JP'='Japan'; 'KO'='Korea'; 'NE'='Netherlands'; 'UK'='United Kingdom'; 'Total'='Total' ")
-
 df_event_data_03 <- df_event_data_02 %>%
         mutate(notes = ifelse(step == "A", yes = "Temp $\\rightarrow$ perm",
                               ifelse(step == "B", yes = "Perm $\\rightarrow$ temp",
@@ -227,9 +226,11 @@ df_event_data_03 <- df_event_data_02 %>%
                                     ifelse(step == "C", yes = "A",
                                            ifelse(step == "D", yes = "A", no = step)))))
 
+df_event_data_03$country_name <- df_event_data_03$country
+
 # Clean/summarize data ----
 
-df_filter_02$country_name <- recode(df_filter_02$country, "'AU'='Australia'; 'CH'='Switzerland'; 'DE'='Germany'; 'IT'='Italy'; 'JP'='Japan'; 'KO'='Korea'; 'NE'='Netherlands'; 'UK'='United Kingdom'")
+df_filter_02$country_name <- df_filter_02$country
 
 df_filter_country <- df_filter_02 %>%
         group_by(country,step) %>%
@@ -264,51 +265,41 @@ df_filter_04 <- df_filter_03 %>%
         ungroup()
 
 df_filter_05 <- df_filter_04 %>%
-        mutate(notes = ifelse(step == 0, yes = "Raw data",
-                              ifelse(step == 1, yes = "Panel years between 2000 and 2018",
-                                     ifelse(step == 2, yes = "Labour force participant",
-                                            ifelse(step == 3, yes = "Prime age (25 - 54)",
-                                                   ifelse(step == 4, yes = "Unemployed or employed with contract type",
-                                                          ifelse(step == 5, yes = "Unemployed or employed with monthly hours $>= 1$",
-                                                                 ifelse(step == 6, yes = "Non missing education or gender",
-                                                                        ifelse(step == 7, yes = "Drop observations with hourly wages in the top/bottom 0.005 percentile",
-                                                                               ifelse(step == 8, yes = "Data set A: Must be observable at least 3 times",
-                                                                                      ifelse(step == 9, yes = "Data set B: + employed at least 3 times",
-                                                                                             no = NA)))))))))))
-df_filter_05
+  mutate(notes = ifelse(step == 0, yes = "Raw data",
+                        ifelse(step == 1, yes = "Panel years between 2000 and 2018",
+                               ifelse(step == 2, yes = "Prime age (25 - 54)",
+                                      ifelse(step == 3, yes = "Labour force participant (employed or unemployed)",
+                                             ifelse(step == 4, yes = "Unemployed or employed with contract type",
+                                                    ifelse(step == 5, yes = "Unemployed or employed with wages",
+                                                           ifelse(step == 6, yes = "Unemployed or employed with monthly hours between 40 and 320",
+                                                                  ifelse(step == 7, yes = "Non missing education or gender",
+                                                                         ifelse(step == 8, yes = "Hourly wages within the top/bottom 0.005 percentile",
+                                                                                ifelse(step == 9, yes = "Sample A: At least 3 observations",
+                                                                                       ifelse(step == 10, yes = "Sample B: + always employed",
+                                                                                              ifelse(step == "A", yes = "Temp $\\rightarrow$ perm",
+                                                                                                     ifelse(step == "B", yes = "Perm $\\rightarrow$ temp",
+                                                                                                                          no = NA))))))))))))))
 
 # Reshape data ----
 
 df_filter_wide <- df_filter_05 %>%
+  filter(country_name!="Total") %>%
         pivot_wider(names_from = country_name, values_from = c("total","obs_diff"))
 df_filter_wide <- df_filter_wide %>%
         select(step, notes, 
-               matches("_Total"),
-               matches("Australia"), 
-               matches("Germany"), 
-               matches("Italy"), 
-               matches("Japan"), 
-               matches("Korea"), 
-               matches("Netherlands"),
-               matches("Switzerland"),
-               matches("United Kingdom"),
+               matches("NE-LSP"), 
+               matches("NE-LISS"), 
         )
 df_filter_wide
 
 df_events_data_wide <- df_event_data_03 %>%
-        select(-country) %>%
-        pivot_wider(names_from = country_name, values_from = c("total","obs_diff","total"))
+  filter(country_name!="Total") %>%
+  select(-country) %>%
+        pivot_wider(names_from = country_name, values_from = c("total","obs_diff"))
 df_events_data_wide <- df_events_data_wide %>%
         select(step, notes,
-               matches("_Total"),
-               matches("Australia"), 
-               matches("Germany"), 
-               matches("Italy"), 
-               matches("Japan"), 
-               matches("Korea"), 
-               matches("Netherlands"),
-               matches("Switzerland"),
-               matches("United Kingdom"),
+               matches("NE-LSP"), 
+               matches("NE-LISS"), 
         )
 df_events_data_wide
 
@@ -322,30 +313,16 @@ df_table
 # VARIABLE LABLES
 
 columns_header_top <- c("[-1.8ex]
-\\multicolumn{14}{l}{{\\bf Panel A:} Sample selection criteria} \\\\ \n
+\\multicolumn{6}{l}{{\\bf Panel A:} Sample selection criteria} \\\\ \n
 &  & 
-\\multicolumn{2}{l}{Total (all countries)} &
-\\multicolumn{2}{l}{Australia} &
-\\multicolumn{2}{l}{Germany} &
-\\multicolumn{2}{l}{Italy} &
-\\multicolumn{2}{l}{Japan} &
-\\multicolumn{2}{l}{Korea} &
-\\multicolumn{2}{l}{Netherlands} &
-\\multicolumn{2}{l}{Switzerland} &
-\\multicolumn{2}{l}{United Kingdom}
+\\multicolumn{2}{l}{NE - LSP} &
+\\multicolumn{2}{l}{NE - LISS}
 \\\\  \n 
 ")
 
 columns_header_mid <- c("
 \\cmidrule(lr){3-4}
 \\cmidrule(lr){5-6}
-\\cmidrule(lr){7-8}
-\\cmidrule(lr){9-10}
-\\cmidrule(lr){11-12}
-\\cmidrule(lr){13-14}
-\\cmidrule(lr){15-16}
-\\cmidrule(lr){17-18}
-\\cmidrule(lr){19-20}
 \\\\[-1.8ex]  \n 
 ")
 
@@ -354,68 +331,37 @@ columns_header_bot_1 <- c("
 \\multicolumn{1}{l}{Description} 
 & n & $\\Delta$
 & n & $\\Delta$
-& n & $\\Delta$
-& n & $\\Delta$
-& n & $\\Delta$
-& n & $\\Delta$
-& n & $\\Delta$
-& n & $\\Delta$
-& n & $\\Delta$
 \\\\ 
 \\cmidrule(lr){1-2}
 \\cmidrule(lr){3-4}
 \\cmidrule(lr){5-6}
-\\cmidrule(lr){7-8}
-\\cmidrule(lr){9-10}
-\\cmidrule(lr){11-12}
-\\cmidrule(lr){13-14}
-\\cmidrule(lr){15-16}
-\\cmidrule(lr){17-18}
-\\cmidrule(lr){19-20}
 \\\\[-1.8ex]  \n 
 ")
 
 columns_header_bot_2 <- c("
 \\hline \\\\[-1.8ex]  \n 
-\\multicolumn{14}{l}{{\\bf Panel B:} Data sets by event type (if treated, must be employed after treatment)} \\\\ \n
+\\multicolumn{6}{l}{{\\bf Panel B:} Data sets by event type (if treated, must be employed after treatment)} \\\\ \n
 & 
 & \\# & \\%
 & \\# & \\%
-& \\# & \\%
-& \\# & \\%
-& \\# & \\%
-& \\# & \\%
-& \\# & \\%
-& \\# & \\%
-& \\# & \\%
 \\\\ 
-\\cmidrule(lr){1-2}
 \\cmidrule(lr){3-4}
 \\cmidrule(lr){5-6}
-\\cmidrule(lr){7-8}
-\\cmidrule(lr){9-10}
-\\cmidrule(lr){11-12}
-\\cmidrule(lr){13-14}
-\\cmidrule(lr){15-16}
-\\cmidrule(lr){17-18}
-\\cmidrule(lr){19-20}
 \\\\[-1.8ex]  \n 
 ")
 
-hline_top <- ("\\\\[-1.8ex]\\hline\\hline \\\\ \n")
-hline_bot <- c("\\hline \\\\[-1.8ex] \\multicolumn{20}{p{12in}}{Note: n - is unique observations.  $\\Delta$ - is difference in n from previous step.  \\# - is number treated.  \\% - is percent treated.} \n")
+hline_top <- ("\\toprule \n")
+hline_bot <- c("\\bottomrule \\\\[-1.8ex] \\multicolumn{6}{p{7in}}{Notes: In Panel A: n - is unique observations and $\\Delta$ - is difference in n from previous step.  In Panel B: \\# - is unique n who experienced at least 1 event and \\% - is percent who experienced an event.} \n")
 
 t <- xtable(df_table, digits = 0)
 
-align(t) <- c("l", "l",
-              ">{\\raggedright\\arraybackslash}p{2in}", # notes
-              "l", "l", "l", "l", "l", "l", "l", "l", "l",
-              "l", "l", "l", "l", "l", "l", "l", "l", "l"
+align(t) <- c("l", "l", "l",
+              "l", "l", "l", "l"
 ) 
 
 print(t, 
       sanitize.colnames.function = identity, 
-      file = paste0(tables,"descriptives_table_steps_country.tex"),
+      file = paste0(tables,"descriptives_table_steps_country_NE.tex"),
       include.rownames = FALSE, 
       include.colnames = FALSE,
       sanitize.text.function = identity,
@@ -423,7 +369,7 @@ print(t,
       format.args = list(big.mark = ",", decimal.mark = "."),
       hline.after = NULL,
       add.to.row = list(
-              pos = list(0,0,0,10,14),
+              pos = list(0,0,0,11,15),
               command = c(hline_top,
                           columns_header_top,
                           columns_header_bot_1,

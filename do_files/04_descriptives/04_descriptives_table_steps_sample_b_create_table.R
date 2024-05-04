@@ -11,7 +11,7 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
 data_files = "data_files/"
@@ -30,14 +30,24 @@ options(scipen = 999) # disable scientific notation
 
 df_append <- readRDS(file = paste0(data_files,"04_df_descriptives_table_steps_sample.rds"))
 
-df_append$notes
-
-df_append$notes[4] = "Labour force participant (employed or unemployed)"
-# df_append$notes[6] = "Top/bottom code hourly wages"
-df_append$notes[7] = "Sample A: At least 3 observations"
-df_append$notes[8] = "Sample B: + always employed"
-
-df_append$notes
+df_append <- df_append %>%
+  mutate(notes = ifelse(step == 0, yes = "Raw data",
+                        ifelse(step == 1, yes = "Panel years between 2000 and 2018",
+                               ifelse(step == 2, yes = "Prime age (25 - 54)",
+                                      ifelse(step == 3, yes = "Labour force participant (employed or unemployed)",
+                                             ifelse(step == 4, yes = "Unemployed or employed with contract type",
+                                                    ifelse(step == 5, yes = "Unemployed or employed with wages",
+                                                           ifelse(step == 6, yes = "Unemployed or employed with monthly hours between 40 and 320",
+                                                                  ifelse(step == 7, yes = "Non missing education or gender",
+                                                                         ifelse(step == 8, yes = "Hourly wages within the top/bottom 0.005 percentile",
+                                                                                ifelse(step == 9, yes = "Sample A: At least 3 observations",
+                                                                                       ifelse(step == 10, yes = "Sample B: + always employed",
+                                                                                              ifelse(step == "A", yes = "Temp $\\rightarrow$ perm",
+                                                                                                     ifelse(step == "B", yes = "Perm $\\rightarrow$ temp",
+                                                                                                            ifelse(step == "C", yes = "Unmp $\\rightarrow$ perm",
+                                                                                                                   ifelse(step == "D", yes = "Unmp $\\rightarrow$ temp",
+                                                                                       no = NA)))))))))))))))) %>%
+  select(step, notes, everything())
 
 # Table, by country -----------------------------------------
 
@@ -47,9 +57,6 @@ df_table
 # VARIABLE LABLES
 
 columns_header_top <- c("
-\\multicolumn{14}{l}{{\\bf Panel A:} Sample selection criteria} \\\\ \n
-&  & 
-\\multicolumn{2}{l}{Total (all countries)} &
 \\multicolumn{2}{l}{Australia} &
 \\multicolumn{2}{l}{Germany} &
 \\multicolumn{2}{l}{Italy} &
@@ -127,8 +134,8 @@ columns_header_bot_2 <- c("
 \\\\[-1.8ex]  \n 
 ")
 
-hline_top <- ("\\toprule \n")
-hline_bot <- c("\\bottomrule \\\\[-1.8ex] \\multicolumn{20}{p{12in}}{Note: n - is unique observations.  $\\Delta$ - is difference in n from previous step.  \\# - is unique n who experienced at least 1 event.  \\% - is percent who experienced an event.} \n")
+hline_top <- c("\\toprule \n")
+hline_bot <- c("\\bottomrule \\\\[-1.8ex] \\multicolumn{20}{p{14in}}{Notes: In Panel A: n - is unique observations and $\\Delta$ - is difference in n from previous step.  In Panel B: \\# - is unique n who experienced at least 1 event and \\% - is percent who experienced an event.} \n")
 
 t <- xtable(df_table, digits = 0)
 
@@ -148,7 +155,7 @@ print(t,
       format.args = list(big.mark = ",", decimal.mark = "."),
       hline.after = NULL,
       add.to.row = list(
-        pos = list(0,0,0,8,12),
+        pos = list(0,0,0,11,15),
         command = c(hline_top,
                     columns_header_top,
                     columns_header_bot_1,
@@ -159,12 +166,12 @@ print(t,
 
 t
 
-beep()
 
 # Table, only panel A -----------------------------------------
 
 t_a <- t %>%
-  filter(row_number()<9)
+  filter(row_number()<12)
+t_a
 
 columns_header_top <- c("
 &  & 
@@ -192,7 +199,7 @@ print(t_a,
       format.args = list(big.mark = ",", decimal.mark = "."),
       hline.after = NULL,
       add.to.row = list(
-        pos = list(0,0,0,8),
+        pos = list(0,0,0,10),
         command = c(hline_top,
                     columns_header_top,
                     columns_header_bot_1,
@@ -203,10 +210,11 @@ print(t_a,
 t_a
 
 
-# Table, only panel A -----------------------------------------
+# Table, only panel b -----------------------------------------
 
 t_b <- t %>%
-  filter(row_number()>8)
+  filter(row_number()>11)
+t_b
 
 columns_header_bot_1 <- c("
 \\multicolumn{1}{l}{Data set} & 
@@ -292,7 +300,7 @@ columns_header_top <- c("
 ")
 
 columns_header_mid <- c("
-\\cmidrule(lr){3-4}
+\\cmidrule(lr){2-3}
 \\\\[-1.8ex]  \n 
 ")
 
@@ -318,7 +326,7 @@ columns_header_bot_2 <- c("
 ")
 
 hline_top <- ("\\toprule \n")
-hline_bot <- c("\\bottomrule \\\\[-1.8ex] \\multicolumn{4}{p{6in}}{Note: n - is unique observations.  $\\Delta$ - is difference in n from previous step.  \\# - is unique n who experienced at least 1 event.  \\% - is percent who experienced an event.} \n")
+hline_bot <- c("\\bottomrule \\\\[-1.8ex] \\multicolumn{4}{p{6in}}{Notes: In Panel A: n - is unique observations and $\\Delta$ - is difference in n from previous step.  In Panel B: \\# - is unique n who experienced at least 1 event and \\% - is percent who experienced an event.} \n")
 
 t <- xtable(df_table, digits = 0)
 
@@ -337,8 +345,8 @@ print(t,
       format.args = list(big.mark = ",", decimal.mark = "."),
       hline.after = NULL,
       add.to.row = list(
-              pos = list(0,0,0,8,12),
-              command = c(hline_top,
+        pos = list(0,0,0,11,15),
+        command = c(hline_top,
                           columns_header_top,
                           columns_header_bot_1,
                           columns_header_bot_2,
@@ -351,7 +359,7 @@ t
 # Table, total across all countries (presentation) -----------------------------------------
 
 t <- t %>%
-        filter(row_number()<9)
+        filter(row_number()<12)
 
 columns_header_top <- c("
 &  & 
@@ -360,10 +368,14 @@ columns_header_top <- c("
 ")
 
 align(t) <- c("l", "l",
-              "l", # notes
+              ">{\\raggedright\\arraybackslash}p{4in}", # notes
               "l", "l"
 ) 
 
+align(t) <- c("l", "l",
+              "l", # notes
+              "l", "l"
+) 
 
 hline_bot <- c("\\bottomrule \n")
 
@@ -377,7 +389,7 @@ print(t,
       format.argsø = list(big.mark = ",", decimal.mark = "."),
       hline.after = NULL,
       add.to.row = list(
-              pos = list(0,0,0,8),
+              pos = list(0,0,0,11),
               command = c(hline_top,
                           columns_header_top,
                           columns_header_bot_1,
@@ -389,9 +401,10 @@ t
 
 # Table, total across all countries (paper) -----------------------------------------
 
-
 hline_bot <- c("\\bottomrule \\\\[-1.8ex] \n
-               \\multicolumn{4}{p{5.75in}}{Note: Please see Appendix \\ref{sec:sample_selection} for more details on the sample selection criteria, including country specific frequency counts.} \n")
+               \\multicolumn{4}{p{6.5in}}{Notes: n refers to unique individuals. $\\Delta$ refers to percent change from previous step.  Please see Appendix \\ref{sec:sample_selection} for more details on the sample selection criteria, including country specific frequency counts.} \n")
+
+hline_bot <- c("\\bottomrule")
 
 print(t, 
       sanitize.colnames.function = identity, 
@@ -403,7 +416,7 @@ print(t,
       format.args = list(big.mark = ",", decimal.mark = "."),
       hline.after = NULL,
       add.to.row = list(
-        pos = list(0,0,0,8),
+        pos = list(0,0,0,11),
         command = c(hline_top,
                     columns_header_top,
                     columns_header_bot_1,

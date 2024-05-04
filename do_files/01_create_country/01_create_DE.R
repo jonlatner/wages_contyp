@@ -11,9 +11,10 @@ detachAllPackages()
 rm(list=ls(all=TRUE))
 
 # FOLDERS
-setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
+setwd("/Users/jonathanlatner/OneDrive/SECCOPA/")
+# setwd("C:/Users/ba1ks6/OneDrive/")
 
-raw_data = "data_files/DE_SOEP/raw_data/"
+raw_data = "data_files/DE/raw_data/"
 data_files = "data_files/DE/"
 
 # PACKAGES
@@ -27,18 +28,20 @@ options(scipen = 999) # disable scientific notation
 # LOAD DATA --------------------------------------------------------------
 
 # harmonized contract type
-# df_pl <- readRDS(file = paste0(soep_raw_data,"pl.rds"))
+# df_pl <- readRDS(file = paste0(raw_data,"pl.rds"))
 # df_contyp <- select(df_pl, pid, hid, syear, plb0037_h) %>%
 #         rename(contyp = plb0037_h)
-# saveRDS(df_contyp, file = paste0(soep_raw_data, "pl_contyp.rds"))
-df_contyp <- readRDS(file = paste0(soep_raw_data,"pl_contyp.rds"))
+# saveRDS(df_contyp, file = paste0(raw_data, "pl_contyp.rds"))
+df_contyp <- readRDS(file = paste0(raw_data,"pl_contyp.rds"))
 
 # time-invariant control variables
-df_ppfad <- readRDS(file = paste0(soep_raw_data,"ppfad.rds"))
+df_ppfad <- readRDS(file = paste0(raw_data,"ppfad.rds"))
 
 # time-varying control variables
-df_pgen <- readRDS(file = paste0(soep_raw_data,"pgen.rds"))
-df_pequiv <- readRDS(file = paste0(soep_raw_data,"pequiv.rds"))
+df_pgen <- readRDS(file = paste0(raw_data,"pgen.rds"))
+df_pequiv <- readRDS(file = paste0(raw_data,"pequiv.rds"))
+
+
 
 
 # variable lists --------------------------------------------------------------
@@ -47,6 +50,7 @@ df_pequiv <- readRDS(file = paste0(soep_raw_data,"pequiv.rds"))
 varlist_pgen <- c(
         "pid", # Person ID
         "syear", 
+        "pgvebzeit", # Actual weekly working hours
         "pglfs", # labor force status
         "pgisco88", # current occupational classification (ISCO-88 Com)
         "pgsiops88", # Treiman Standard Int Occ Prestige IS88
@@ -74,6 +78,7 @@ df_ppfad <- select(df_ppfad, !! varlist_ppfad) %>%
 df_pgen <- select(df_pgen, !!  varlist_pgen) %>%
         rename(lfs = pglfs,
                occ = pgisco88,
+               hours_weekly = pgvebzeit,
                prestige = pgsiops88,
                edu = pgcasmin,
                empst = pgemplst)

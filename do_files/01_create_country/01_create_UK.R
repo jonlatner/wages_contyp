@@ -11,10 +11,10 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
-raw_data = "data_files/UK_DA/raw_data/"
+raw_data = "data_files/UK/raw_data/"
 data_files = "data_files/UK/"
 
 # LIBRARY
@@ -26,7 +26,7 @@ options(scipen = 999) # disable scientific notation
 
 # Waves --------------------------------------------------------------
 
-waves_table <- read.csv(file = paste0("data/UK_DA/supporting_files/waves.csv"), sep = ";")
+waves_table <- read.csv(file = paste0("data/UK/supporting_files/waves.csv"), sep = ";")
 waves_bhps <- filter(waves_table, survey=="bhps")
 waves_bhps_indresp_0 <- factor(waves_bhps$id)
 waves_bhps <- filter(waves_table, survey=="bhps" & year<1999)

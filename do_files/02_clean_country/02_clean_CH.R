@@ -10,7 +10,7 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
 data_files = "data_files/CH/"
@@ -44,7 +44,7 @@ rm(df_inflation)
 df_ch <- df_ch %>%
         rename(occ = is4maj,
                prestige = tr1maj,
-               hours= pw74,
+               hours= pw77,
                edu = isced,
                pid=idpers) %>%
         arrange(pid,year)

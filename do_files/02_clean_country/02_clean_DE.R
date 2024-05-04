@@ -10,7 +10,7 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
 data_files = "data_files/DE/"
@@ -31,6 +31,14 @@ df_de <- readRDS(paste0(data_files, "covars.rds"))
 df_de <- df_de %>%
         rename(year=syear)
 
+df_de_hours <- df_de %>%
+  select(year,hours) %>%
+  filter(year>=2000) %>%
+  group_by(year) %>%
+  summarise(mean = mean(hours,na.rm = TRUE)) %>%
+  ungroup()
+df_de_hours
+
 # inflation data - world bank
 df_inflation <- read.csv(paste0(support_files, "world_bank/world_bank_cpi.csv"), sep = ",") %>%
         select(year, DE) %>%
@@ -38,7 +46,7 @@ df_inflation <- read.csv(paste0(support_files, "world_bank/world_bank_cpi.csv"),
 
 # Merge data ----
 
-df_de <- merge(df_de,df_inflation)
+df_de <- merge(df_de,df_inflation,by = c("year"))
 rm(df_inflation)
 
 # Employment status ----
@@ -69,6 +77,12 @@ df_de$prestige <- recode(df_de$prestige, "lo:0 = NA")
 # Hours (annual)
 df_de$hours <- recode(df_de$hours, "lo:-.001 = NA")
 describe(df_de$hours)
+
+# Hours (Weekly)
+df_de$hours_weekly <- recode(df_de$hours_weekly, "lo:-.001 = NA")
+df_de$hours_weekly_annual <- df_de$hours_weekly*52
+describe(df_de$hours_weekly)
+describe(df_de$hours_weekly_annual)
 
 # Wages (annual)
 df_de$wages <- recode(df_de$wages, "lo:-.001 = NA")

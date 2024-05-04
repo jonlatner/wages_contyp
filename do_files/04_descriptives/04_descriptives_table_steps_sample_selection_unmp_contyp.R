@@ -11,7 +11,7 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
 data_files = "data_files/"
@@ -243,7 +243,7 @@ df_output <- df_table_wide %>%
 
 # VARIABLE LABLES
 
-columns_header_top <- c("[-1.8ex]
+columns_header_top <- c("
 \\multicolumn{20}{l}{{\\bf Panel A:} Sample selection criteria} \\\\ \n
 &  & 
 \\multicolumn{2}{l}{Total (all countries)} &
@@ -324,12 +324,14 @@ columns_header_bot_2 <- c("
 \\\\[-1.8ex]  \n 
 ")
 
-hline_top <- ("\\\\[-1.8ex]\\hline\\hline \\\\ \n")
-hline_bot <- c("\\hline \\\\[-1.8ex] \\multicolumn{20}{p{12in}}{Notes: n - is unique observations.  
-               $\\Delta$ - is difference in n from previous step.  
+hline_top <- c("\\toprule \n")
+hline_bot <- c("\\bottomrule \\\\[-1.8ex] \\multicolumn{20}{p{12in}}{Notes: 
+               In Panel A: n - is unique observations and $\\Delta$ - is difference in n from previous step.  
+               In Panel B:                
                \\# - is number of transitions.  
                \\% - is percent of total transitions from step 3. 
-               \\% is more than 100\\% because some individuals experience both a transition from Unmp to Perm and Unmp to Temp.} \n")
+               \\% is more than 100\\% because some individuals experience both a transition from Unmp to Perm and Unmp to Temp.
+               } \n")
 
 t <- xtable(df_output, digits = 0)
 

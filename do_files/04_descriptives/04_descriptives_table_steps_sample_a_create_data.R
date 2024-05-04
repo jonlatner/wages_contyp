@@ -11,7 +11,7 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
 data_files = "data_files/"
@@ -43,7 +43,7 @@ df_event_data_01 <- df_event_data_01 %>%
 table(df_event_data_01$country)
 df_event_data_01$country <- recode(df_event_data_01$country, "'NE-LSP'='NE'")
 
-step_8 <- df_event_data_01 %>%
+step_9 <- df_event_data_01 %>%
         select(country,pid,pidseq) %>%
         group_by(country,pid,pidseq) %>%
         slice(1) %>%
@@ -52,9 +52,9 @@ step_8 <- df_event_data_01 %>%
         group_by(country) %>%
         summarise(count = sum(n())) %>%
         ungroup()
-step_8$step <- 8
+step_9$step <- 9
 
-step_9 <- df_event_data_01 %>%
+step_10 <- df_event_data_01 %>%
         filter(unmp==0) %>%
         select(country,pid,pidseq) %>%
         group_by(country,pid,pidseq) %>%
@@ -67,9 +67,9 @@ step_9 <- df_event_data_01 %>%
         group_by(country) %>%
         summarise(count = sum(n())) %>%
         ungroup()
-step_9$step <- 9
+step_10$step <- 10
 
-df_filter_02 <- rbind(df_filter_01,step_8,step_9)
+df_filter_02 <- rbind(df_filter_01,step_9,step_10)
 
 # clean data -----
 
@@ -256,17 +256,19 @@ df_event_data_02
 
 df_event_data_02$country_name <- recode(df_event_data_02$country, "'AU'='Australia'; 'CH'='Switzerland'; 'DE'='Germany'; 'IT'='Italy'; 'JP'='Japan'; 'KO'='Korea'; 'NE'='Netherlands'; 'UK'='United Kingdom'; 'Total'='Total' ")
 
-df_event_data_03 <- df_event_data_02 %>%
-  mutate(notes = ifelse(step == "A", yes = "Temp $\\rightarrow$ perm",
-                        ifelse(step == "B", yes = "Perm $\\rightarrow$ temp",
-                               ifelse(step == "C", yes = "Unmp $\\rightarrow$ perm",
-                                      ifelse(step == "D", yes = "Unmp $\\rightarrow$ temp",
-                                             no = NA))))) %>%
-  mutate(step = ifelse(step == "A", yes = "B", 
-                       ifelse(step == "B", yes = "B",
-                              ifelse(step == "C", yes = "A",
-                                     ifelse(step == "D", yes = "A", no = step)))))
+# df_event_data_03 <- df_event_data_02 %>%
+#   mutate(notes = ifelse(step == "A", yes = "Temp $\\rightarrow$ perm",
+#                         ifelse(step == "B", yes = "Perm $\\rightarrow$ temp",
+#                                ifelse(step == "C", yes = "Unmp $\\rightarrow$ perm",
+#                                       ifelse(step == "D", yes = "Unmp $\\rightarrow$ temp",
+#                                              no = NA))))) %>%
+#   mutate(step = ifelse(step == "A", yes = "B", 
+#                        ifelse(step == "B", yes = "B",
+#                               ifelse(step == "C", yes = "A",
+#                                      ifelse(step == "D", yes = "A", no = step)))))
   
+df_event_data_03 <- df_event_data_02
+
 # Clean/summarize data ----
 
 df_filter_02$country_name <- recode(df_filter_02$country, "'AU'='Australia'; 'CH'='Switzerland'; 'DE'='Germany'; 'IT'='Italy'; 'JP'='Japan'; 'KO'='Korea'; 'NE'='Netherlands'; 'UK'='United Kingdom'")
@@ -297,33 +299,23 @@ df_filter_03$country_name <- fct_relevel(df_filter_03$country_name, "Total", aft
 # Clean data ----
 
 df_filter_04 <- df_filter_03 %>%
-        filter(step != 3) %>%
-        filter(step != 4) %>%
-        mutate(step = ifelse(step > 4, yes = step - 2, no = step)) %>%
+        # filter(step != 3) %>%
+        # filter(step != 4) %>%
+        # mutate(step = ifelse(step > 4, yes = step - 2, no = step)) %>%
         group_by(country_name) %>%
         mutate(obs_diff = paste0(round((total/lag(total,1)-1)*100,0),"\\%"),
                obs_diff = ifelse(row_number()==1, yes = "", no = obs_diff),
                ) %>%
         ungroup()
 
-df_filter_05 <- df_filter_04 %>%
-  mutate(notes = ifelse(step == 0, yes = "Raw data",
-                        ifelse(step == 1, yes = "Panel years between 2000 and 2018",
-                               ifelse(step == 2, yes = "Prime age (25 - 54)",
-                                      ifelse(step == 3, yes = "Unemployed or employed with contract type, monthly hours (40 -- 320), and wages $>$ 0",
-                                             ifelse(step == 4, yes = "Non missing education or gender",
-                                                    ifelse(step == 5, yes = "Hourly wages within the top/bottom 0.005 percentile",
-                                                           ifelse(step == 6, yes = "Data set A: At least 3 observations",
-                                                                  ifelse(step == 7, yes = "Data set B: + always employed",
-                                                                         no = NA)))))))))
-df_filter_05
+df_filter_05 <- df_filter_04
 
 # Reshape data ----
 
 df_filter_wide <- df_filter_05 %>%
   pivot_wider(names_from = country_name, values_from = c("total","obs_diff"))
 df_filter_wide <- df_filter_wide %>%
-  select(step, notes, 
+  select(step,  
          matches("_Total"),
          matches("Australia"), 
          matches("Germany"), 
@@ -340,7 +332,7 @@ df_events_data_wide <- df_event_data_03 %>%
   select(-country) %>%
   pivot_wider(names_from = country_name, values_from = c("total","obs_diff"))
 df_events_data_wide <- df_events_data_wide %>%
-  select(step, notes,
+  select(step,
          matches("_Total"),
          matches("Australia"), 
          matches("Germany"), 
@@ -356,6 +348,7 @@ df_events_data_wide
 df_append <- rbind(df_filter_wide,df_events_data_wide)
 
 # Save data  ----
+df_append
 
 saveRDS(df_append, file = paste0(data_files, "04_df_descriptives_table_steps_sample.rds"))
 

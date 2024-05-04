@@ -10,10 +10,10 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
-raw_data = "data_files/CH_FORS/raw_data/"
+raw_data = "data_files/CH/raw_data/"
 data_files = "data_files/CH/"
 
 # LIBRARY
@@ -36,7 +36,7 @@ vars_ind_1 <- c("idpers", # "idpers" cross-wave person identifier
                 "pw37", # "pXXW37"  Contract type - What type of contract limited by time do you have?
                 "age", # "ageXX" year of birth
                 "sex", # "sexXX" gender
-                "pw74", # N contractual hours per week
+                "pw77", # Number of hours worked per week
                 "is4maj", # "is4maj" occupation (4 digit ISCO)
                 "tr1maj", # "tr1maj" Treiman prestige scale 1 for main job
                 "iwmg" # "iwmg" monthly income from employment: gross (1999 - 2001)
@@ -50,7 +50,7 @@ vars_ind_2 <- c("idpers", # "idpers" cross-wave person identifier
                 "pw37", # "pXXW37"  Contract type - What type of contract limited by time do you have?
                 "age", # "ageXX" year of birth
                 "sex", # "sexXX" gender
-                "pw74", # N contractual hours per week
+                "pw77", # Number of hours worked per week
                 "is4maj", # "is4maj" occupation (4 digit ISCO)
                 "tr1maj", # "tr1maj" Treiman prestige scale 1 for main job
                 "iempmg" # "iempmg" monthly income from employment: gross (2002 - )
@@ -64,7 +64,7 @@ vars_ind_3 <- c("idpers", # "idpers" cross-wave person identifier
                 "pw37", # "pXXW37"  Contract type - What type of contract limited by time do you have?
                 "age", # "ageXX" year of birth
                 "sex", # "sexXX" gender
-                "pw74", # N contractual hours per week
+                "pw77", # Number of hours worked per week
                 "is4maj", # "is4maj" occupation (4 digit ISCO)
                 "tr1maj", # "tr1maj" Treiman prestige scale 1 for main job
                 "iempmg" # "iempmg" monthly income from employment: gross (2002 - )

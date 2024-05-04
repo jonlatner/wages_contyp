@@ -11,13 +11,13 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
 data_files = "data_files/"
 results = "results/"
 tables = "tables/"
-graphs = "graphs/"
+graphs = "graphs/descriptives/"
 
 # LIBRARY
 library(tidyverse)

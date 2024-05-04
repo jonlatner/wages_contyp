@@ -11,7 +11,7 @@ detachAllPackages <- function() {
 detachAllPackages()
 rm(list=ls(all=TRUE))
 
-# FOLDERS
+# FOLDERS (ADAPT THIS PATHWAY!)
 setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
 data_files = "data_files/"
@@ -27,17 +27,16 @@ options(scipen = 999) # disable scientific notation
 
 
 # Country data
-df_au <- readRDS(paste0(data_files, "AU/au_sample_v02.rds")) # all non permanent jobs are temporary (except casual)
+df_au <- readRDS(paste0(data_files, "AU/au_sample_ftc_only.rds")) # all non permanent jobs are temporary (except casual)
 df_ch <- readRDS(paste0(data_files, "CH/ch_sample.rds"))
 df_de <- readRDS(paste0(data_files, "DE/de_sample.rds"))
-df_uk <- readRDS(paste0(data_files, "UK/uk_sample_v01.rds")) # all non permanent jobs are temporary
+df_uk <- readRDS(paste0(data_files, "UK/uk_sample_all_temporary.rds")) # all non permanent jobs are temporary
 df_jp <- readRDS(paste0(data_files, "JP/jp_sample.rds"))
 df_ko <- readRDS(paste0(data_files, "KO/ko_sample.rds"))
 df_ne_lsp <- readRDS(paste0(data_files, "NE/LSP/ne_sample.rds"))
 df_it <- readRDS(paste0(data_files, "IT/it_sample.rds")) 
 
 df_sample_0 <- rbind(df_au,df_ch,df_de,df_uk,df_jp,df_ko,df_ne_lsp,df_it)
-# df_sample_0 <- rbind(df_it)
 
 df_sample_0 <- df_sample_0 %>%
   filter(year>=2000 & year<=2018) %>%
@@ -59,26 +58,6 @@ df_sample_0 <- df_sample_0 %>%
                       ifelse(unmp == 1, yes = 0, no = NA)),
          year_lag = ifelse(country == "IT" | country == "NE-LSP", yes = 2, no = 1)) # indicates biannual data
 
-with(df_sample_0,table(unmp,emp_status,useNA = "ifany"))
-table(df_sample_0$unmp)
-
-df_step_00 <- df_sample_0 %>%
-  group_by(country, pid) %>%
-  mutate(count = row_number(),
-         periods = max(count),
-         periods_2 = ifelse(periods>1, yes = 1, no = 0),
-         periods_3 = ifelse(periods>2, yes = 1, no = 0)
-         ) %>%
-  slice(1) %>%
-  group_by(country) %>%
-  mutate(country = country) %>%
-  summarise(total = max(row_number()),
-            total_2 = sum(periods_2),
-            total_3 = sum(periods_3)
-  ) %>%
-  ungroup()
-
-df_step_00
 
 # Step 1: must experience unemployment ----
 df_step_01 <- df_sample_0 %>%
@@ -145,41 +124,16 @@ df_step_03a <- df_step_03 %>%
   slice(1) %>%
   group_by(country) %>%
   mutate(country = country) %>%
-  summarise(unmp_ever = sum(unmp_ever),
+  summarise(total = max(row_number()),
+            unmp_ever = sum(unmp_ever),
             exit_unmp = sum(exit_unmp_yes),
             exit_unmp_post = sum(post_emp_yes),
   ) %>%
   ungroup()
 
 df_step_03a
-# Step 4: must be employed at least 1 period within 4 years after exit ----
-df_step_04 <- df_step_03 %>%
-  arrange(country, pid, year) %>%
-  group_by(country, pid) %>%
-  mutate(
-    unmp_temp = ifelse(post_emp_yes == 1 & temp == 1 & lag(unmp,1)==1, yes = 1, no = 0),
-    unmp_temp_yes = max(unmp_temp,na.rm = TRUE),
-    unmp_perm = ifelse(post_emp_yes == 1 & perm == 1 & lag(unmp,1)==1, yes = 1, no = 0),
-    unmp_perm_yes = max(unmp_perm,na.rm = TRUE),
-  ) %>%
-  ungroup() 
 
-# Total possible events 
-df_step_04a <- df_step_04 %>%
-  group_by(country, pid) %>%
-  slice(1) %>%
-  group_by(country) %>%
-  mutate(country = country) %>%
-  summarise(unmp_ever = sum(unmp_ever),
-            exit_unmp = sum(exit_unmp_yes),
-            exit_unmp_post = sum(post_emp_yes, na.rm = TRUE),
-            exit_unmp_temp = sum(unmp_temp_yes, na.rm = TRUE),
-            exit_unmp_perm = sum(unmp_perm_yes, na.rm = TRUE),
-  ) %>%
-  ungroup()
-
-df_step_04a
 
 # Save data  ----
 
-write.csv(df_step_04, file = paste0(data_files, "04_df_descriptives_table_unmp_exit.csv"),row.names = FALSE)
+write.csv(df_step_03a, file = paste0(data_files, "04_df_descriptives_table_unmp_exit.csv"),row.names = FALSE)
