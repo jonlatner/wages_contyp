@@ -33,9 +33,6 @@ df_original <- readRDS(paste0(data_files,"03c_df_sample_cleaned_prepared_multipl
 
 # clean data -----
 
-# if treated, then must be employed after treatment
-# if not treated, then must be employed
-
 df_original <- df_original %>%
         select(country,pidseq,year,age,ln_hourly_wage,unmp,temp,perm,event_u_p_yes_final,event_u_t_yes_final,event_u_p_time_pos,event_u_t_time_pos,unemployment_rate)  %>%
         group_by(country, pidseq) %>%

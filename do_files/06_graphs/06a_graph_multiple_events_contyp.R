@@ -90,7 +90,9 @@ p <- ggplot(data=df_graph, aes(x=event, y=estimate)) +
               axis.line.x = element_line(color="black", size=.5)
         )
 
-ggsave(plot = last_plot(), paste0(graphs,"graph_multiple_events_contyp_paper.pdf"), height = 6, width = 9)
+p
+
+# ggsave(plot = p, paste0(graphs,"graph_multiple_events_contyp_paper.pdf"), height = 6, width = 9)
 
 # Table event ----
 
@@ -267,4 +269,4 @@ p <- ggplot(data = df_graph, aes(x = post, y = estimate, color = event, group = 
 
 p
 
-ggsave(plot = p, paste0(graphs,"graph_multiple_events_contyp_post_paper.pdf"), height = 6, width = 9)
+# ggsave(plot = p, paste0(graphs,"graph_multiple_events_contyp_post_paper.pdf"), height = 6, width = 9)

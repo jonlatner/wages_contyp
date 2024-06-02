@@ -33,9 +33,6 @@ df_original <- readRDS(paste0(data_files,"03c_df_sample_cleaned_prepared_multipl
 
 # clean data -----
 
-# Create new temp variable that equals the addition of the 2 step function variables
-# This ensures that models only evaluate events that fit the criteria of an event
-
 df_original <- df_original %>%
         select(country,pidseq,year,age,ln_hourly_wage,unmp,temp,perm,event_t_p_yes_final,event_p_t_yes_final,event_t_p_time_pos,event_p_t_time_pos,unemployment_rate) %>%
         filter(unmp == 0)  %>%
