@@ -2,8 +2,8 @@
 
 rm(list=ls(all=TRUE))
 
-# FOLDERS
-setwd("/Users/jonathanlatner/OneDrive/SECCOPA/projects/wages_contyp/")
+# FOLDERS (ADAPT THIS PATHWAY!)
+setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 data_files = "support_files/OECD/"
 graphs = "graphs/descriptives/"
 
