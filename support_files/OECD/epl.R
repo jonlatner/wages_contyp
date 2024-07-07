@@ -5,7 +5,7 @@ rm(list=ls(all=TRUE))
 # FOLDERS
 setwd("/Users/jonathanlatner/OneDrive/SECCOPA/projects/wages_contyp/")
 data_files = "support_files/OECD/"
-graphs = "graphs/"
+graphs = "graphs/descriptives/"
 
 # LIBRARY
 library(tidyverse)
@@ -61,24 +61,28 @@ df_perm <- df_perm %>%
 df_oecd <- rbind(df_perm,df_temp) %>%
   pivot_longer(!c(country,year,type)) %>%
   filter(name == "version_1") %>%
+  select(-name) %>%
   filter(year>=2000 & year < 2019)
 
-df_oecd %>% filter(country == "Germany") %>% print(n=60)
+# df_oecd <- df_oecd %>%
+#   pivot_wider(id_cols = c(country,year), names_from = type,values_from = value) %>%
+#   mutate("% Difference (Perm/Temp)" = Permanent/Temporary) %>%
+#   pivot_longer(!c(country,year), names_to = "type") 
 
 # Graph ----
 
 ggplot() +
-        facet_wrap(~country, nrow = 2) +
-        geom_line(aes(x = year, y = value, color = type), data = df_oecd, size = 1) + 
+        facet_grid(type~country) +
+        geom_line(aes(x = year, y = value), data = df_oecd, linewidth = 1) + 
         theme_bw() +
-  scale_color_grey(start = 0, end = 0.7) +
+  # scale_color_grey(start = 0, end = 0.7) +
   scale_y_continuous(limits = c(0, 5)) +
   scale_x_continuous(limits = c(2000, 2020)) +
         theme(panel.grid.minor = element_blank(), 
-              axis.line.y = element_line(color="black", size=.5),
-              axis.line.x = element_line(color="black", size=.5),
+              axis.line.y = element_line(color="black", linewidth=.5),
+              axis.line.x = element_line(color="black", linewidth=.5),
               legend.title=element_blank(),
-              axis.text.x = element_text(size = 8),
+              axis.text.x = element_text(size = 8,angle = 90,vjust = .5),
               legend.key.width = unit(2,"cm"),
               legend.position = "bottom"
         )
