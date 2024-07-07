@@ -5,7 +5,7 @@
 %APPENDIX
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Appendix: Data sets}\label{sec:data}
+\section{Appendix: Data sets}\label{appendix:data}
 \setcounter{figure}{0}    
 \setcounter{table}{0}    
 \renewcommand*\thetable{\Alph{section}.\arabic{table}}
@@ -29,7 +29,7 @@ We use 9 different data sets from 8 countries:
     \item Netherlands: We use two panel data sets for the Netherlands.  
     \begin{enumerate}
         \item Arbeidsaanbodpanel or Labour Supply Panel \citep{lsp_arbeidsaanbodpanel_2016} - We use the LSP as our main source of panel data.  Begun in 1985, it is a biannual long-term survey of the Dutch working population (aged 16 - 66) and their employment situation.  Unfortunately, the LSP ended in 2014.
-        \item Longitudinal Internet Studies for the Social Sciences \citep{liss_longitudinal_2020} - We use the LISS as a sensitivity for the LSP.  The LISS is not a replacement for the LSP.  Begun in 2007, it is an annual survey of 5,000 households, comprising approximately 7.500 individuals, 16 years of age or older.  Unique among all other panel data, panel participants complete online questionnaires every month.  As a result, non-internet users are absent.  Without denying the advantages and value of the LISS, the survey does suffer from high levels of panel attrition.
+        \item Longitudinal Internet Studies for the Social Sciences \citep{liss_longitudinal_2020} - We use the LISS as a sensitivity for the LSP.  The LISS is not a replacement for the LSP.  Begun in 2007, it is an annual survey of 5,000 households, comprising approximately 7.500 individuals, 16 years of age or older.  Unique among all other panel data, panel participants complete online questionnaires every month.  As a result, non-internet users are absent.  Without denying the advantages and value of the LISS, the survey does suffer from high levels of panel attrition, as shown in table \ref{table_sample_filter_steps_country_NE}.
     \end{enumerate}
 
     \item Switzerland: Swiss panel data are from the Swiss Household Panel \citep{shp_swiss_2020}.  The SHP is conducted by the Swiss Foundation for Research in Social Sciences (FORS).  Available since 1999, it is an annual survey that interviews all household members over the age of 14 from a random sample of private households in Switzerland, stratified across the seven major statistical regions of Switzerland.  The SHP combines three samples: the SHP I (5,074 households and 7,799 individuals interviewed first in 1999), the SHP II (2,538 households and 3,654 individuals interviewed first in 2004) and the SHP III (3,989 households and 6,090 individuals interviewed first in 2013).  In total, there are nearly 16,000 individuals in nearly 10,000 households.  
@@ -53,7 +53,7 @@ With the exception of panel data from the Netherlands and Italy, most of our dat
 \renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
 \renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
 
-\section{Appendix: Recoding variables}\label{sec:variables}
+\section{Appendix: Recoding variables}\label{appendix:variables}
 
 One cannot dismiss the methodological challenges associated with comparing data from national panel surveys given large differences in sampling and survey design. Input harmonized is the process of standardizing or normalizing data inputs before they are collected and entered into a system to ensure that data collected from different sources follow a standardized format and coding scheme (i.e. EU-SILC).  By contrast, output harmonized is the process of recoding the data after it has been collected in order to align data to a common set of variables, codes, and classification.  While CNEF/CPF refer to their data as `harmonized,' they may be better characterized as output harmonized and accurately understood as recoding, as we do here.  
 
@@ -68,17 +68,17 @@ Employment status is recoded into a categorical variable with two levels indicat
 Employed is further specified as an individual with an observable contract type with observable monthly hours between 40 and 320 (i.e. no less than 10 hours per week and no more than 80 hours per week.
 
 
-Education.  We do not control for education as it is usually time-invarying for adult participants in the labour force.  However, we do split the analysis by education group as a sensitivity test (see Appendix \ref{sec:sensitivity_heterogeneity}.  Most countries use ISCED, but some countries do not.  For example, Germany uses CASMIN, Australia codes educational attainment in accordance with the Australia Bureau of Statistics (ABS) approach, and the Netherlands and Japan use their own definition.  Education is recoded into a categorical variable with three levels indicating, less than secondary education, secondary education, and more than secondary education.  This is shown in figure \ref{graph_descriptives_education}.
+Education.  We do not control for education as it is usually time-invarying for adult participants in the labour force.  However, we do split the analysis by education group as a sensitivity test (see Appendix \ref{appendix:sensitivity_heterogeneity}.  Most countries use ISCED, but some countries do not.  For example, Germany uses CASMIN, Australia codes educational attainment in accordance with the Australia Bureau of Statistics (ABS) approach, and the Netherlands and Japan use their own definition.  Education is recoded into a categorical variable with three levels indicating, less than secondary education, secondary education, and more than secondary education.  This is shown in figure \ref{graph_descriptives_education}.
 
 The remaining variable is employment contract.  We measure temporary employment following OECD/Eurostat definitions to indicate if a contract is `permanent' or  `not permanent,' i.e. temporary in some way.  This is shown in figure \ref{graph_descriptives_contyp}.  
 
-The single country exception is Australia, where we define `not permanent' as a fixed term contract (FTC).  This definition excludes casual work, a distinct type of employment relationship that is less comparable to temporary work in other countries because it offers a wage premium in exchange for the loss of other benefits \citep{mooi-reci_casual_2017}.  However, results over time after the first period are qualitatively similar if we include casual employment (as shown in the Appendix \ref{sec:sensitivity_variable}, figure \ref{graph_sensitivity_AU}).  
+The single country exception is Australia, where we define `not permanent' as a fixed term contract (FTC).  This definition excludes casual work, a distinct type of employment relationship that is less comparable to temporary work in other countries because it offers a wage premium in exchange for the loss of other benefits \citep{mooi-reci_casual_2017}.  However, results over time after the first period are qualitatively similar if we include casual employment (as shown in the Appendix \ref{appendix:sensitivity_variable}, figure \ref{graph_sensitivity_AU}).  
 
-If we exclude missing or unknown levels, then three countries, Switzerland (variable: pw36), Germany (variable: plb0037), and Korea (variable: p\_\_0501) use a single variable to ask whether the job duration is limited in some way, yes or no.  In Switzerland, a separate variable is used to specify the limited nature of the contract (variable pw37: apprenticeship, trial period, etc.).  For details on Switzerland, see figure \ref{graph_ch_compare_sample_age} in Appendix \ref{sec:sensitivity_sample}.
+If we exclude missing or unknown levels, then three countries, Switzerland (variable: pw36), Germany (variable: plb0037), and Korea (variable: p\_\_0501) use a single variable to ask whether the job duration is limited in some way, yes or no.  In Switzerland, a separate variable is used to specify the limited nature of the contract (variable pw37: apprenticeship, trial period, etc.).  For details on Switzerland, see figure \ref{graph_ch_compare_sample_age} in Appendix \ref{appendix:sensitivity_sample}.
 
 Another five countries split temporary into two categories.  In Australia (variable: gjbmcnt), temporary employment is defined as either a `fixed term contract' or `casual basis'; in Italy (variable: contratt), temporary employment is defined as `fixed term' or `temporary'; in the Netherlands (variable: eb002), temporary employment is defined as either `temporary to permanent' or  `temporary'.  In Japan, employment status (v219) is split into seven categories, of which three are temporary: `contract employee', `subcontracted worker', and `specialized contract employee'.  
 
-In the United Kingdom, before 1999, (variable: jbterm), temporary employment is defined as `seasonal/tmp' or  `contract/fixed time', after 1999 (variable: jbterm1), there is only permanent and not permanent.  Instead, like in Switzerland, a separate variable is used to specify the limited nature of the contract (variable jbterm2:).  Using jbterm2, we can distinguish work that is `Done under contract for a fixed period or a fixed task' from other types of temporary work, `seasonal', `agency', `casual', etc.  However, results are qualitatively similar if we include isolate temporary work that is done under a fixed term contract, form other types of temporary work (as shown in the Appendix \ref{sec:sensitivity_variable}, figure \ref{graph_sensitivity_UK}).  
+In the United Kingdom, before 1999, (variable: jbterm), temporary employment is defined as `seasonal/tmp' or  `contract/fixed time', after 1999 (variable: jbterm1), there is only permanent and not permanent.  Instead, like in Switzerland, a separate variable is used to specify the limited nature of the contract (variable jbterm2:).  Using jbterm2, we can distinguish work that is `Done under contract for a fixed period or a fixed task' from other types of temporary work, `seasonal', `agency', `casual', etc.  However, results are qualitatively similar if we include isolate temporary work that is done under a fixed term contract, form other types of temporary work (as shown in the Appendix \ref{appendix:sensitivity_variable}, figure \ref{graph_sensitivity_UK}).  
 
 Unlike Australia or the United Kingdom, we do not perform a similar sensitivity check for Switzerland because all temporary work is a fixed-term contract that is limited in duration by time.
 
@@ -86,19 +86,19 @@ We do not suggest that temporary or permanent contracts are the same between cou
 
 \begin{sidewaysfigure}[h!]
     \caption{Recode employment status by country}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_emp_status.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/descriptives/graph_descriptives_emp_status.pdf}}
     \label{graph_descriptives_emp_status}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[h!]
     \caption{Recode contract type by country (conditional on employed with contract)}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_contyp.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/descriptives/graph_descriptives_contyp.pdf}}
     \label{graph_descriptives_contyp}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[h!]
     \caption{Recode education by country}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_education.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/descriptives/graph_descriptives_education.pdf}}
     \label{graph_descriptives_education}
 \end{sidewaysfigure}
 
@@ -108,7 +108,7 @@ We do not suggest that temporary or permanent contracts are the same between cou
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-\section{Appendix: Sample selection}\label{sec:sample_selection}
+\section{Appendix: Sample selection}\label{appendix:sample_selection}
 \setcounter{figure}{0}    
 \setcounter{table}{0}    
 \renewcommand*\thetable{\Alph{section}.\arabic{table}}
@@ -116,37 +116,39 @@ We do not suggest that temporary or permanent contracts are the same between cou
 \renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
 \renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
 
-Despite sample selection criteria, samples A and B provide similar estimates in a given country, year of LN average income (figure \ref{graph_descriptives_income_better_paper.pdf}), unemployment rate (figure \ref{graph_descriptives_unmp_paper}), and temporary employment rate (figure  \ref{graph_descriptives_temp_paper}), according to estimates from the World Bank or OECD.  Unemployment rate comes from World Bank data, not OECD because OECD does not include Switzerland before 2010, after 2010, both data sources are the same.  Therefore, the samples are representative of the broader population in a given country.  
+Given concerns of bias resulting from the sample selection criteria that reduced the sample by over 50\% in step 9 of table \ref{table_sample_filter_steps_country}, we compare LN average income, unemployment rate, and temporary employment rate from cross-sectional samples A and B to estimates from the World Bank or OECD.  Figure \ref{graph_descriptives_income_better_paper.pdf} compares cross-sectional annual average income (LN) from Sample B to data from the OECD.  The trends are almost identical.  Figure \ref{graph_descriptives_unmp_paper} compares cross-sectional annual unemployment rate from Sample A data from the World Bank.  Unemployment rate comes from World Bank data, not OECD because OECD does not include Switzerland before 2010, after 2010, both data sources are the same.  The trends are almost identical.  Figure  \ref{graph_descriptives_temp_paper} compares cross-sectional temporary employment rate to data from OECD.  With the exception of Japan and Korea, results are qualitatively similar.
 
-The data covers the time frame from 2000 to 2018.  In order to understand any meaningful changes in legislation within the countries that could affect the relationship between temporary employment and wages, we display changes in employment protection legislation (EPL) for temporary and permanent contracts (OECD) for the eight countries in our sample (figure \ref{graph_epl}).  With the exception of Germany and Italy, there is general stability.  In Italy, EPL for temporary contracts declined from 3.25 in 2000 to 2.0 in 2003.  In Germany, EPL for temporary contracts declined from 2.0 in 2000 to 1 in 2004.  
+The data covers the time frame from 2000 to 2018.  In order to understand any meaningful changes in legislation within the countries that could affect the relationship between temporary employment and wages, figure \ref{graph_epl} displays changes in employment protection legislation (EPL) for temporary and permanent contracts for the eight countries in our sample \citep[Ch. 3]{oecd2020recent}.  With the exception of Germany and Italy, there is little change in EPL within countries.  In Italy, EPL for temporary contracts declined from 3.25 in 2000 to 2.0 in 2003.  In Germany, EPL for temporary contracts declined from 2.0 in 2000 to 1 in 2004.  Given the general stability in EPL trends, there is little reason to be concerned that the findings presented here can be explained by changes in EPL.
 
-In addition, we provide more detail not only about the frequency counts of transitions into and out of temporary employment, as shown in table \ref{table_sample_filter_steps_country_transitions}.  In sample B, around 12\% of the sample make a transition from a temporary to a permanent contract, and 9\% make a transition from a permanent to a temporary contract.  In sample A, around 5\% make a transition from unemployment to a permanent contract, and 2\% make a transition from unemployment to a temporary contract. 
+In addition, we provide more detail about the frequency counts of transitions into and out of temporary employment, as shown in table \ref{table_sample_filter_steps_country_transitions}.  In sample B, around 12\% of the sample make a transition from a temporary to a permanent contract, and 9\% make a transition from a permanent to a temporary contract.  In sample A, around 5\% make a transition from unemployment to a permanent contract, and 2\% make a transition from unemployment to a temporary contract. 
 
-Table \ref{table_sample_unmp_steps_contyp} specifies why the number of transitions from unemployment to temporary or permanent employment are so small.  The answer is high panel attrition for individuals who experience unemployment.  In sample A, 18\% experience unemployment.  Of those who experience unemployment, only about 50\% exit into a temporary or permanent contract (8\% of the sample).  Of those who exit unemployment into a contract, 75\% are also employed at least one additional period within 5 years after the transition (6\% of the sample).  The authors note that similar levels of panel attrition exist among those who experience unemployment in the uncleaned, raw data for a sample of prime age workers 25-54 who are either unemployed or working with a contract type.  
+Table \ref{table_sample_unmp_steps_contyp} specifies why the number of transitions from unemployment to temporary or permanent employment are so small.  The answer is high panel attrition for individuals who experience unemployment.  In sample A, 18\% experience unemployment.  Of those who experience unemployment, only about 50\% exit into a temporary or permanent contract (8\% of the sample).  Of those who exit unemployment into a contract, 75\% are also employed at least one additional period within 5 years after the transition (6\% of the sample).  The authors note that similar levels of panel attrition exist among those who experience unemployment in the uncleaned, raw data for a sample of prime age workers 25-54 who are either unemployed or working with a contract type (table \ref{descriptives_table_unemployment}).  
+
+Finally, we compare frequency counts from the sample selection criteria for the two data sets from the Netherlands.  The Labour Supply Panel (LSP) is what is used in the paper and the Longitudinal Internet Studies for the Social Sciences is the sensitivity data.  As discussed in Appendix \ref{appendix:data}, there are advantages and disadvantages of the LISS and the LSP, but the LISS suffers from a much greater panel attrition, as shown in table \ref{table_sample_filter_steps_country_NE}.
 
 
 \begin{sidewaysfigure}[!h]
     \caption{Compare annual average income (LN) from sample to OECD}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_income_better_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/descriptives/graph_descriptives_income_better_paper.pdf}}
     \label{graph_descriptives_income_better_paper.pdf}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!h]
     \caption{Compare unemployment rate from sample to World Bank}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_unmp_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/descriptives/graph_descriptives_unmp_paper.pdf}}
     \label{graph_descriptives_unmp_paper}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!h]
     \caption{Compare temporary employment rate from sample to OECD}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_temp_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/descriptives/graph_descriptives_temp_paper.pdf}}
     \label{graph_descriptives_temp_paper}
 \end{sidewaysfigure}
 
 
 \begin{sidewaysfigure}[!h]
     \caption{Changes in employment protection legislation over time (OECD)}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_epl.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/descriptives/graph_epl.pdf}}
     \label{graph_epl}
 \end{sidewaysfigure}
 
@@ -154,24 +156,38 @@ Table \ref{table_sample_unmp_steps_contyp} specifies why the number of transitio
 \begin{sidewaystable}[!h]
     \caption{Country specific frequency and transition counts into and out of temporary employment}
     \centering
-    \resizebox{\textwidth}{!}{\input{../tables/descriptives_table_steps_country_full.tex}}
+    \resizebox{\textwidth}{!}{\input{../../../tables/descriptives_table_steps_country_full.tex}}
     \label{table_sample_filter_steps_country_transitions}
 \end{sidewaystable}
 
 \begin{sidewaystable}[!h]
     \caption{Why are the number of unemployment exits so small in table \ref{table_sample_filter_steps_country_transitions}?}
     \centering
-    \resizebox{\textwidth}{!}{\input{../tables/descriptives_unmp_steps_contyp.tex}}
+    \resizebox{\textwidth}{!}{\input{../../../tables/descriptives_unmp_steps_contyp.tex}}
     \label{table_sample_unmp_steps_contyp}
 \end{sidewaystable}
 
+\begin{sidewaystable}[!h]
+    \caption{Panel attrition for individuals who experience unemployment}
+    \centering
+    \resizebox{\textwidth}{!}{\input{../../../tables/descriptives_table_unemployment.tex}}
+    \label{descriptives_table_unemployment}
+\end{sidewaystable}
+
+
+\begin{table}[!h]
+    \caption{Sample filter steps comparing LISS and LSP from the Netherlands}
+    \centering
+    \resizebox{\textwidth}{!}{\input{../../../tables/descriptives_table_steps_country_NE.tex}}
+    \label{table_sample_filter_steps_country_NE}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-\section{Appendix: Multiple events}\label{sec:multiple}
+\section{Appendix: Multiple events}\label{appendix:multiple}
 \setcounter{figure}{0}    
 \setcounter{table}{0}    
 \renewcommand*\thetable{\Alph{section}.\arabic{table}}
@@ -323,7 +339,7 @@ print(df_g)
 
 \begin{sidewaysfigure}[!h]
     \caption{Simulation figure: Single individual with multiple events}
-    \resizebox{\textwidth}{!}{\includegraphics{../support_files/simulation/graphs/graph_compare_transformed_data_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../support_files/simulation/graphs/graph_compare_transformed_data_paper.pdf}}
     \label{graph_compare_transformed_data}
 \end{sidewaysfigure}
 
@@ -332,7 +348,7 @@ print(df_g)
 \rowcolors{2}{gray!50}{gray!10}
 \caption{Simulation data: Single individual with multiple events}
 \centering
-    \input{../support_files/simulation/tables/table_compare_transformed_data_original.tex}
+    \input{../../../support_files/simulation/tables/table_compare_transformed_data_original.tex}
 \label{table_compare_transformed_data_original}
 \end{table}
 
@@ -340,20 +356,20 @@ print(df_g)
 \rowcolors{2}{gray!50}{gray!10}
 \caption{Simulation data: Transformed data}
 \centering
-    \resizebox{\textwidth}{!}{\input{../support_files/simulation/tables/table_compare_transformed_data_transformed.tex}}
+    \resizebox{\textwidth}{!}{\input{../../../support_files/simulation/tables/table_compare_transformed_data_transformed.tex}}
 \label{table_compare_transformed_data_transformed}
 \end{table}
 
 \begin{table}[!h]
     \caption{Parameter estimates using data in table \ref{table_compare_transformed_data_original}, as shown in figure \ref{graph_compare_transformed_data}}
     \centering
-    \resizebox{\textwidth}{!}{\input{../support_files/simulation/tables/table_compare_transformed_data_output.tex}}
+    \resizebox{\textwidth}{!}{\input{../../../support_files/simulation/tables/table_compare_transformed_data_output.tex}}
     \label{table_compare_transformed_data_output}
 \end{table}
 
 \begin{sidewaysfigure}[!h]
     \caption{How many individuals experience multiple events?}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_descriptives_multiple_events_num.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/descriptives/graph_descriptives_multiple_events_num.pdf}}
     \label{graph_descriptives_multiple_events_num}
 \end{sidewaysfigure}
 
@@ -362,7 +378,7 @@ print(df_g)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-\section{Appendix: Simulation exercise}\label{sec:simulation}
+\section{Appendix: Simulation exercise}\label{appendix:simulation}
 \setcounter{figure}{0}    
 \setcounter{table}{0}    
 \renewcommand*\thetable{\Alph{section}.\arabic{table}}
@@ -391,14 +407,14 @@ Therefore, unlike the FEIS model \ref{eq:model_feis}, the FE + DIF model  \ref{e
 
 \begin{sidewaysfigure}[!h]
     \caption{Simulation data}
-    \resizebox{\textwidth}{!}{\includegraphics{../support_files/simulation/graphs/graph_compare_models_simulation_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../support_files/simulation/graphs/graph_compare_models_simulation_paper.pdf}}
     \label{graph_compare_models_simulation_paper}
 \end{sidewaysfigure}
 
 \begin{table}[!h]
     \caption{Parameter estimates}
     \centering
-    \resizebox{\textwidth}{!}{\input{../support_files/simulation/tables/table_compare_models_simulation_paper.tex}}
+    \resizebox{\textwidth}{!}{\input{../../../support_files/simulation/tables/table_compare_models_simulation_paper.tex}}
     \label{table_compare_models_simulation_paper}
 \end{table}
 
@@ -408,7 +424,7 @@ Therefore, unlike the FEIS model \ref{eq:model_feis}, the FE + DIF model  \ref{e
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-\section{Appendix: Raw coefficients}\label{sec:coefficients}
+\section{Appendix: Raw coefficients}\label{appendix:coefficients}
 \setcounter{table}{0}
 \setcounter{figure}{0}
 \renewcommand*\thetable{\Alph{section}.\arabic{table}}
@@ -421,21 +437,21 @@ In this appendix section, we provide the estimated coefficients, standard errors
 \begin{table}[!h]
     \caption{Results from standard fixed effects (FE) model \ref{eq:model_fe} in figure \ref{graph_contyp}}
     \centering
-    \input{../tables/beta_coef_contyp_fe.tex}
+    \input{../../../tables/beta_coef_contyp_fe.tex}
     \label{beta_coef_contyp_fe}
 \end{table}
 
 \begin{table}[!h]
     \caption{Results from fixed effects with individual slopes model \ref{eq:model_feis}  (FEIS) in figure \ref{graph_contyp}}
     \centering
-    \input{../tables/beta_coef_contyp_feis.tex}
+    \input{../../../tables/beta_coef_contyp_feis.tex}
     \label{beta_coef_contyp_feis}
 \end{table}
 
 \begin{table}[!h]
     \caption{Results from asymmetric fixed effects model \ref{eq:model_afe_temp} (AFE) for T $\rightarrow$ P in figure \ref{graph_contyp}}
     \centering
-    \input{../tables/beta_coef_contyp_afe_t_p.tex}
+    \input{../../../tables/beta_coef_contyp_afe_t_p.tex}
     \label{beta_coef_contyp_afe_t_p}
 \end{table}
 
@@ -443,21 +459,21 @@ In this appendix section, we provide the estimated coefficients, standard errors
 \begin{table}[!h]
     \caption{Results from asymmetric fixed effects model \ref{eq:model_afe_temp} (AFE) for P $\rightarrow$ T in figure \ref{graph_contyp}}
     \centering
-    \input{../tables/beta_coef_contyp_afe_p_t.tex}
+    \input{../../../tables/beta_coef_contyp_afe_p_t.tex}
     \label{beta_coef_contyp_afe_p_t}
 \end{table}
 
 \begin{table}[!h]
     \caption{Results from asymmetric fixed effects model \ref{eq:model_afe_unmp} (AFE) for U $\rightarrow$ T in figure \ref{graph_unmp}}
     \centering
-    \input{../tables/beta_coef_unmp_afe_u_t.tex}
+    \input{../../../tables/beta_coef_unmp_afe_u_t.tex}
     \label{beta_coef_unmp_afe_u_t}
 \end{table}
 
 \begin{table}[!h]
     \caption{Results from asymmetric fixed effects model \ref{eq:model_afe_unmp} (AFE) for U $\rightarrow$ P in figure \ref{graph_unmp}}
     \centering
-    \input{../tables/beta_coef_unmp_afe_u_p.tex}
+    \input{../../../tables/beta_coef_unmp_afe_u_p.tex}
     \label{beta_coef_unmp_afe_u_p}
 \end{table}
 
@@ -466,7 +482,7 @@ In this appendix section, we provide the estimated coefficients, standard errors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-\section{Appendix: Sensitivity to sample selection}\label{sec:sensitivity_sample}
+\section{Appendix: Sensitivity to sample selection}\label{appendix:sensitivity_sample}
 \setcounter{table}{0}
 \setcounter{figure}{0}
 \renewcommand*\thetable{\Alph{section}.\arabic{table}}
@@ -474,60 +490,72 @@ In this appendix section, we provide the estimated coefficients, standard errors
 \renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
 \renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
 
-In this appendix section, we replicate the main analysis but for two different samples.  First, we use a sample that includes ages between 16-64 as opposed to the sample used in the paper that includes ages between 25-54.  As one can see in figures \ref{graph_contyp_age_16_64} and \ref{graph_unmp_age_16_64}, results are qualitatively similar with the exception of Switzerland.  
+In this appendix section, we replicate the main analysis but for several different samples.  
 
-In the sample of 16-64, the negative effect of FE and FEIS models are larger than in the sample of 25-54 year olds.  This is explained by a much larger positive effect of a transition from a temporary to a permanent contract, relative to a transition from a permanent to a temporary contract.  
+First, we use a sample that includes ages between 16-64 as opposed to a sample that includes ages between 25-54 (as in the paper).  As one can see in figures \ref{graph_post_age_16_64}, results are qualitatively similar with the exception of Switzerland and Japan.  
 
-To understand why this may be the case, we examined reasons for being in a temporary contract in Switzerland by four age groups: 16-64, 16-54, 25-54 (sample), 25-64, as shown in figure \ref{graph_ch_compare_sample_age}.  The biggest difference in the reason for being in a temporary contract across the four samples is: `Apprenticeship'.
+In Switzerland, in the sample of 16-64, the negative effect of FE and FEIS models are larger than in the sample of 25-54 year olds.  This is explained by a much larger positive effect of a transition from a temporary to a permanent contract, relative to a transition from a permanent to a temporary contract.  To understand why this may be the case, we examined reasons for being in a temporary contract in Switzerland by four age groups: 16-64, 16-54, 25-54 (sample), 25-64, as shown in figure \ref{graph_ch_compare_sample_age}.  The biggest difference in the reason for being in a temporary contract across the four samples is: `Apprenticeship'.  The difference in the results between the samples is explained by the fact that those under the age of 25 are more than 10 times more likely to have a temporary contract that is an apprenticeship, relative to those over the age of 25 (3\% vs. 44\%).  Therefore, those under the age of 25 have a clearly different reason for having a temporary contract than those over the age of 25.  
 
-The difference in the results between the samples is explained by the fact that those under the age of 25 are more than 10 times more likely to have a temporary contract that is an apprenticeship, relative to those over the age of 25 (3\% vs. 44\%).  Therefore, those under the age of 25 have a clearly different reason for having a temporary contract than those over the age of 25.  
+In Japan, the only difference between the age samples can be seen in the transition from permanent into temporary contract.  In both age samples, wage effects are similar in the year of the transition and 4 years afterward, but differ in between.  For the sample of 25-54 year olds, wage effects in periods 1, 2, and 3 are positive and constant (but not significant).  For the sample of 16-64 year olds, wage effects rise in periods 1, 2, and 3, but remain negative until period 4, when they are positive (but not significant).  Therefore, point estimates for transitions from permanent into temporary contracts remain less positive over time than transition from temporary into permanent contracts, but not negative.  Over time, point estimates increase so that 4 periods after the transition, wage effects are positive, but not significant.  Thus, the qualitative interpretation does not change.
 
-Second, as an additional robustness check, we compared results from a sample requiring at least 3 observations (as in the paper) to a sample requiring at least 2 observations.  There are two reasons why it is necessary to have at least 3 observations.  One is with respect to fixed effects models with individual slopes (FEIS).  FEIS models only include observations with at least 3 periods.  The reason is that in order to control for a trend, one must have at least 3 observations.  Therefore, to compare across models, we select on individuals that are observable in at least three time periods.  The second, related reason is that we are not only interested in the effect of a distinct transition on wages, but we are also interested in the effect of that transition on wages in periods of time after that transition has occurred.  While some limited research has attempted to examine this issue \citep{booth_temporary_2002,mooi-reci_casual_2017}, they have done this by interacting the treatment effect with years of experience.  While the interaction term captures the deviation from the mean of potential experience on wages, this is not the same thing as the effect of temporary employment over time.  
+Second, we compared results from a sample requiring at least 3 observations (as in the paper) to a sample requiring at least 2 observations.  There are two reasons why it is necessary to have at least 3 observations.  One is with respect to fixed effects models with individual slopes (FEIS).  FEIS models only include observations with at least 3 periods.  The reason is that in order to control for a trend, one must have at least 3 observations.  Therefore, to compare across models, we select on individuals that are observable in at least three time periods.  The second, related reason is that we are not only interested in the effect of a distinct transition on wages, but we are also interested in the effect of that transition on wages in periods of time after that transition has occurred.  While some limited research has attempted to examine this issue \citep{booth_temporary_2002,mooi-reci_casual_2017}, they have done this by interacting the treatment effect with years of experience.  While the interaction term captures the deviation from the mean of potential experience on wages, this is not the same thing as the effect of temporary employment over time.  
 
 As a result, it is not known the effect of transitions into or out of temporary employment on wages over time.  Only by including three periods of time, including and especially a period after a transition has occurred can we estimate the effect of that transition over time.  However, we have also conducted a sensitivity test where we estimated the results using a 2-year sample.  Obviously, we are only able to compare estimates using the standard FE and the point in time transitions, but results are qualitatively similar.  These graphs are shown in figures \ref{graph_sensitivity_compare_contyp_sample_2_years} and \ref{graph_sensitivity_compare_unmp_sample_2_years}.  
 
-\begin{sidewaysfigure}[h!]
-    \caption{Effect of event on wages at point in time (as compared to figure \ref{graph_contyp})}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/age_16_64/graph_sensitivity_compare_contyp_age.pdf}}
-    \label{graph_contyp_age_16_64}
-\end{sidewaysfigure}
+Third, we compare results from a sample requiring at least 10 to 80 hours per week or 20 to 320 hours per month (as in the paper) to a sample requiring at least 5 to 80 hours per week.  Consistent with previous research \citep{barbieri_dual_2018}, our goal is to reduce bias associated with marginal part-timers or extreme full-timers who lie at the ends of the distribution of hours worked.  However, given there is no single definition of hours per week for a given contract, either part-time or full-time within or between countries.  Therefore, we compare results from a sample with 2 definitions of minimum hours worked per week, as shown in figure \ref{graph_post_hours}.  Results are qualitatively similar. 
+
+Fourth, we compare the results for transitions out of unemployment into a temporary or permanent contract for observations that include those who become unemployed after the transition (main sample A) to only observations that remain employed after the transition (sensitivity sample A).  The concern is that those who transition into temporary employment are usually more likely to become unemployed in the following years, which could result in a relatively larger observed declines in wages. If this is the case, then this could mean that the results tell us not so much about wage effects but rather, indirectly, about employment effects of fixed-term work. To address this, we make two comparisons.  One is within the same transition, but between the two samples, as shown in \ref{graph_post_employed_2}.  Results suggest that wage effects are higher for the sensitivity sample compared to the main sample, as we would expect.  The other is within the same sample, but between the two transitions, as shown in figure \ref{graph_post_employed_1}.  The interpretation is that the qualitative finding from the main text remains unchanged: for unemployed workers in most countries, temporary jobs have a similar integrative potential with regard to wages as permanent contracts.  
 
 \begin{sidewaysfigure}
-    \caption{Effect of event on wages at point in time (as compared to figure \ref{graph_unmp})}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/age_16_64/graph_sensitivity_compare_unmp_age.pdf}}
-    \label{graph_unmp_age_16_64}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}
-    \caption{Graphical effect of event on wages over time (as compared to figures \ref{graph_contyp_post} and  \ref{graph_unmp_post})}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/age_16_64/graph_sensitivity_age_post.pdf}}
+    \caption{Graphical effect of transition on wages over time with different age samples (as compared to figures \ref{graph_contyp_post} and  \ref{graph_unmp_post})}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/age_16_64/graph_sensitivity_age_post.pdf}}
     \label{graph_post_age_16_64}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[h!]
     \caption{Switzerland -- Differences in reason for temporary employment by sample age group}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/age_16_64/graph_ch_compare_sample_age.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/age_16_64/graph_ch_compare_sample_age.pdf}}
     \label{graph_ch_compare_sample_age}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!h]
     \caption{Compare sample with at least 3 (as in the paper) vs. 2 observations (compare to figure \ref{graph_contyp})}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/sample_2_years/graph_sensitivity_compare_contyp_sample_2_years.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/sample_2_years/graph_sensitivity_compare_contyp_sample_2_years.pdf}}
     \label{graph_sensitivity_compare_contyp_sample_2_years}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!h]
     \caption{Compare sample with at least 3 (as in the paper) vs. 2 observations (compare to figure \ref{graph_unmp})}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/sample_2_years/graph_sensitivity_compare_unmp_sample_2_years.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/sample_2_years/graph_sensitivity_compare_unmp_sample_2_years.pdf}}
     \label{graph_sensitivity_compare_unmp_sample_2_years}
 \end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Graphical effect of transition on wages over time with different hours samples (as compared to figures \ref{graph_contyp_post} and  \ref{graph_unmp_post})}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/hours/graph_sensitivity_hours_post.pdf}}
+    \label{graph_post_hours}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Graphical effect of transitions out of unemployment on wages over time with different samples (as compared to figure \ref{graph_unmp_post})}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/employed/graph_sensitivity_employed_post_2.pdf}}
+    \label{graph_post_employed_2}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!h]
+    \caption{Graphical effect of transitions out of unemployment on wages over time with different samples (as compared to figure \ref{graph_unmp_post})}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/employed/graph_sensitivity_employed_post_1.pdf}}
+    \label{graph_post_employed_1}
+\end{sidewaysfigure}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-\section{Appendix: Sensitivity to model specification}\label{sec:sensitivity_model}
+\section{Appendix: Sensitivity to model specification}\label{appendix:sensitivity_model}
 \setcounter{table}{0}
 \setcounter{figure}{0}
 \renewcommand*\thetable{\Alph{section}.\arabic{table}}
@@ -535,20 +563,43 @@ As a result, it is not known the effect of transitions into or out of temporary 
 \renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
 \renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
 
-We test the sensitivity of our model specification in two ways.  First, we estimate both models \ref{eq:model_afe_temp} and \ref{eq:model_afe_unmp}.  We refer to these models as asymmetric fixed effect with dummy impact functions (AFE + DIF).  According to Rüttenauer and Ludwig \citeyearpar{ruttenauer_fixed_2020} the FE estimation may overestimate the treatment effect as it does not model confounding by heterogeneous trends, whereas FEIS may underestimate the treatment effect as it may not properly distinguish the treatment effect from heterogeneous trends. For these reasons, we ran sensitivity check by estimating models \ref{eq:model_afe_temp} and \ref{eq:model_afe_unmp} with FEIS + DIF.  Second, we compare results using a sample with multiple events (as in the main paper) to a sample with only the first event.  Results are qualitatively similar.
+In this section, we test the sensitivity of our model specification.  
 
+First, we estimate both models \ref{eq:model_afe_temp} and \ref{eq:model_afe_unmp}.  We refer to these models as asymmetric fixed effect with dummy impact functions (AFE + DIF).  According to Rüttenauer and Ludwig \citeyearpar{ruttenauer_fixed_2020} the FE estimation may overestimate the treatment effect as it does not model confounding by heterogeneous trends, whereas FEIS may underestimate the treatment effect as it may not properly distinguish the treatment effect from heterogeneous trends. For these reasons, we ran sensitivity check by estimating models \ref{eq:model_afe_temp} and \ref{eq:model_afe_unmp} with FEIS + DIF.  These are shown in figures \ref{graph_compare_model_feis}.  Results are qualitatively similar.
+
+Second, we compare results using a sample with multiple events (as in the main paper) to a sample with only the first event.  These are shown in figures \ref{graph_sensitivity_single_multiple_events}.  Results are qualitatively similar.
+
+Third, we compare results in the main sample specification to a sensitivity sample where we drop or censor pre-treatment observations before the reference period and post-treatment variables greater than 4 periods after the event.  In annual data, pre-treatment observations are less than 1 period before the event and 2 periods before the event in biannual data.  Therefore, in the sensitivity sample, 0 refers only to for all observations that did not experience a given event.  In the main sample, 0 refers both to individuals who either did not experience a given event or experienced the event at least 3 periods before.  This is shown in figure \ref{graph_sensitivity_post_censoring}.  Results are qualitatively similar.
 
 \begin{sidewaysfigure}
     \caption{Methods: FE + DIF (as in the paper) vs. FEIS + DIF}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_compare_model_feis_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/sensitivity/graph_compare_model_feis_paper.pdf}}
     \label{graph_compare_model_feis}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!h]
     \caption{Compare multiple events (as in the paper) vs. first, single event}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_single_multiple_events_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/sensitivity/graph_sensitivity_single_multiple_events_paper.pdf}}
     \label{graph_sensitivity_single_multiple_events}
 \end{sidewaysfigure}{}
+
+% \begin{sidewaysfigure}[h!]
+%     \caption{Effect of transitions between contract type on wages at point in time (as compared to figure \ref{graph_contyp})}
+%     \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/censoring/graph_sensitivity_compare_contyp_censoring.pdf}}
+%     \label{graph_sensitivity_contyp_censoring}
+% \end{sidewaysfigure}
+
+% \begin{sidewaysfigure}
+%     \caption{Effect of transitions out of unemployment by contract type on wages at point in time (as compared to figure \ref{graph_unmp})}
+%     \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/censoring/graph_sensitivity_compare_unmp_censoring.pdf}}
+%     \label{graph_sensitivity_unmp_censoring}
+% \end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+    \caption{Graphical effect of transition on wages over time (as compared to figures \ref{graph_contyp_post} and  \ref{graph_unmp_post})}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/censoring/graph_sensitivity_censoring_post.pdf}}
+    \label{graph_sensitivity_post_censoring}
+\end{sidewaysfigure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -556,7 +607,7 @@ We test the sensitivity of our model specification in two ways.  First, we estim
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-\section{Appendix: Results sensitivity}\label{sec:sensitivity_variable}
+\section{Appendix: Results sensitivity}\label{appendix:sensitivity_variable}
 \setcounter{table}{0}
 \setcounter{figure}{0}
 \renewcommand*\thetable{\Alph{section}.\arabic{table}}
@@ -570,22 +621,23 @@ In this appendix, we examine the robustness of the results to distinct model spe
 
 \begin{sidewaysfigure}[!h]
     \caption{Australia: All temporary (incl. casual) vs. FTC only (as in the paper)}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_AU_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/sensitivity/graph_sensitivity_AU_paper.pdf}}
     \label{graph_sensitivity_AU}
 \end{sidewaysfigure}
 
 
 \begin{sidewaysfigure}
     \caption{United Kingdom: All temporary (as in the paper) vs. FTC only}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_UK_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/sensitivity/graph_sensitivity_UK_paper.pdf}}
     \label{graph_sensitivity_UK}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}
     \caption{Netherlands: LSP (as in the paper) vs. LISS}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_sensitivity_NE_paper.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/sensitivity/graph_sensitivity_NE_paper.pdf}}
     \label{graph_sensitivity_NE}
 \end{sidewaysfigure}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -600,25 +652,25 @@ In this appendix, we examine the robustness of the results to distinct model spe
 \renewcommand{\theHfigure}{\Alph{section}.\arabic{table}}
 \renewcommand{\theHtable}{\Alph{section}.\arabic{figure}}
 
-\section{Appendix: Results heterogeneity}\label{sec:sensitivity_heterogeneity}
+\section{Appendix: Results heterogeneity}\label{appendix:sensitivity_heterogeneity}
 
-We conducted a series of robustness checks, which we broadly split into two categories.  In appendix \ref{sec:sensitivity_variable}, we examine the robustness of the results to distinct model specifications or definitions of event.  In this appendix, we examine the robustness of the results to distinct heterogeneous groups, as shown in Appendix \ref{sec:sensitivity_heterogeneity}.  Figure \ref{graph_post_event_age_cat} compares age groups (25-34, 35-44, and 45-54), figure \ref{graph_post_event_edu_cat} compares education groups (less than secondary, secondary, and more than secondary education), and figure \ref{graph_post_event_gender} compares results for men and women.  All results are qualitatively similar.
+We conducted a series of robustness checks, which we broadly split into two categories.  In appendix \ref{appendix:sensitivity_variable}, we examine the robustness of the results to distinct model specifications or definitions of event.  In this appendix, we examine the robustness of the results to distinct heterogeneous groups, as shown in Appendix \ref{appendix:sensitivity_heterogeneity}.  Figure \ref{graph_post_event_age_cat} compares age groups (25-34, 35-44, and 45-54), figure \ref{graph_post_event_edu_cat} compares education groups (less than secondary, secondary, and more than secondary education), and figure \ref{graph_post_event_gender} compares results for men and women.  All results are qualitatively similar.
 
 \begin{sidewaysfigure}[!h]
     \caption{Figures \ref{graph_contyp_post} and \ref{graph_unmp_post}, by age category}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_post_event_age_cat.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/heterogeneity/graph_post_event_age_cat.pdf}}
     \label{graph_post_event_age_cat}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!h]
     \caption{Figures \ref{graph_contyp_post} and \ref{graph_unmp_post}, by education category}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_post_event_edu_cat.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/heterogeneity/graph_post_event_edu_cat.pdf}}
     \label{graph_post_event_edu_cat}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!h]
     \caption{Figures \ref{graph_contyp_post} and \ref{graph_unmp_post}, by gender}
-    \resizebox{\textwidth}{!}{\includegraphics{../graphs/graph_post_event_gender.pdf}}
+    \resizebox{\textwidth}{!}{\includegraphics{../../../graphs/heterogeneity/graph_post_event_gender.pdf}}
     \label{graph_post_event_gender}
 \end{sidewaysfigure}
 
