@@ -12,12 +12,9 @@ rm(list=ls(all=TRUE))
 
 # FOLDERS
 setwd("/Users/jonathanlatner/OneDrive/SECCOPA/")
-# setwd("C:/Users/ba1ks6/OneDrive/")
 
 raw_data = "data_files/DE/raw_data/"
 data_files = "data_files/DE/"
-
-# PACKAGES
 
 # LIBRARY
 library(dplyr)

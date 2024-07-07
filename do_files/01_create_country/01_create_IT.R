@@ -21,9 +21,6 @@ library(dplyr)
 
 options(scipen = 999) # disable scientific notation
 
-# pid, year, gender, birth year, occupation, prestige, education, employment status, contract type, hours, wages, cpi, weight
-# no occupation or prestige variables
-
 # rper (income) ----
 # Variables
 vars_rper <- c("anno", # year

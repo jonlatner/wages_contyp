@@ -16,11 +16,6 @@ setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 raw_data = "data_files/AU/raw_data/"
 data_files = "data_files/AU/"
 
-# PACKAGES
-# install.packages("dplyr")
-# install.packages("readstata13")
-# install.packages("beepr")
-
 # LIBRARY
 library(tidyverse)
 library(data.table) # faster merging
