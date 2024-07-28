@@ -15,16 +15,16 @@ The full article can be found at: https://doi.org/10.1016/j.rssm.2024.100957
 ## Output examples
 
 ### Figure 1
-<img width="688" alt="Figure 1" src="https://github.com/jonlatner/wages_contyp/blob/main/graphs/graph_multiple_events_contyp_paper.pdf">
+<img width="688" alt="Figure 1" src="https://github.com/jonlatner/wages_contyp/blob/main/graphs/graph_multiple_events_contyp_paper.png">
 
 ### Figure 2
-<img width="688" alt="Figure 2" src="https://github.com/jonlatner/wages_contyp/blob/main/graphs/graph_multiple_events_contyp_post_paper.pdf">
+<img width="688" alt="Figure 2" src="https://github.com/jonlatner/wages_contyp/blob/main/graphs/graph_multiple_events_contyp_post_paper.png">
 
 ### Figure 3
-<img width="688" alt="Figure 3" src="https://github.com/jonlatner/wages_contyp/blob/main/graphs/graph_multiple_events_unmp_better_paper.pdf">
+<img width="688" alt="Figure 3" src="https://github.com/jonlatner/wages_contyp/blob/main/graphs/graph_multiple_events_unmp_better_paper.png">
 
 ### Figure 4
-<img width="688" alt="Figure 4" src="https://github.com/jonlatner/wages_contyp/blob/main/graphs/graph_multiple_events_unmp_post_free_scale.pdf">
+<img width="688" alt="Figure 4" src="https://github.com/jonlatner/wages_contyp/blob/main/graphs/graph_multiple_events_unmp_post_free_scale.png">
 
 ## License
 
