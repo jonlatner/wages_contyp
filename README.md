@@ -4,7 +4,7 @@ The article has been accepted for publication at the journal, *Research in Socia
 
 ## A code repository for the statistical analyses
 
-[![DOI](https://zenodo.org/badge/383436045.svg)](https://zenodo.org/badge/latestdoi/383436045)
+[![DOI:10.7910/DVN/U0RTXA](http://img.shields.io/badge/DOI-10.7910/DVN/ZBLXPR.425840-B31B1B.svg)](https://doi.org/10.7910/DVN/2AEO2K)
 
 ## Introduction
 
