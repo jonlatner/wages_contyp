@@ -11,7 +11,7 @@ detachAllPackages()
 rm(list=ls(all=TRUE))
 
 # FOLDERS
-setwd("/Users/jonathanlatner/OneDrive/SECCOPA/")
+setwd("/Users/jonathanlatner/Documents/GitHub/wages_contyp/")
 
 raw_data = "data_files/DE/raw_data/"
 data_files = "data_files/DE/"
